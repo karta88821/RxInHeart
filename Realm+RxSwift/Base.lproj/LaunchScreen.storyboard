@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="kia-aW-x9o">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Group.png" translatesAutoresizingMaskIntoConstraints="NO" id="luB-JG-nOo">
+                                <rect key="frame" x="126" y="133" width="123" height="103"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="103" id="XUr-2N-fCY"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="品卓有限公司" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PG0-7d-c7N">
+                                <rect key="frame" x="135" y="592" width="104" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" name="darkRed"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="客製化禮盒" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ekz-gd-JcT">
+                                <rect key="frame" x="121" y="286" width="132" height="31.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <color key="textColor" name="darkRed"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="kia-aW-x9o" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="0Cu-xg-nss"/>
+                            <constraint firstItem="luB-JG-nOo" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="3yU-Lp-ubt"/>
+                            <constraint firstItem="kia-aW-x9o" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="7gs-64-VXL"/>
+                            <constraint firstItem="luB-JG-nOo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="126" id="DRP-hr-aAh"/>
+                            <constraint firstItem="Ekz-gd-JcT" firstAttribute="top" secondItem="luB-JG-nOo" secondAttribute="bottom" constant="50" id="Fws-AJ-68K"/>
+                            <constraint firstItem="PG0-7d-c7N" firstAttribute="top" secondItem="kia-aW-x9o" secondAttribute="bottom" constant="-75" id="HoZ-H6-dOJ"/>
+                            <constraint firstItem="kia-aW-x9o" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="LRj-3R-82P"/>
+                            <constraint firstItem="kia-aW-x9o" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="PQ8-y7-qpa"/>
+                            <constraint firstItem="Ekz-gd-JcT" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="giP-gY-wkA"/>
+                            <constraint firstItem="luB-JG-nOo" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="113" id="nxd-nD-eEs"/>
+                            <constraint firstItem="PG0-7d-c7N" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ugz-1G-57E"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Group.png" width="246" height="246"/>
+        <image name="LaunchBackground.png" width="720" height="1280"/>
+        <namedColor name="darkRed">
+            <color red="0.70599997043609619" green="0.32199999690055847" blue="0.3059999942779541" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>
