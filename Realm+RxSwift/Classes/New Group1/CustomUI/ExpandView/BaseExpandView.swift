@@ -8,7 +8,6 @@
 
 import UIKit
 import SnapKit
-import Then
 import Kingfisher
 
 @objc protocol BaseExpandable {
@@ -17,13 +16,6 @@ import Kingfisher
     @objc optional func deleteSection(section: Int)
     @objc optional func showAlert(alertController: UIAlertController) 
 }
-
-//extension BaseExpandable {
-//    func deleteSection(section: Int) {}
-//    func showAlert(alertController: UIAlertController) {}
-//    //func reloadData() {}
-//}
-
 
 class BaseExpandView: UIView {
     var section: Int!

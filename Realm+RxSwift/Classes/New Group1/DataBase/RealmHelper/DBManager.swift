@@ -7,6 +7,8 @@
 //
 
 import RealmSwift
+import RxSwift
+import RxCocoa
 
 struct SortOption {
     var propertyName: String // 根據參數名作排序
@@ -14,6 +16,12 @@ struct SortOption {
 }
 
 class DBManager<T: DBBaseBean>: NSObject {
+    
+    class func isEmpty() -> Observable<Bool> {
+        let realm = realmInstance()
+        let empty = realm?.isEmpty ?? true
+        return  Observable.just(empty)
+    }
     
     class func create(_ type: T.Type, value:Any) -> T?{
         let realm = realmInstance()

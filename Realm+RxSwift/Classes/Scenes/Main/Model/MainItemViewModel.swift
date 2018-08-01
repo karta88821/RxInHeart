@@ -11,7 +11,7 @@ import Foundation
 class ProductModel {
     let productTypeName: String // 喜餅禮盒
     let productTypeId: Int
-    let caseModels: [CaseModel] // 鳳凰于飛 雙鳳呈祥
+    var caseModels: [CaseModel] // 鳳凰于飛 雙鳳呈祥
     
     init(_ productTypeName: String,_ productTypeId: Int,_ caseModels: [CaseModel]) {
         self.productTypeName = productTypeName

@@ -78,27 +78,28 @@ private extension MainCollectionViewCell {
     
     func initUI() {
         caseImageView.contentMode = .scaleAspectFill
+        caseImageView.sizeToFit()
         caseImageView.makeShadow(cornerRadius: 5)
         caseNameLabel.setup(textAlignment: .left, fontSize: 15, textColor: grayColor)
         priceAndCountLabel.setup(textAlignment: .right, fontSize: 15, textColor: grayColor)
-        
+
         contentView.addSubViews(views: caseImageView, caseNameLabel, priceAndCountLabel)
     }
     
     func constraintUI() {
         caseImageView.snp.makeConstraints {
             $0.left.top.right.equalToSuperview()
-            $0.height.equalTo(100)
+            $0.height.equalTo(60)
         }
         
         caseNameLabel.snp.makeConstraints {
             $0.left.equalToSuperview().offset(10)
-            $0.top.equalTo(caseImageView.snp.bottom).offset(25)
+            $0.bottom.equalToSuperview().offset(5)
         }
         
         priceAndCountLabel.snp.makeConstraints {
             $0.right.equalToSuperview().offset(-10)
-            $0.top.equalTo(caseImageView.snp.bottom).offset(25)
+            $0.bottom.equalToSuperview().offset(5)
         }
     }
 }

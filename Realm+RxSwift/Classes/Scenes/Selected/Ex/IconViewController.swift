@@ -8,7 +8,6 @@
 
 import UIKit
 import Kingfisher
-import Then
 
 class IconViewController: UIViewController {
     

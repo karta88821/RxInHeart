@@ -11,19 +11,35 @@ import RxSwift
 import RxCocoa
 import Reusable
 import RxDataSources
-import Then
 import SnapKit
 
 class CartViewController: UIViewController {
     
+    // MARK : - UI
+    lazy var tableView: UITableView = {
+        let tv = UITableView(frame: .zero, style: .grouped)
+        tv.backgroundColor = pinkBackground
+        tv.dataSource = self
+        tv.delegate = self
+        tv.contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
+        tv.register(cellType: CartCell.self)
+        tv.separatorStyle = .none
+        view.addSubview(tv)
+        return tv
+    }()
+    
+    lazy var footerView: CartFooterView = {
+        let footer = CartFooterView()
+        footer.setupUI(buttonTitle: "結帳")
+        view.addSubview(footer)
+        
+        return footer
+    }()
+    
     // MARK: - ViewModel
     var viewModel: CartViewModel!
-    
-    // MARK: - Outlet
-    var tableView: UITableView!
 
     // MARK: - Properties
-    let footerView = CartFooterView()
     var sections = [CartItem]()
     
     // MARK: - View life cycle
@@ -38,22 +54,7 @@ class CartViewController: UIViewController {
 extension CartViewController {
 
     func initUI() {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.backgroundColor = pinkBackground
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
-        tableView.register(cellType: CartCell.self)
-        tableView.separatorStyle = .none
-        
-        footerView.setupUI(buttonTitle: "結帳")
-        
-        self.tableView = tableView
-        
-        view.addSubview(self.tableView)
-        view.addSubview(footerView)
         view.backgroundColor = pinkBackground
-        
         tableView.estimatedRowHeight = 65.0
         tableView.rowHeight = UITableViewAutomaticDimension
     }
@@ -70,7 +71,6 @@ extension CartViewController {
             .subscribe(onNext:{ [unowned self] sections in
                 self.sections = sections
                 self.tableView.reloadData()
-                print("section count is:\(self.sections.count)")
             })
             .disposed(by: rx.disposeBag)
         
@@ -79,7 +79,6 @@ extension CartViewController {
                 self.viewModel.goProductList()
             })
             .disposed(by: rx.disposeBag)
-
     }
     
     func constraintUI() {
@@ -198,8 +197,7 @@ extension CartViewController: BaseExpandable {
     }
     
     func showAlert(alertController: UIAlertController) {
-        print("......")
-        self.present(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
     
     func reloadData() {

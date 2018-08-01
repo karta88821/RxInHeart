@@ -15,8 +15,8 @@ target 'Realm+RxSwift' do
    pod 'Differentiator', '~> 3.0.2'
    
    pod 'Reusable'
-   pod 'ReusableKit/RxSwift'
-   pod 'Then'
+#   pod 'ReusableKit/RxSwift'
+#   pod 'Then'
    pod "AutoEquatable"
    
    pod 'RealmSwift'

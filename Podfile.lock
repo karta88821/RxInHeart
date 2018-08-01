@@ -32,11 +32,6 @@ PODS:
     - Reusable/View (= 4.0.2)
   - Reusable/Storyboard (4.0.2)
   - Reusable/View (4.0.2)
-  - ReusableKit/Core (2.0.1)
-  - ReusableKit/RxSwift (2.0.1):
-    - ReusableKit/Core
-    - RxCocoa (>= 4.0.0-beta.0)
-    - RxSwift (>= 4.0.0-beta.0)
   - RxAlamofire (4.2.0):
     - RxAlamofire/Core (= 4.2.0)
   - RxAlamofire/Core (4.2.0):
@@ -58,7 +53,6 @@ PODS:
   - SkyFloatingLabelTextField (3.5.1)
   - SnapKit (4.0.0)
   - SwiftyJSON (4.1.0)
-  - Then (2.3.0)
   - TYCyclePagerView (1.1.0)
 
 DEPENDENCIES:
@@ -78,7 +72,6 @@ DEPENDENCIES:
   - Parchment
   - RealmSwift
   - Reusable
-  - ReusableKit/RxSwift
   - RxAlamofire
   - RxCocoa (~> 4.0)
   - RxDataSources (~> 3.0)
@@ -88,7 +81,6 @@ DEPENDENCIES:
   - SkyFloatingLabelTextField (~> 3.0)
   - SnapKit (~> 4.0.0)
   - SwiftyJSON (~> 4.0)
-  - Then
   - TYCyclePagerView
 
 SPEC REPOS:
@@ -111,7 +103,6 @@ SPEC REPOS:
     - RealmSwift
     - Result
     - Reusable
-    - ReusableKit
     - RxAlamofire
     - RxCocoa
     - RxDataSources
@@ -121,7 +112,6 @@ SPEC REPOS:
     - SkyFloatingLabelTextField
     - SnapKit
     - SwiftyJSON
-    - Then
     - TYCyclePagerView
 
 SPEC CHECKSUMS:
@@ -143,7 +133,6 @@ SPEC CHECKSUMS:
   RealmSwift: 2a9281e37d6de55f66f76254d49d28aeb1b729e4
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   Reusable: 584a5629747c52e0f6a77841b400dc2643f6fa0f
-  ReusableKit: 11b5bde14553a35bcf3979412dbfd1e690392f14
   RxAlamofire: 87a9c588541210cc3e4a1f843ccc3ecf3eb98b31
   RxCocoa: 0b54909c902e1e581212a03e690bbd94032d8baa
   RxDataSources: cb7c31e652a87ebb919da45f716bbb87b3765f6b
@@ -153,9 +142,8 @@ SPEC CHECKSUMS:
   SkyFloatingLabelTextField: 4cbeece9c3aae97c6019d8fae511cb5b755874f7
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
-  Then: ee21c97b85ff6062b9b0080c9abb1eea46743345
   TYCyclePagerView: b70858c9b5d0e80e1e3129ff5ceb027eb0f76d44
 
-PODFILE CHECKSUM: d0952cd829993171f983bb2eb52aebaf2deadf9b
+PODFILE CHECKSUM: 8bda514d9dd1834f25947559d91e865109d96b90
 
 COCOAPODS: 1.5.3

@@ -17,20 +17,23 @@ class ScrollBarView: UIView {
     
     var picArr = Variable<[String]>([])
     
-    private let pagerView = TYCyclePagerView().then {
-        $0.isInfiniteLoop = true
-        $0.autoScrollInterval = 3.0
-    }
+    lazy var pagerView: TYCyclePagerView = {
+        let pager = TYCyclePagerView()
+        pager.isInfiniteLoop = true
+        pager.autoScrollInterval = 3.0
+        return pager
+    }()
     
-    private let pageControl = TYPageControl().then {
-        $0.currentPageIndicatorSize = CGSize(width: 8, height: 8)
-        $0.contentHorizontalAlignment = .right
-        $0.contentInset = UIEdgeInsetsMake(0, 0, 0, 16)
-    }
+    lazy var pageControl: TYPageControl = {
+        let control = TYPageControl()
+        control.currentPageIndicatorSize = CGSize(width: 8, height: 8)
+        control.contentHorizontalAlignment = .right
+        control.contentInset = UIEdgeInsetsMake(0, 0, 0, 16)
+        return control
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         initUI()
         bindUI()
     }

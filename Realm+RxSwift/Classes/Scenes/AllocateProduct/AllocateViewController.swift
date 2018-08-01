@@ -14,14 +14,44 @@ var addButtonIsHide = false
 
 class AllocateViewController: UIViewController {
     
-    // MARK : - ViewModel
-    var viewModel: AllocateViewModel!
-    
     // MARK : - UI
+    lazy var tableView: UITableView = {
+        let tv = UITableView(frame: .zero)
+        tv.showsVerticalScrollIndicator = false
+        tv.backgroundColor = .white
+        tv.tableHeaderView = headerView
+        tv.tableFooterView = footerView
+        tv.separatorStyle = .singleLine
+        tv.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        tv.register(AllocateCell.self, forCellReuseIdentifier: cellId)
+        return tv
+    }()
+    
+    lazy var headerView: UIView = {
+        let header = AllocateHeaderView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 120))
+        return header
+    }()
+    
+    lazy var footerView: UIView = {
+        let footer = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
+        footer.backgroundColor = .white
+        let label = UILabel()
+        label.setupWithTitle(textAlignment: .left, fontSize: 20, textColor: .lightGray, text: footerText)
+        footer.addSubview(label)
+        label.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalTo(20)
+            $0.width.equalTo(270)
+        }
+        return footer
+    }()
+    
     let button = UIButton()
-    var tableView: UITableView!
     var popupView: PopupView!
     let backgroundButton = UIButton()
+    
+    // MARK : - ViewModel
+    var viewModel: AllocateViewModel!
     
     // MARK : - Properties
     var deliveryInfo: DeliveryInfo!
@@ -41,40 +71,17 @@ class AllocateViewController: UIViewController {
 
 private extension AllocateViewController {
     func initUI() {
-        
-        let headerView = AllocateHeaderView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 120))
-
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
-        footerView.backgroundColor = .white
-        let footerLabel = UILabel()
-        footerLabel.setupWithTitle(textAlignment: .left, fontSize: 20, textColor: .lightGray, text: footerText)
-        footerView.addSubview(footerLabel)
-        footerLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.left.equalTo(20)
-            $0.width.equalTo(270)
-        }
-        
-        let tableView = UITableView(frame: .zero)
-        tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = .white
-        tableView.tableHeaderView = headerView
-        tableView.tableFooterView = footerView
-        tableView.separatorStyle = .singleLine
-        tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
-        tableView.register(AllocateCell.self, forCellReuseIdentifier: cellId)
-        self.tableView = tableView
 
         button.makeRetagle(with: "確定")
         button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
         
-        backgroundButton.backgroundColor = .black
+        backgroundButton.backgroundColor = .white
         backgroundButton.alpha = 0
         backgroundButton.addTarget(self, action: #selector(dismissView(_:)), for: .touchUpInside)
         
         popupView = PopupView(type: .allocate)
 
-        view.addSubViews(views: button, self.tableView, backgroundButton)
+        view.addSubViews(views: button, tableView, backgroundButton)
         view.insertSubview(popupView, aboveSubview: backgroundButton)
         view.backgroundColor = .white
     }
@@ -89,8 +96,7 @@ private extension AllocateViewController {
                 
                 self.viewModel.products
                     .bind(to: self.tableView.rx.items(cellIdentifier: self.cellId, cellType: AllocateCell.self)) { [weak self]row, item, cell in
-                        let indexPath = IndexPath(row: row, section: 0)
-                        let selectedCount = infoManager.getcountList()[indexPath.row]
+                        let selectedCount = infoManager.getcountList()[row]
                         cell.setupUI(cartItem: item, selectedCount: selectedCount)
                         cell.delegate = self
                     }
@@ -122,6 +128,10 @@ private extension AllocateViewController {
             $0.width.equalTo(180)
             $0.height.equalTo(40)
         }
+        
+        backgroundButton.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     
         popupView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
@@ -130,9 +140,7 @@ private extension AllocateViewController {
             $0.height.equalTo(50)
         }
         
-        backgroundButton.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+
     }
     
     @objc func buttonAction(_ sender: AnyObject) {
@@ -217,7 +225,7 @@ extension AllocateViewController: PopViewPresentable {
             $0.height.equalTo(contentH)
         }
         
-        self.backgroundButton.alpha = 0.3
+        self.backgroundButton.alpha = 0.6
     }
 }
 

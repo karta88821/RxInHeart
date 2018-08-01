@@ -31,8 +31,6 @@ class DeliveryCell: UITableViewCell, Reusable {
         }
     }
     
-    var viewModel: DeliveryViewModel?
-    
     // MARK : - Initialization
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

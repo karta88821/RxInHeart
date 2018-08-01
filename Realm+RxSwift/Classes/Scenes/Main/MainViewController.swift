@@ -14,8 +14,46 @@ import NSObject_Rx
 
 class MainViewController: UIViewController {
     
-    // MARK: - UI
-    var tableView: UITableView!
+    // MARK : - UI
+    lazy var tableView: UITableView = {
+        let tv = UITableView(frame: .zero)
+        tv.backgroundColor = .white
+        tv.showsVerticalScrollIndicator = false
+        tv.separatorStyle = .singleLine
+        tv.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        tv.register(MainTableViewCell.self, forCellReuseIdentifier: "MainTableViewCell")
+        tv.tableHeaderView = headerView
+        view.addSubview(tv)
+        return tv
+    }()
+    
+    lazy var headerView: UIView = {
+        let header = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 60))
+        header.backgroundColor = .white
+        let label = UILabel()
+        label.setupWithTitle(textAlignment: .left, fontSize: 20, textColor: grayColor, text: "客製化禮盒")
+        header.addSubview(label)
+        label.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().offset(20)
+        }
+        return header
+    }()
+    
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let ai = UIActivityIndicatorView()
+        ai.startAnimating()
+        ai.activityIndicatorViewStyle = .gray
+        view.insertSubview(ai, belowSubview: tableView)
+        return ai
+    }()
+    
+    lazy var activityLabel: UILabel = {
+        let label = UILabel()
+        label.setupWithTitle(textAlignment: .center, fontSize: 14, textColor: grayColor, text: "載入中請稍候...")
+        view.insertSubview(label, belowSubview: tableView)
+        return label
+    }()
     
     // MARK: - ViewModel
     var viewModel: MainViewModel!
@@ -29,41 +67,28 @@ class MainViewController: UIViewController {
         initUI()
         bindUI()
         constraintUI()
+        DBManager.fileUrl()
     }
 }
 
 fileprivate extension MainViewController {
     
     func initUI() {
-        
-        let tableView = UITableView(frame: .zero)
-        tableView.backgroundColor = .white
-        tableView.showsVerticalScrollIndicator = false
-        tableView.separatorStyle = .singleLine
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: "MainTableViewCell")
-        tableView.rowHeight = UITableViewAutomaticDimension
+        view.backgroundColor = .white
+        //tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 380
-        
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 60))
-        headerView.backgroundColor = .white
-        let headerLabel = UILabel()
-        headerLabel.setupWithTitle(textAlignment: .left, fontSize: 20, textColor: grayColor, text: "客製化禮盒")
-        headerView.addSubview(headerLabel)
-        headerLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().offset(20)
-        }
-        tableView.tableHeaderView = headerView
-        
-        self.tableView = tableView
-
-        view.addSubview(self.tableView)
     }
     
     func bindUI() {
+        
+        viewModel.databaseIsEmpty.asObservable()
+            .subscribe(onNext:{ [weak self] bool in
+                self?.tableView.isHidden = bool
+            }).disposed(by: rx.disposeBag)
 
-        viewModel.products
+        viewModel.start()
+
+        viewModel.products.asObservable()
             .bind(to: tableView.rx.items(cellIdentifier: "MainTableViewCell", cellType: MainTableViewCell.self)) { [weak self] row, item, cell in
                 guard let `self` = self else { return }
                 let indexPath = IndexPath(row: row, section: 0)
@@ -106,38 +131,25 @@ fileprivate extension MainViewController {
             }
             .disposed(by: rx.disposeBag)
         
+        
         tableView.rx.setDelegate(self)
             .disposed(by: rx.disposeBag)
+        
     }
 
     func constraintUI() {
         tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-    }
-    
-    func downloadDataBase() {
-        apiProvider.rx.request(.foods)
-            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .mapArray(FoodEntity.self)
-            .subscribe(onSuccess: { response in
-                DBManager.write(response)
-            },onError: { error in
-                print("数据请求失败!错误原因：", error)
-            }).disposed(by: disposeBag)
+        activityIndicator.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview().offset(-50)
+        }
         
-        print(DBManager.fileUrl())
-        
-        apiProvider.rx.request(.products)
-            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .mapArray(ProductEntity.self)
-            .subscribe(onSuccess: { response in
-                print(response)
-                DBManager.write(response)
-                
-            },onError: { error in
-                print("数据请求失败!错误原因：", error)
-            }).disposed(by: disposeBag)
+        activityLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(activityIndicator.snp.bottom).offset(20)
+        }
     }
 }
 

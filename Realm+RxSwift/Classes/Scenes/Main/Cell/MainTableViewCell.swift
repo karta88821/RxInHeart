@@ -80,11 +80,13 @@ private extension MainTableViewCell {
         productTypeNameLabel.setup(textAlignment: .left, fontSize: 18, textColor: darkRed)
         
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 180, height: 100)
+        layout.itemSize = CGSize(width: 180, height: 120)
         layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+        layout.scrollDirection = .vertical
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout )
         cv.backgroundColor = .white
+        cv.showsHorizontalScrollIndicator = false
         cv.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: "MainCollectionViewCell")
         
         self.collectionView = cv

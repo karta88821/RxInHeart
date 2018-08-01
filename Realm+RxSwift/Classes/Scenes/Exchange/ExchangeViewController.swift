@@ -12,7 +12,6 @@ import RxSwift
 import RxCocoa
 import SnapKit
 import Kingfisher
-import Then
 
 protocol ExchangeDelegate {
     func reloadItems(indexPath: IndexPath)

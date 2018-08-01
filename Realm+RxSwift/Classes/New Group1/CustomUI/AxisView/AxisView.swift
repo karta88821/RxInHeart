@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Then
 import SnapKit
 
 fileprivate let axisWidth: CGFloat = 3.5

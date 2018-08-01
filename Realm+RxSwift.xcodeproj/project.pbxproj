@@ -69,7 +69,6 @@
 		6B70993120DB77EC004B5F2E /* NewCartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B70993020DB77EC004B5F2E /* NewCartItem.swift */; };
 		6B736910210E18100062FD42 /* CellConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B73690F210E18100062FD42 /* CellConfigurable.swift */; };
 		6B736912210E183F0062FD42 /* RowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B736911210E183F0062FD42 /* RowViewModel.swift */; };
-		6B736914210E1C160062FD42 /* DeliveryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B736913210E1C160062FD42 /* DeliveryViewModel.swift */; };
 		6B73C1FC2085D51C00056ABA /* ScrollBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B73C1FB2085D51C00056ABA /* ScrollBarView.swift */; };
 		6B73C2002085D7A500056ABA /* ScrollBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B73C1FE2085D7A500056ABA /* ScrollBarCell.swift */; };
 		6B73C2012085D7A500056ABA /* ScrollBarCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B73C1FF2085D7A500056ABA /* ScrollBarCell.xib */; };
@@ -77,6 +76,7 @@
 		6B7F487C208868D80067626B /* HCFocusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F487B208868D80067626B /* HCFocusModel.swift */; };
 		6B7F487E208878C40067626B /* RxAlamofire+ObjectMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F487D208878C40067626B /* RxAlamofire+ObjectMapper.swift */; };
 		6B7F4880208879CF0067626B /* HCBoutiqueModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7F487F208879CF0067626B /* HCBoutiqueModel.swift */; };
+		6B8522D12112270B00447051 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8522D02112270B00447051 /* Test.swift */; };
 		6B87C34D210338C6000155D2 /* SectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B87C34C210338C6000155D2 /* SectionType.swift */; };
 		6B87C3522103614F000155D2 /* Dictionary+Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B87C3512103614F000155D2 /* Dictionary+Key.swift */; };
 		6B95BCD720F0EE5C0094B716 /* DeliveryInfoCartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B95BCD620F0EE5C0094B716 /* DeliveryInfoCartItem.swift */; };
@@ -232,7 +232,6 @@
 		6B70993020DB77EC004B5F2E /* NewCartItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCartItem.swift; sourceTree = "<group>"; };
 		6B73690F210E18100062FD42 /* CellConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellConfigurable.swift; sourceTree = "<group>"; };
 		6B736911210E183F0062FD42 /* RowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowViewModel.swift; sourceTree = "<group>"; };
-		6B736913210E1C160062FD42 /* DeliveryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryViewModel.swift; sourceTree = "<group>"; };
 		6B73C1FB2085D51C00056ABA /* ScrollBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBarView.swift; sourceTree = "<group>"; };
 		6B73C1FE2085D7A500056ABA /* ScrollBarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBarCell.swift; sourceTree = "<group>"; };
 		6B73C1FF2085D7A500056ABA /* ScrollBarCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScrollBarCell.xib; sourceTree = "<group>"; };
@@ -240,6 +239,7 @@
 		6B7F487B208868D80067626B /* HCFocusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HCFocusModel.swift; sourceTree = "<group>"; };
 		6B7F487D208878C40067626B /* RxAlamofire+ObjectMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxAlamofire+ObjectMapper.swift"; sourceTree = "<group>"; };
 		6B7F487F208879CF0067626B /* HCBoutiqueModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HCBoutiqueModel.swift; sourceTree = "<group>"; };
+		6B8522D02112270B00447051 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		6B87C34C210338C6000155D2 /* SectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionType.swift; sourceTree = "<group>"; };
 		6B87C3512103614F000155D2 /* Dictionary+Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Key.swift"; sourceTree = "<group>"; };
 		6B95BCD620F0EE5C0094B716 /* DeliveryInfoCartItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryInfoCartItem.swift; sourceTree = "<group>"; };
@@ -682,6 +682,7 @@
 			isa = PBXGroup;
 			children = (
 				6B35A9DA203315E600D4259E /* MainViewModel.swift */,
+				6B8522D02112270B00447051 /* Test.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -748,7 +749,6 @@
 			isa = PBXGroup;
 			children = (
 				6BF899B220E8A872000F4EAA /* FormViewModel.swift */,
-				6B736913210E1C160062FD42 /* DeliveryViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1095,7 +1095,6 @@
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
 				"${BUILT_PRODUCTS_DIR}/Reusable/Reusable.framework",
-				"${BUILT_PRODUCTS_DIR}/ReusableKit/ReusableKit.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAlamofire/RxAlamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
@@ -1106,7 +1105,6 @@
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/TYCyclePagerView/TYCyclePagerView.framework",
-				"${BUILT_PRODUCTS_DIR}/Then/Then.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -1128,7 +1126,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reusable.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReusableKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAlamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
@@ -1139,7 +1136,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TYCyclePagerView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Then.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1165,7 +1161,6 @@
 				6B0EC5BC20D0B26C00786956 /* IconItem.swift in Sources */,
 				6B24B5D220EF5BAA00985C3D /* UIAlertController+Extensions.swift in Sources */,
 				6B7F487C208868D80067626B /* HCFocusModel.swift in Sources */,
-				6B736914210E1C160062FD42 /* DeliveryViewModel.swift in Sources */,
 				6B9BAD4B20F5012600DE02E7 /* InfoProductCell.swift in Sources */,
 				6BEAAFE020BEF00B00125DD3 /* DBBaseBean.swift in Sources */,
 				6BD523CB20E2892E00043C2A /* FoodsFlowLayout.swift in Sources */,
@@ -1201,6 +1196,7 @@
 				6B70992520DB75D4004B5F2E /* CartItem.swift in Sources */,
 				6BF899BB20E9E9FD000F4EAA /* DeliveryCell.swift in Sources */,
 				6B20E4F420EBE11700183601 /* AllocateViewModel.swift in Sources */,
+				6B8522D12112270B00447051 /* Test.swift in Sources */,
 				6BF899AE20E781EE000F4EAA /* UIButton + Helper.swift in Sources */,
 				6B70992320DB75A3004B5F2E /* Cart.swift in Sources */,
 				6BD9F05B20E4B02C00A8AC5B /* AxisView.swift in Sources */,

@@ -6,7 +6,6 @@
 //  Copyright © 2018年 liao yuhao. All rights reserved.
 //
 
-import Then
 import SnapKit
 import Kingfisher
 
