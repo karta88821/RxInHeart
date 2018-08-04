@@ -6,7 +6,7 @@
 //  Copyright © 2018年 liao yuhao. All rights reserved.
 //
 
-import Foundation
+import RxDataSources
 import RxSwift
 import RxCocoa
 import RxFlow
@@ -15,20 +15,26 @@ class CartViewModel: ServicesViewModel {
     
     var services: APIDelegate!
     
-    fileprivate let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     let `$`: Dependencies = Dependencies.sharedDependencies
     
-    let cartSections: Observable<[CartItem]>
+    var dataSource = RxTableViewSectionedAnimatedDataSource<CartItem>(configureCell: {(_,_,_,_) in
+        fatalError()
+    }) 
+    
+    let cartSections = Variable<[CartItem]>([])
     let subtotal: Observable<String>
     let totalPrice: Observable<String>
     
-    init() {
+    init(services: APIDelegate = APIClient.sharedAPI) {
         
-        services = APIClient.sharedAPI
+        self.services = services
         
-        self.cartSections = services.getCartItems()
-                            .catchErrorJustReturn([])
+        services.getCartItems().catchErrorJustReturn([])
+            .bind(to: cartSections)
+            .disposed(by: disposeBag)
+
         
         self.subtotal = services.getCartSubtotal()
                                 .map{String($0)}

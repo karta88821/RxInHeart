@@ -60,7 +60,9 @@ class IconPagingCell: PagingCell {
                 selected: selected,
                 options: options)
             
-            imageView.kf.setImage(with: viewModel.imageUrl)
+            imageView.kf.indicatorType = .activity
+            imageView.kf.setImage(with: viewModel.imageUrl,
+                                      placeholder: UIImage(named: "default"))
             
             imageView.transform = viewModel.selected ? CGAffineTransform(scaleX: 1, y: 1)
                                                      : CGAffineTransform(scaleX: 0.5, y: 0.5)

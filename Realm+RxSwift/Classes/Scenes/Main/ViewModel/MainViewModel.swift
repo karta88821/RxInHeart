@@ -53,11 +53,11 @@ class MainViewModel {
             .subscribe(onNext:{ [weak self] bool in
             switch bool {
             case true:
-                sleep(3)
                 self?.setupDatabase()
+                sleep(3)
                 self?.databaseIsEmpty.value = false
             case false:
-                sleep(3)
+                sleep(1)
                 let productResults = DBManager.query(ProductEntity.self,
                                                      sort: SortOption(propertyName: "id", isAscending: true))
                 self?.products.value = (self?.setupModel(with: productResults))!
@@ -116,13 +116,11 @@ class MainViewModel {
                             .filterDuplicate{$0.giftboxId}
         
         let caseModel3 = productArray[2].map{CaseModel($0.name, $0.giftboxTypeId, $0.price, 1) }
-        
 
         guard let productModel1First = productArray[0].first,
             let productModel2First = productArray[1].first,
             let productModel3First = productArray[2].first else { return [] }
         
-
         let productModel1 = ProductModel(productModel1First.productTypeName,
                                          productModel1First.productTypeId,
                                          caseModel1)

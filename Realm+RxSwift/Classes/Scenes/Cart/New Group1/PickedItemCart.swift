@@ -35,10 +35,4 @@ struct PickedItem_cart: Mappable {
     }
 }
 
-func == (lhs: PickedItem_cart, rhs: PickedItem_cart) -> Bool {
-    return (lhs.id == rhs.id &&
-        lhs.count == rhs.count &&
-        lhs.foodId == rhs.foodId &&
-        lhs.cartItemId == rhs.cartItemId &&
-        lhs.food == rhs.food)
-}
+

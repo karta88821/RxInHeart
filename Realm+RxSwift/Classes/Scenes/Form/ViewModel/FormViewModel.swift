@@ -24,28 +24,29 @@ class FormViewModel {
         fatalError()
     })
     
-    let sections: Observable<[FormMutipleSectionModel]>
+    let sections = Variable<[FormMutipleSectionModel]>([])
     
     let cartItems = Variable<[CartItem]>([])
     let totalPrice = Variable<Int>(0)
 
     init(service: APIDelegate = APIClient.sharedAPI) {
         
-        sections =
-            infoManager.infoList.asObservable()
-                .map { infoList -> [FormMutipleSectionModel] in
+        infoManager.infoList.asObservable()
+            .map { infoList -> [FormMutipleSectionModel] in
                 
-                let delivery: FormMutipleSectionModel =
-                             .DeliverySection(title: "運送方式",
-                                              items: infoList.map{.deliberySectionItem(deliveryInfo: $0)})
-                let payment: FormMutipleSectionModel =
-                             .PaymentSection(title: "付款方式", items: [.paymentSectionItem])
-                let check: FormMutipleSectionModel =
-                             .CheckSection(title: "已閱讀“運送方式說明”及“付款方式說明”", items: [])
+            let delivery: FormMutipleSectionModel =
+                            .DeliverySection(title: "運送方式",
+                                             items: infoList.map{.deliberySectionItem(deliveryInfo: $0)})
+            let payment: FormMutipleSectionModel =
+                            .PaymentSection(title: "付款方式", items: [.paymentSectionItem])
+            let check: FormMutipleSectionModel =
+                            .CheckSection(title: "已閱讀“運送方式說明”及“付款方式說明”", items: [])
                 
-                return [delivery, payment, check]
+            return [delivery, payment, check]
                     
-                }
+            }
+            .bind(to: sections)
+            .disposed(by: disposeBag)
         
         service.getCartItems()
             .bind(to: cartItems)

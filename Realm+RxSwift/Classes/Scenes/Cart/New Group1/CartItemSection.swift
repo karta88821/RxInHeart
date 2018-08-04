@@ -8,6 +8,7 @@
 
 import RxDataSources
 import Foundation
+import AutoEquatable
 
 extension CartItem: AnimatableSectionModelType {
     
@@ -30,7 +31,7 @@ extension CartItem: AnimatableSectionModelType {
 
 extension PickedItem_cart
     : IdentifiableType
-, Equatable {
+, AutoEquatable{
     typealias Identity = Int
     
     var identity: Int {

@@ -33,20 +33,18 @@ class CartCell: UITableViewCell, Reusable {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         initUI()
+        constraintUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initUI()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        addConstraint()
+        constraintUI()
     }
     
     func isShow() {
         if let expaned = expaned {
+            print(expaned)
             self.isHidden = !expaned
         }
     }
@@ -89,7 +87,7 @@ private extension CartCell {
         countLabel.text = "\(count)個"
     }
     
-    func addConstraint() {
+    func constraintUI() {
         
         containerView.snp.makeConstraints{ make in
             make.top.bottom.equalToSuperview().priority(900)
@@ -113,68 +111,3 @@ private extension CartCell {
         }
     }
 }
-
-class PopupFoodCell: CartCell {
-    
-    enum CellType {
-        case allocatePopup
-        case orderPopup
-    }
-    
-    var cellType: CellType? = .allocatePopup {
-        didSet {
-            constraintUI()
-        }
-    }
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        containerView.removeFromSuperview()
-        
-        foodImageView.contentMode = .scaleAspectFill
-        
-        contentView.addSubViews(views: foodImageView, foodNameLabel, countLabel)
-        contentView.backgroundColor = .white
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        constraintUI()
-    }
-    
-    private func constraintUI() {
-        guard let cellType = cellType else { return }
-
-        foodImageView.snp.makeConstraints{ make in
-            make.top.bottom.equalToSuperview().inset(10).priority(900)
-            switch cellType {
-            case .allocatePopup:
-                make.left.equalToSuperview().offset(30)
-            case .orderPopup:
-                make.left.equalToSuperview().offset(20)
-            }
-            make.width.equalTo(45)
-        }
-        
-        foodNameLabel.snp.makeConstraints{ make in
-            make.centerY.equalToSuperview()
-            make.left.equalTo(foodImageView.snp.right).offset(15)
-        }
-        
-        countLabel.snp.makeConstraints{ make in
-            make.centerY.equalToSuperview()
-            switch cellType {
-            case .allocatePopup:
-                make.right.equalToSuperview().inset(30)
-            case .orderPopup:
-                make.right.equalToSuperview().inset(20)
-            }
-        }
-    }
-}
-
-
-

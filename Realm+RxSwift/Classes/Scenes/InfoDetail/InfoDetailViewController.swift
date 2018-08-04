@@ -100,8 +100,6 @@ extension InfoDetailViewController: UITableViewDataSource {
             return 3
         case .allocateInfo:
             return info.deliveryInfoCartItems.count
-        default:
-            return 0
         }
     }
     
@@ -116,8 +114,6 @@ extension InfoDetailViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(for: indexPath) as InfoProductCell
             cell.cartItem = info.deliveryInfoCartItems[indexPath.row]
             return cell
-        default:
-            return UITableViewCell()
         }
     }
 }
@@ -129,8 +125,6 @@ extension InfoDetailViewController: UITableViewDelegate {
             return 80
         case .allocateInfo:
             return 150
-        default:
-            return 0
         }
     }
     
@@ -146,8 +140,6 @@ extension InfoDetailViewController: UITableViewDelegate {
         case .allocateInfo:
             baseHeader.titleLabel.text = "商品資訊"
             return baseHeader
-        default:
-            return nil
         }
         return nil
     }

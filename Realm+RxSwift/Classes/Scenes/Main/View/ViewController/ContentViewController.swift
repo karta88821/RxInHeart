@@ -7,30 +7,54 @@
 //
 
 import UIKit
-import Reusable
 
-protocol ContentViewDelegate {
+protocol ContentViewDelegate: class {
     func push(id: Int)
 }
 
 final class ContentViewController: UIViewController {
     
     // MARK : - Delegate
-    var delegate: ContentViewDelegate?
+    weak var delegate: ContentViewDelegate?
+    
+    lazy var collectionView: UICollectionView = {
+        guard let items = items else {return UICollectionView()}
+        let totalCount = items.count
+        let layout = CustomLayout()
+        layout.totalCount = totalCount
+        layout.spacing = 3
+        layout.contentInset = 5
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.dataSource = self
+        cv.isScrollEnabled = false
+        cv.showsVerticalScrollIndicator = false
+        cv.backgroundColor = detailCollectionBg
+        cv.contentInset = UIEdgeInsetsMake(5, 5, 5, 5)
+        cv.layer.masksToBounds = false
+        cv.layer.cornerRadius = 3
+        cv.register(cellType: UICollectionViewCell.self)
+        return cv
+    }()
+    
+    lazy var button: UIButton = {
+        let btn = UIButton()
+        btn.backgroundColor = pinkButtonBg
+        btn.setup(title: "Next", textColor: .white)
+        btn.makeShadow(cornerRadius: 15, shadowOpacity: 0.2, shadowOffsetW: 0.1, shadowOffsetH: 0.1)
+        btn.addTarget(self, action: #selector(toDetail), for: .touchUpInside)
+        return btn
+    }()
     
     // MARK : - UI
     let topView = UIView()
-    let button = UIButton()
     let buttomView = UIView()
-    var collectionView: UICollectionView!
     let topLabel = UILabel()
     let itemStackView = UIStackView()
     
     // MARK : - Properties
     var id = -1
-    private let cellId = "ContentViewController"
     
-    var items: [GiftboxItem]! {
+    var items: [GiftboxItem]? {
         didSet {
             updateUI()
         }
@@ -58,12 +82,7 @@ private extension ContentViewController {
         buttomView.backgroundColor = pinkBackground
         topView.backgroundColor = pinkBackground
         topLabel.setup(textAlignment: .left, fontSize: 18, textColor: grayColor)
-        
-        button.backgroundColor = pinkButtonBg
-        button.setup(title: "Next", textColor: .white)
-        button.makeShadow(cornerRadius: 15, shadowOpacity: 0.2, shadowOffsetW: 0.1, shadowOffsetH: 0.1)
-        button.addTarget(self, action: #selector(toDetail), for: .touchUpInside)
-        
+    
         view.addSubViews(views: topView, buttomView)
         topView.addSubViews(views: topLabel, button)
         buttomView.addSubViews(views: collectionView, itemStackView)
@@ -73,6 +92,9 @@ private extension ContentViewController {
     }
     
     func updateUI() {
+        
+        guard let items = items else { return }
+        
         items.forEach { item in
             let label = UILabel()
             let categoryName = item.foodCategoryName
@@ -82,22 +104,6 @@ private extension ContentViewController {
             
             itemStackView.addArrangedSubview(label)
         }
-        
-        let totalCount = items.count
-        let layout = CustomLayout()
-        layout.totalCount = totalCount
-        layout.spacing = 3
-        layout.contentInset = 5
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.dataSource = self
-        cv.isScrollEnabled = false
-        cv.showsVerticalScrollIndicator = false
-        cv.backgroundColor = detailCollectionBg
-        cv.contentInset = UIEdgeInsetsMake(5, 5, 5, 5)
-        cv.layer.masksToBounds = false
-        cv.layer.cornerRadius = 3
-        cv.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
-        self.collectionView = cv
     }
     
     func constraintUI() {
@@ -141,11 +147,11 @@ private extension ContentViewController {
 
 extension ContentViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
+        return items?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as UICollectionViewCell
+        let cell = collectionView.dequeueReusableCell(for: indexPath)
         cell.backgroundColor = pinkCvCellBackground
         cell.layer.masksToBounds = false
         cell.layer.cornerRadius = 3

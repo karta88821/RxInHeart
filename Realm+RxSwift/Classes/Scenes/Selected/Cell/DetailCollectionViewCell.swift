@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import Reusable
 
-class DetailCollectionViewCell: UICollectionViewCell, Reusable {
+class DetailCollectionViewCell: UICollectionViewCell {
     
     // MARK : - UI
     let textLabel = UILabel()

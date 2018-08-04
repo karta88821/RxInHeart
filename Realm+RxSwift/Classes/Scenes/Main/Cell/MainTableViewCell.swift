@@ -28,7 +28,24 @@ final class MainTableViewCell: UITableViewCell {
     let bottomView = UIView()
     let titleIconImageView = UIImageView()
     let productTypeNameLabel = UILabel()
-    var collectionView: UICollectionView!
+    
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let itemWidth = (screenWidth - 45) / 2
+        let itemHight: CGFloat = 210 - 50
+        layout.itemSize = CGSize(width: itemWidth, height: itemHight)
+        layout.sectionInset = UIEdgeInsets(top: -10, left: 15, bottom: 0, right: 15)
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 15
+        layout.minimumInteritemSpacing = 15
+        
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout )
+        cv.backgroundColor = .white
+        cv.showsHorizontalScrollIndicator = false
+        cv.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: "MainCollectionViewCell")
+        
+        return cv
+    }()
 
     private(set) var disposeBag = DisposeBag()
     
@@ -40,23 +57,23 @@ final class MainTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         initUI()
+        constraintUI()
         setupPageView()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initUI()
+        constraintUI()
         setupPageView()
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         disposeBag = DisposeBag()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        constraintUI()
+        product = nil
+        products.value = []
+        viewControllers = []
     }
 }
 
@@ -78,19 +95,7 @@ private extension MainTableViewCell {
         titleIconImageView.contentMode = .scaleAspectFit
         titleIconImageView.image = UIImage(named: "giftcard")
         productTypeNameLabel.setup(textAlignment: .left, fontSize: 18, textColor: darkRed)
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 180, height: 120)
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
-        layout.scrollDirection = .vertical
-        
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout )
-        cv.backgroundColor = .white
-        cv.showsHorizontalScrollIndicator = false
-        cv.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: "MainCollectionViewCell")
-        
-        self.collectionView = cv
-        
+
         contentView.addSubview(stackView)
         stackView.insertArrangedSubview(topView, at: 0)
         stackView.insertArrangedSubview(bottomView, at: 1)

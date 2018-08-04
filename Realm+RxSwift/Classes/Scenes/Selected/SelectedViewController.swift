@@ -20,8 +20,6 @@ class SelectedViewController: UIViewController {
     
     // MARK: - Property
     var selectedIndex = -1
-    var foodItems = [FoodItemViewModel]()
-    var pickItems = [NewPickItem]()
     var viewControllers = [IconViewController]()
     
     // MARK : - UI
@@ -45,7 +43,7 @@ class SelectedViewController: UIViewController {
     }
     
     @objc func addItem(_ sender: Any) {
-        //postItem()
+        postItem()
     }
     
 }
@@ -59,7 +57,10 @@ fileprivate extension SelectedViewController {
         
         categoryLabel.setup(textAlignment: .center, fontSize: 16, textColor: grayColor)
         
-        submitButton.setup(title: "加入購物車", textColor: .black)
+        submitButton.makeShadow(cornerRadius: 20, shadowOpacity: 0.2, shadowOffsetH: 0.3)
+        submitButton.clipsToBounds = true
+        submitButton.backgroundColor = pinkButtonBg
+        submitButton.setup(title: "加入購物車", textColor: .white)
         submitButton.addTarget(self, action: #selector(addItem(_:)), for: .touchUpInside)
         
         view.addSubViews(views: categoryLabel, submitButton)
@@ -78,14 +79,15 @@ fileprivate extension SelectedViewController {
         }
         
         submitButton.snp.makeConstraints {
-            $0.centerX.equalTo(categoryLabel.snp.centerX)
-            $0.bottom.equalToSuperview().offset(-15)
+            $0.left.right.equalToSuperview().inset(100)
+            $0.bottom.equalToSuperview().inset(20)
+            $0.height.equalTo(35)
         }
         
         collectionView.snp.makeConstraints {
             $0.top.equalTo(pagingViewController.view.snp.bottom).offset(20)
             $0.left.right.equalToSuperview().inset(20)
-            $0.bottom.equalTo(submitButton.snp.top).offset(-15)
+            $0.bottom.equalTo(submitButton.snp.top).offset(-20)
         }
     }
     
@@ -96,11 +98,10 @@ fileprivate extension SelectedViewController {
                 
                 guard let `self` = self else { return }
 
-                self.foodItems = products
                 self.viewControllers = products.map{ IconViewController(foodName: $0.name, foodId: $0.id) }
                 
                 let currentIndex = self.viewModel.gbButtomIndex.value
-                let index = self.pickItems[currentIndex].index
+                let index = self.viewModel.pickItems.value[currentIndex].index
                 let id = products[index].id
                 
                 let iconItem = IconItem(name: String(id), index: index)
@@ -136,11 +137,6 @@ fileprivate extension SelectedViewController {
 
                 self?.collectionView = cv
                 self?.view.addSubview(cv)
-                
-                items.forEach { item in
-                    let newPickItem = NewPickItem(count: String(item.count), foodId: String(0))
-                    self?.pickItems.append(newPickItem)
-                }
             })
             .disposed(by: rx.disposeBag)
         
@@ -174,26 +170,45 @@ fileprivate extension SelectedViewController {
     }
     
     func postItem() {
-        viewModel.product
-            .subscribe(onNext:{ [unowned self] p in
-                let count = "1"
-                let subtotal = String(p.price)
-                let cartId = "1"
-                let productId = String(p.id)
-                
-                let newCartItem = NewCartItem(count: count, subtotal: subtotal, cartId: cartId, productId: productId, pickedItems: self.pickItems)
-                
-                let services: APIDelegate = APIClient.sharedAPI
-                
-                services.addItem(item: newCartItem)
-                    .subscribe(onNext:{ [unowned self] bool in
-                        if bool == true {
-                            self.navigationController?.popToRootViewController(animated: true)
-                        }
-                    })
-                    .disposed(by: self.rx.disposeBag)
-            })
-            .disposed(by: rx.disposeBag)
+        
+        let selectedStatus = viewModel.pickItems.value.contains {$0.foodId == "0"}
+        
+        switch selectedStatus {
+        case true:
+            let alert = UIAlertController(title: "錯誤", message: "還沒選完喔", preferredStyle: .alert)
+            alert.addAction(title: "確定")
+            present(alert, animated: true, completion: nil)
+        case false:
+            viewModel.product
+                .subscribe(onNext:{ [unowned self] p in
+                    let subtotal = String(p.price)
+                    let productId = String(p.id)
+                    
+                    let newCartItem = NewCartItem(count: "1", subtotal: subtotal, cartId: "1", productId: productId,
+                                                  pickedItems: self.viewModel.pickItems.value)
+
+                    self.viewModel.services.addItem(item: newCartItem)
+                        .subscribe(onNext:{ [unowned self] bool in
+                            if bool == true {
+                                let alert = UIAlertController(title: "購物車", message: "已將商品加入購物車", preferredStyle: .alert)
+                                let okAction = UIAlertAction(title: "確定", style: .default) {_ in
+                                    DispatchQueue.main.async {
+                                        self.navigationController?.popToRootViewController(animated: true)
+                                    }
+                                }
+                                alert.addAction(okAction)
+                                self.present(alert, animated: true, completion: nil)
+                            } else {
+                                let alert = UIAlertController(title: "購物車", message: "無法加入購物車", preferredStyle: .alert)
+                                alert.addAction(title: "OK")
+                                self.present(alert, animated: true, completion: nil)
+                            }
+                        })
+                        .disposed(by: self.rx.disposeBag)
+                })
+                .disposed(by: rx.disposeBag)
+        }
+        
     }
 }
 
@@ -207,19 +222,17 @@ extension SelectedViewController: PagingViewControllerDelegate {
         destinationViewController: UIViewController, transitionSuccessful: Bool) {
 
         if transitionSuccessful {
-
-            if let selectedIndex = self.pagingViewController.selectedIndex {
-                let btmIndex = self.viewModel.gbButtomIndex.value
+            
+            let btmIndex = self.viewModel.gbButtomIndex.value
+            
+            guard let selectedIndex = self.pagingViewController.selectedIndex,
+                  let cell = collectionView.cellForItem(at: IndexPath(row: btmIndex, section: 0)) as? DetailCollectionViewCell else {return}
                 
-                guard let cell = collectionView
-                    .cellForItem(at: IndexPath(row: btmIndex, section: 0)) as? DetailCollectionViewCell else {return}
+                viewModel.pickItems.value[btmIndex].index = selectedIndex
                 
-                pickItems[btmIndex].index = selectedIndex
-                pickItems[btmIndex].foodId = String(foodItems[self.pickItems[btmIndex].index].id)
-                
-                cell.textLabel.text = foodItems[pickItems[btmIndex].index].name
-
-            }
+                let foods = self.viewModel.foodItems.value
+                viewModel.pickItems.value[btmIndex].foodId = String(foods[viewModel.pickItems.value[btmIndex].index].id)
+                cell.textLabel.text = foods[viewModel.pickItems.value[btmIndex].index].name
         }
 
     }

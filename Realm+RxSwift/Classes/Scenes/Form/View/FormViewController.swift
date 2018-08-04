@@ -60,10 +60,7 @@ class FormViewController: UIViewController {
         
         return view
     }()
-    
-    // MARK : - Property
-    var sections = [FormMutipleSectionModel]()
-    
+
     // MARK : - ViewModel
     var viewModel: FormViewModel!
     
@@ -129,13 +126,7 @@ private extension FormViewController {
             }
         }
 
-        viewModel.sections
-            .subscribe(onNext:{ [weak self] sections in
-                self?.sections = sections
-            })
-            .disposed(by: rx.disposeBag)
-
-        viewModel.sections
+        viewModel.sections.asObservable()
             .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
             .disposed(by: rx.disposeBag)
         
@@ -220,7 +211,7 @@ private extension FormViewController {
 extension FormViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        switch sections[section] {
+        switch viewModel.sections.value[section] {
         case let .DeliverySection(title, _):
             let header = DeliveryHeaderView()
             header.setupTitle(with: title)
@@ -240,7 +231,7 @@ extension FormViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        switch sections[section] {
+        switch viewModel.sections.value[section] {
         case .DeliverySection(_, _), .PaymentSection(_, _):
             return 80
         case .CheckSection(_, _):
@@ -250,7 +241,7 @@ extension FormViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        switch sections[indexPath.section] {
+        switch viewModel.sections.value[indexPath.section] {
         case .DeliverySection(_, _):
             return 75
         case .PaymentSection(_, _):

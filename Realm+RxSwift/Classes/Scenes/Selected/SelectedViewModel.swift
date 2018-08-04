@@ -35,20 +35,31 @@ class SelectedViewModel {
     let gbButtomIndex = Variable<Int>(0)
     let gbMidIndex = Variable<Int>(0)
     
-    init(id: Int) {
+    let pickItems = Variable<[NewPickItem]>([])
+
+    
+    
+    init?(id: Int) {
         
         services = APIClient.sharedAPI
         
-        let productResult = DBManager.query(ProductEntity.self, withPrimaryKey: id)
+        guard let productResult = DBManager.query(ProductEntity.self, withPrimaryKey: id) else {return nil}
         
-        Observable.from(object: productResult!)
-            .map { Array($0.items).map{GiftBoxViewModel(with:$0) }}
+        let productObservable = Observable.from(object: productResult)
+        
+        let giftBoxItemsObservable = productObservable
+                                        .map { Array($0.items).map{GiftBoxViewModel(with:$0) }}
+        
+        giftBoxItemsObservable
             .bind(to: giftBoxItems)
             .disposed(by: disposeBag)
         
-        self.product = Observable.from(object: productResult!)
-            .map{ Product(with: $0)}
+        self.product = productObservable.map{Product(with: $0)}
         
+        giftBoxItemsObservable.map{$0.map{NewPickItem(count: String($0.count), foodId: String(0))}}
+            .bind(to: pickItems)
+            .disposed(by: disposeBag)
+
         tapBtnCell
             .startWith(giftBoxItems.value[gbButtomIndex.value])
             .map { giftBoxItem -> [FoodItemViewModel] in
@@ -73,6 +84,8 @@ class SelectedViewModel {
 
         tapBtnIndexPath.asObservable().map{$0.row}.bind(to: gbButtomIndex).disposed(by: disposeBag)
         tapMidIndexPath.asObservable().map{$0.row}.bind(to: gbMidIndex).disposed(by: disposeBag)
+        
+        
     }
     
 }

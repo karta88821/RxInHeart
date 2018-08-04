@@ -18,19 +18,17 @@ class FoodsCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        initUI()
         constraintUI()
-        self.backgroundColor = pinkBackground!
     }
-    
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setupUI()
+        initUI()
         constraintUI()
     }
     
-    func setupUI() {
+    func initUI() {
         
         foodImageView.contentMode = .scaleAspectFit
         
@@ -39,7 +37,8 @@ class FoodsCollectionViewCell: UICollectionViewCell {
         label.numberOfLines = 0
         self.foodLabel = label
         
-        self.addSubViews(views: foodLabel, foodImageView)
+        addSubViews(views: foodLabel, foodImageView)
+        backgroundColor = pinkBackground!
     }
     
     func constraintUI() {

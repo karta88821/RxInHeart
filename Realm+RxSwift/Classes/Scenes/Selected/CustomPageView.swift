@@ -39,7 +39,6 @@ class CustomPagingViewController: PagingViewController<IconItem> {
         options.borderColor = .clear
         options.menuItemClass = IconPagingCell.self
         options.menuItemSize = .sizeToFit(minWidth: 100, height: 100)
-        //options.menuItemSize = .fixed(width: 90, height: 90)
         options.menuItemSpacing = -20
         options.menuHorizontalAlignment = .center
         

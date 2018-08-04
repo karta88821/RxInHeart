@@ -18,16 +18,10 @@ class MainCollectionViewCell: UICollectionViewCell {
             updateUI()
         }
     }
-    
-//    override var isSelected: Bool {
-//        didSet {
-//            self.caseImageView.layer.borderWidth = isSelected ? 1 : 0
-//            self.caseImageView.layer.borderColor = isSelected ? UIColor.red.cgColor : UIColor.clear.cgColor
-//        }
-//    }
-    
+
     // MARK : - UI
     let caseImageView = UIImageView()
+    let bottomView = UIView()
     let caseNameLabel = UILabel()
     let priceAndCountLabel = UILabel()
     
@@ -35,36 +29,25 @@ class MainCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         initUI()
+        constraintUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initUI()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
         constraintUI()
     }
-}
-
-
-extension MainCollectionViewCell {
     
-    func setup(with caseModel: CaseModel) {
-        
-        let imageString = String(caseModel.giftboxId)
-        
-        caseNameLabel.text = caseModel.giftboxName
-        caseImageView.kf.setImage(with: URL(string: imageString.giftBoxUrl()))
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        caseModel = nil
+        caseImageView.image = nil
+        caseNameLabel.text = nil
+        priceAndCountLabel.text = nil
     }
 }
 
 private extension MainCollectionViewCell {
-    
-    func setupPriceLabel(with price: Int, and totalCount: Int) -> String {
-        return "$\(price)/\(totalCount)片"
-    }
     
     func updateUI() {
         guard let caseModel = caseModel else { return }
@@ -72,34 +55,63 @@ private extension MainCollectionViewCell {
         let imageString = String(caseModel.giftboxId)
         
         caseNameLabel.text = caseModel.giftboxName
-        caseImageView.kf.setImage(with: URL(string: imageString.giftBoxUrl()))
-        priceAndCountLabel.text = setupPriceLabel(with: caseModel.price, and: caseModel.totalCount)
+        caseImageView.kf.indicatorType = .activity
+        caseImageView.kf.setImage(with: URL(string: imageString.giftBoxUrl()),
+                                  placeholder: UIImage(named: "default"))
+        
+        priceAndCountLabel.text = setupPriceLabel(with: caseModel.giftboxId,
+                                                  caseModel.price, caseModel.totalCount)
     }
     
     func initUI() {
-        caseImageView.contentMode = .scaleAspectFill
-        caseImageView.sizeToFit()
-        caseImageView.makeShadow(cornerRadius: 5)
+        caseImageView.contentMode = .scaleToFill
+        bottomView.backgroundColor = .white
         caseNameLabel.setup(textAlignment: .left, fontSize: 15, textColor: grayColor)
         priceAndCountLabel.setup(textAlignment: .right, fontSize: 15, textColor: grayColor)
 
-        contentView.addSubViews(views: caseImageView, caseNameLabel, priceAndCountLabel)
+        contentView.addSubViews(views: caseImageView, bottomView)
+        bottomView.addSubViews(views: caseNameLabel, priceAndCountLabel)
     }
     
     func constraintUI() {
+        
+        bottomView.snp.makeConstraints {
+            $0.left.bottom.right.equalToSuperview()
+            $0.height.equalTo(30)
+        }
+        
         caseImageView.snp.makeConstraints {
             $0.left.top.right.equalToSuperview()
-            $0.height.equalTo(60)
+            $0.bottom.equalTo(bottomView.snp.top)
         }
         
         caseNameLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
             $0.left.equalToSuperview().offset(10)
-            $0.bottom.equalToSuperview().offset(5)
         }
         
         priceAndCountLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
             $0.right.equalToSuperview().offset(-10)
-            $0.bottom.equalToSuperview().offset(5)
         }
     }
+    
+    func setupPriceLabel(with giftBoxId: Int, _ price: Int,_ totalCount: Int) -> String? {
+        switch giftBoxId {
+        case 1,2,3:
+            return "$\(price)/\(totalCount)片"
+        case 0:
+            return "$\(price)元"
+        default:
+            return nil
+        }
+    }
+    
 }
+
+//    override var isSelected: Bool {
+//        didSet {
+//            self.caseImageView.layer.borderWidth = isSelected ? 1 : 0
+//            self.caseImageView.layer.borderColor = isSelected ? UIColor.red.cgColor : UIColor.clear.cgColor
+//        }
+//    }

@@ -15,17 +15,7 @@ import NSObject_Rx
 class MainViewController: UIViewController {
     
     // MARK : - UI
-    lazy var tableView: UITableView = {
-        let tv = UITableView(frame: .zero)
-        tv.backgroundColor = .white
-        tv.showsVerticalScrollIndicator = false
-        tv.separatorStyle = .singleLine
-        tv.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        tv.register(MainTableViewCell.self, forCellReuseIdentifier: "MainTableViewCell")
-        tv.tableHeaderView = headerView
-        view.addSubview(tv)
-        return tv
-    }()
+    var tableView: UITableView!
     
     lazy var headerView: UIView = {
         let header = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 60))
@@ -67,7 +57,6 @@ class MainViewController: UIViewController {
         initUI()
         bindUI()
         constraintUI()
-        DBManager.fileUrl()
     }
 }
 
@@ -76,7 +65,20 @@ fileprivate extension MainViewController {
     func initUI() {
         view.backgroundColor = .white
         //tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 380
+        let tv = UITableView(frame: .zero)
+        tv.backgroundColor = .white
+        tv.showsVerticalScrollIndicator = false
+        tv.separatorStyle = .singleLine
+
+        tv.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        tv.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.tabBarHight, right: 0)
+        tv.register(MainTableViewCell.self, forCellReuseIdentifier: "MainTableViewCell")
+        tv.tableHeaderView = headerView
+        tv.estimatedRowHeight = 380
+        tv.dataSource = nil
+        tv.delegate = nil
+        self.tableView = tv
+        view.addSubview(tableView)
     }
     
     func bindUI() {
@@ -87,28 +89,33 @@ fileprivate extension MainViewController {
             }).disposed(by: rx.disposeBag)
 
         viewModel.start()
+        
+        tableView.rx.setDelegate(self)
+            .disposed(by: rx.disposeBag)
 
         viewModel.products.asObservable()
             .bind(to: tableView.rx.items(cellIdentifier: "MainTableViewCell", cellType: MainTableViewCell.self)) { [weak self] row, item, cell in
-                guard let `self` = self else { return }
+                
+                guard let strongSelf = self else {return}
+                
                 let indexPath = IndexPath(row: row, section: 0)
+                
+                
 
                 cell.product = item
 
-                guard let collectionView = cell.collectionView else { return }
-
                 Observable.just(item.caseModels)
-                    .bind(to: collectionView.rx.items(cellIdentifier: "MainCollectionViewCell", cellType: MainCollectionViewCell.self)) { _row, _item, _cell in
+                    .bind(to: cell.collectionView.rx.items(cellIdentifier: "MainCollectionViewCell", cellType: MainCollectionViewCell.self)) { _row, _item, _cell in
                         _cell.caseModel = _item
                     }
                     .disposed(by: cell.rx.disposeBag)
 
-                collectionView.rx
+                cell.collectionView.rx
                     .modelSelected(CaseModel.self)
-                    .bind(to: self.viewModel.selectCase)
+                    .bind(to: strongSelf.viewModel.selectCase)
                     .disposed(by: cell.rx.disposeBag)
 
-                self.viewModel.currentGiftBoxItems
+                strongSelf.viewModel.currentGiftBoxItems
                     .subscribe(onNext:{ products in
 
                         cell.products.value = products
@@ -116,23 +123,21 @@ fileprivate extension MainViewController {
                             viewController.delegate = self
                         }
                     })
-                    .disposed(by: self.rx.disposeBag)
+                    .disposed(by: strongSelf.rx.disposeBag)
 
                 // click collectionViewCell to expand view
-                collectionView.rx.itemSelected
+                cell.collectionView.rx.itemSelected
                     .subscribe(onNext:{ [weak self] cIndexPath in
-
-                        self?.selectedIndex = (self?.selectedIndex == indexPath.row ) ? -1 : indexPath.row
-
+                        
+                        let x = indexPath.row + cIndexPath.section
+                        
+                        //self?.selectedIndex = (self?.selectedIndex == indexPath.row ) ? -1 : indexPath.row
+                        self?.selectedIndex = (self?.selectedIndex == x ) ? -1 : x
                         self?.tableView.beginUpdates()
                         self?.tableView.endUpdates()
                     })
                     .disposed(by: cell.rx.disposeBag)
             }
-            .disposed(by: rx.disposeBag)
-        
-        
-        tableView.rx.setDelegate(self)
             .disposed(by: rx.disposeBag)
         
     }
@@ -162,6 +167,7 @@ extension MainViewController: UITableViewDelegate {
             return 210
         }
     }
+    
 }
 
 extension MainViewController: ContentViewDelegate {

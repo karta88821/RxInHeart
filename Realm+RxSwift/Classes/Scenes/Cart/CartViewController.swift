@@ -36,6 +36,32 @@ class CartViewController: UIViewController {
         return footer
     }()
     
+    lazy var loadingView: UIView = {
+        let loadView = UIView()
+        loadView.backgroundColor = pinkBackground
+        let ai = UIActivityIndicatorView()
+        ai.startAnimating()
+        ai.activityIndicatorViewStyle = .gray
+        ai.sizeToFit()
+        
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: view.bounds.size.width, height: view.bounds.size.height))
+        label.setupWithTitle(textAlignment: .center, fontSize: 14, textColor: grayColor, text: "載入中請稍候...")
+        label.sizeToFit()
+        
+        loadView.addSubViews(views: ai, label)
+        
+        ai.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+        
+        label.snp.makeConstraints {
+            $0.top.equalTo(ai.snp.bottom).offset(15)
+            $0.centerX.equalToSuperview()
+        }
+        
+        return loadView
+    }()
+    
     // MARK: - ViewModel
     var viewModel: CartViewModel!
 
@@ -49,6 +75,7 @@ class CartViewController: UIViewController {
         setupBinding()
         constraintUI()
     }
+
 }
 
 extension CartViewController {
@@ -62,21 +89,21 @@ extension CartViewController {
     func setupBinding() {
         
         viewModel.totalPrice
-            .subscribe(onNext:{ [unowned self] price in
-                self.footerView.subtotalLabel.text = price
+            .subscribe(onNext:{ [weak self] price in
+                self?.footerView.subtotalLabel.text = price
             })
             .disposed(by: rx.disposeBag)
         
-        viewModel.cartSections
-            .subscribe(onNext:{ [unowned self] sections in
-                self.sections = sections
-                self.tableView.reloadData()
+        viewModel.cartSections.asObservable()
+            .subscribe(onNext:{ [weak self] sections in
+                self?.sections = sections
+                self?.tableView.reloadData()
             })
             .disposed(by: rx.disposeBag)
         
         footerView.checkoutButton.rx.tap
-            .subscribe(onNext:{ [unowned self] _ in
-                self.viewModel.goProductList()
+            .subscribe(onNext:{ [weak self] _ in
+                self?.viewModel.goProductList()
             })
             .disposed(by: rx.disposeBag)
     }
@@ -98,7 +125,14 @@ extension CartViewController {
 
 extension CartViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+        if sections.count > 0 {
+            tableView.backgroundView = nil
+            return sections.count
+        } else {
+            
+            tableView.backgroundView = loadingView
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -176,9 +210,8 @@ extension CartViewController: BaseExpandable {
         
         DispatchQueue.main.async {
             self.tableView.beginUpdates()
-            self.tableView.deleteSections(NSIndexSet(index: section) as IndexSet, with: .automatic)
+            self.tableView.deleteSections(NSIndexSet(index: section) as IndexSet, with: UITableViewRowAnimation.fade)
             self.tableView.endUpdates()
-            self.tableView.reloadData()
         }
     }
     
@@ -189,7 +222,7 @@ extension CartViewController: BaseExpandable {
             
             tableView.beginUpdates()
             for i in 0 ..< sections[section].pickedItem.count {
-                tableView.reloadRows(at: [IndexPath(row: i, section: section)], with: .automatic)
+                tableView.reloadRows(at: [IndexPath(row: i, section: section)], with: .fade)
             }
             tableView.endUpdates()
         }
@@ -202,14 +235,13 @@ extension CartViewController: BaseExpandable {
     
     func reloadData() {
         
-        viewModel.cartSections
-            .subscribe(onNext:{ [unowned self] sections in
+        viewModel.cartSections.asObservable()
+            .subscribe(onNext:{ [weak self] sections in
                 
                 let total = sections.map{$0.subtotal}.reduce(0, {$0 + $1})
-                print(total)
-                self.sections = sections
-                self.tableView.reloadData()
-                self.footerView.subtotalLabel.text = "$\(total)"
+                self?.sections = sections
+                self?.tableView.reloadData()
+                self?.footerView.subtotalLabel.text = "$\(total)"
             })
             .disposed(by: rx.disposeBag)
     }
@@ -218,10 +250,10 @@ extension CartViewController: BaseExpandable {
 extension CartViewController: ExchangeDelegate {
     
     func reloadItems(indexPath: IndexPath) {
-        viewModel.cartSections
-            .subscribe(onNext:{ [unowned self] sections in
-                self.sections = sections
-                self.tableView.reloadData()
+        viewModel.cartSections.asObservable()
+            .subscribe(onNext:{ [weak self] sections in
+                self?.sections = sections
+                self?.tableView.reloadData()
             })
             .disposed(by: rx.disposeBag)
     }

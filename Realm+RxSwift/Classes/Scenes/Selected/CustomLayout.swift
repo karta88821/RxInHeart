@@ -73,12 +73,4 @@ class CustomLayout : UICollectionViewLayout {
         
             return attribute
     }
-    
-    /*
-     //如果有页眉、页脚或者背景，可以用下面的方法实现更多效果
-     func layoutAttributesForSupplementaryViewOfKind(elementKind: String!,
-     atIndexPath indexPath: NSIndexPath!) -> UICollectionViewLayoutAttributes!
-     func layoutAttributesForDecorationViewOfKind(elementKind: String!,
-     atIndexPath indexPath: NSIndexPath!) -> UICollectionViewLayoutAttributes!
-     */
 }

@@ -46,7 +46,6 @@ class BaseExpandView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        initUI()
         addConstraint()
     }
     

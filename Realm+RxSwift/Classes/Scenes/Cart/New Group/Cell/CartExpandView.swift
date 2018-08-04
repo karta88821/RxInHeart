@@ -24,13 +24,13 @@ class CartExpandView: BaseExpandView {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         initUI()
-        addConstraint()
+        constraintUI()
     }
     
     override func setupUI(cartItem: CartItem, section: Int, delegate: BaseExpandable) {
@@ -112,11 +112,11 @@ private extension CartExpandView {
         minusButton.makeBorder(width: 1.0)
         minusButton.backgroundColor = .white
         minusButton.addTarget(self, action: #selector(minusAction(_:)), for: .touchUpInside)
-    }
-    
-    func addConstraint() {
         
         addSubViews(views: deleteButton, plusButton, countLabel, minusButton)
+    }
+    
+    func constraintUI() {
         
         deleteButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(20)
