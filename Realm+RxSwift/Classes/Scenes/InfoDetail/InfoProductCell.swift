@@ -82,17 +82,18 @@ private extension InfoProductCell {
     }
     
     func updateUI() {
-        guard let item = cartItem?.cartItem ,
-            let giftboxId = item.product.giftboxTypeId,
-            let url = URL(string: String(giftboxId).giftBoxUrl()),
-            let productName = item.product.productTypeName,
-            let productTypeName = item.product.name ,
-            let count = cartItem?.count else { return }
+
+        guard let item = cartItem?.cartItem else { return }
+        let giftboxId = item.getProduct().getGiftboxTypeId()
+        let url = URL(string: String(giftboxId).giftBoxUrl())
+        let productName = item.getProduct().getName()
+        let productTypeName = item.getProduct().getProductTypeName()
+        let count = cartItem?.count
         
         productImageView.kf.setImage(with: url)
         productTypeNameLabel.text = productTypeName
         productNameLabel.text = productName
         
-        countLabel.text = "X \(count)"
+        countLabel.text = "X \(count ?? 0)"
     }
 }

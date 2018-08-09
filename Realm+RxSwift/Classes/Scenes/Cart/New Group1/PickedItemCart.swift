@@ -7,13 +7,15 @@
 //
 
 import ObjectMapper
+import RxDataSources
+import AutoEquatable
 
 struct PickedItem_cart: Mappable {
-    var id: Int!
-    var count: Int!
+    private var id: Int!
+    private var count: Int!
     var foodId: Int!
-    var cartItemId: Int!
-    var food: Food_cart!
+    private var cartItemId: Int!
+    private var food: Food_cart!
     
     init(id: Int, count: Int, foodId: Int, cartItemId: Int) {
         self.id = id
@@ -35,4 +37,24 @@ struct PickedItem_cart: Mappable {
     }
 }
 
+extension PickedItem_cart {
+    func getId() -> Int { return id }
+    func getCount() -> Int { return count }
+    func getFoodId() -> Int { return foodId }
+    func getCartItemId() -> Int { return cartItemId }
+    func getFood() -> Food_cart { return food }
+    mutating func changeFoodId(to id: Int){
+        self.foodId = id
+    }
+}
+
+extension PickedItem_cart
+    : IdentifiableType
+, AutoEquatable{
+    typealias Identity = Int
+    
+    var identity: Int {
+        return id
+    }
+}
 

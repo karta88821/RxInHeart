@@ -36,8 +36,6 @@ class SelectedViewModel {
     let gbMidIndex = Variable<Int>(0)
     
     let pickItems = Variable<[NewPickItem]>([])
-
-    
     
     init?(id: Int) {
         
@@ -84,8 +82,6 @@ class SelectedViewModel {
 
         tapBtnIndexPath.asObservable().map{$0.row}.bind(to: gbButtomIndex).disposed(by: disposeBag)
         tapMidIndexPath.asObservable().map{$0.row}.bind(to: gbMidIndex).disposed(by: disposeBag)
-        
-        
     }
     
 }

@@ -13,7 +13,7 @@ import Kingfisher
 class MainCollectionViewCell: UICollectionViewCell {
     
     // MARK : - Property
-    var caseModel: CaseModel? {
+    var caseModel: CasePresentable? {
         didSet {
             updateUI()
         }
@@ -40,10 +40,10 @@ class MainCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        caseModel = nil
-        caseImageView.image = nil
-        caseNameLabel.text = nil
-        priceAndCountLabel.text = nil
+//        caseModel = nil
+//        caseImageView.image = nil
+//        caseNameLabel.text = nil
+//        priceAndCountLabel.text = nil
     }
 }
 

@@ -6,25 +6,45 @@
 //  Copyright © 2018年 liao yuhao. All rights reserved.
 //
 
-import Foundation
+import RxSwift
 
-class ProductModel {
-    let productTypeName: String // 喜餅禮盒
-    let productTypeId: Int
-    var caseModels: [CaseModel] // 鳳凰于飛 雙鳳呈祥
+protocol ProductPresentable {
+    var productTypeName: String { get }
+    var productTypeId: Int { get }
+    var caseModels: [CasePresentable] { get }
+    var observable: Variable<[CasePresentable]> {get}
+}
+
+extension ProductPresentable {
+    var observable: Variable<[CasePresentable]> {
+        return Variable<[CasePresentable]>.init(caseModels)
+    }
+}
+
+protocol CasePresentable {
+    var giftboxName: String { get }
+    var giftboxId: Int { get }
+    var price: Int { get }
+    var totalCount: Int { get }
+}
+
+class ProductModel: ProductPresentable {
+    var productTypeName: String // 喜餅禮盒
+    var productTypeId: Int
+    var caseModels: [CasePresentable] // 鳳凰于飛 雙鳳呈祥
     
-    init(_ productTypeName: String,_ productTypeId: Int,_ caseModels: [CaseModel]) {
+    init(_ productTypeName: String,_ productTypeId: Int,_ caseModels: [CasePresentable]) {
         self.productTypeName = productTypeName
         self.productTypeId = productTypeId
         self.caseModels = caseModels
     }
 }
 
-class CaseModel {
-    let giftboxName: String //鳳凰于飛 雙鳳呈祥
-    let giftboxId: Int
-    let price: Int // 100元
-    let totalCount: Int
+class CaseModel: CasePresentable {
+    var giftboxName: String //鳳凰于飛 雙鳳呈祥
+    var giftboxId: Int
+    var price: Int // 100元
+    var totalCount: Int
     
     init(_ giftboxName: String,_ giftboxId: Int,_ price: Int,_ totalCount: Int) {
         self.giftboxName = giftboxName

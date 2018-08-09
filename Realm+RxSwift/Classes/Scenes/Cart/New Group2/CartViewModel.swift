@@ -42,7 +42,7 @@ class CartViewModel: ServicesViewModel {
         
         self.totalPrice = services.getCartItems()
                                 .map { items -> String in
-                                    let total = items.map{$0.subtotal}.reduce(0,{ $0 + $1})
+                                    let total = items.map{$0.getSubtotal()}.reduce(0,{ $0 + $1})
             
                                     return "$\(total)"
                                 }

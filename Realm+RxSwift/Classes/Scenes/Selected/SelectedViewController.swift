@@ -45,7 +45,6 @@ class SelectedViewController: UIViewController {
     @objc func addItem(_ sender: Any) {
         postItem()
     }
-    
 }
 
 fileprivate extension SelectedViewController {

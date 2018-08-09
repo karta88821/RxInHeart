@@ -11,13 +11,34 @@ import SnapKit
 
 class CartFooterView: UIView {
     
-    let topView = UIView()
-    let bottomView = UIView()
-    
-    let label = UILabel()
-    let subtotalLabel = UILabel()
-    
-    let checkoutButton = UIButton()
+    lazy var topView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.makeShadow(shadowOpacity: 0.3, shadowOffsetW: 0.2, shadowOffsetH: 0.2)
+        return view
+    }()
+    lazy var bottomView: UIView = {
+        let view = UIView()
+        view.backgroundColor = pinkBackground
+        return view
+    }()
+    lazy var label: UILabel = {
+        let lb = UILabel()
+        lb.setupWithTitle(textAlignment: .left, fontSize: 18, text: "訂單金額")
+        return lb
+    }()
+    lazy var subtotalLabel: UILabel = {
+        let label = UILabel()
+        label.setup(textAlignment: .left, fontSize: 18)
+        return label
+    }()
+    lazy var checkoutButton: UIButton = {
+        let button = UIButton()
+        button.makeShadow(cornerRadius: 20, shadowOpacity: 0.2, shadowOffsetH: 0.3)
+        button.clipsToBounds = true
+        button.backgroundColor = pinkButtonBg
+        return button
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,25 +55,15 @@ class CartFooterView: UIView {
     func setupUI(buttonTitle: String) {
         checkoutButton.setup(title: buttonTitle, textColor: .white)
     }
-
 }
 
 private extension CartFooterView {
     func initUI() {
         backgroundColor = pinkBackground
-        topView.backgroundColor = .white
-        bottomView.backgroundColor = pinkBackground
-        label.setupWithTitle(textAlignment: .left, fontSize: 18, text: "訂單金額")
-        subtotalLabel.setup(textAlignment: .left, fontSize: 18)
-        checkoutButton.makeShadow(cornerRadius: 20, shadowOpacity: 0.2, shadowOffsetH: 0.3)
-        checkoutButton.clipsToBounds = true
-        checkoutButton.backgroundColor = pinkButtonBg!
         
         addSubViews(views: topView, bottomView)
         topView.addSubViews(views: label, subtotalLabel)
         bottomView.addSubViews(views: checkoutButton)
-        
-        topView.makeShadow(shadowOpacity: 0.3, shadowOffsetW: 0.2, shadowOffsetH: 0.2)
     }
     
     func constraintsUI() {

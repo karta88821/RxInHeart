@@ -8,15 +8,19 @@
 
 import ObjectMapper
 import RxDataSources
+import AutoEquatable
+import RxDataSources
+import Foundation
+import AutoEquatable
 
 struct CartItem: Mappable {
-    var id: Int!
-    var count: Int!
-    var subtotal: Int!
-    var pickedItem: [PickedItem_cart]!
-    var productId: Int!
-    var product: Product_cart!
-    var cartId: Int!
+    fileprivate var id: Int!
+    fileprivate var count: Int!
+    fileprivate var subtotal: Int!
+    fileprivate var pickedItem: [PickedItem_cart]!
+    fileprivate var productId: Int!
+    fileprivate var product: Product_cart!
+    fileprivate var cartId: Int!
     var expanded: Bool = false
     
     init?(map: Map) {
@@ -44,16 +48,37 @@ struct CartItem: Mappable {
     }
 }
 
-extension CartItem: Equatable {}
+extension CartItem: AutoEquatable {}
 
-func == (lhs: CartItem, rhs: CartItem) -> Bool {
-    return lhs.id == rhs.id &&
-        lhs.count == rhs.count &&
-        lhs.subtotal == rhs.subtotal &&
-        lhs.pickedItem == rhs.pickedItem &&
-        lhs.productId == rhs.productId &&
-        lhs.product == rhs.product &&
-        lhs.cartId == rhs.cartId &&
-        lhs.expanded == rhs.expanded
+extension CartItem {
+    func getId() -> Int { return id }
+    func getCount() -> Int { return count }
+    func getSubtotal() -> Int { return subtotal }
+    func getPickItems() -> [PickedItem_cart] { return pickedItem }
+    func getProductId() -> Int { return productId }
+    func getProduct() -> Product_cart { return product }
+    func getCartId() -> Int { return cartId }
 }
+
+extension CartItem: AnimatableSectionModelType {
+    
+    typealias Item = PickedItem_cart
+    typealias Identity = String
+    
+    var identity: String {
+        return getProduct().getProductTypeName()
+    }
+    
+    var items: [PickedItem_cart] {
+        return pickedItem
+    }
+    
+    init(original: CartItem, items: [Item]) {
+        self = original
+        self.pickedItem = items
+    }
+}
+
+
+
 

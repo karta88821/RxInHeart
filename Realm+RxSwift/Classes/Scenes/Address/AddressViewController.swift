@@ -19,6 +19,7 @@ class AddressViewController: UIViewController {
     
     // MARK : UI
     let topView = BaseTopView()
+    
     let nameField = SkyFloatingLabelTextField(frame: .zero)
     let phoneField = SkyFloatingLabelTextField(frame: .zero)
     let addressField = SkyFloatingLabelTextField(frame: .zero)
@@ -48,7 +49,6 @@ private extension AddressViewController {
         button.makeRetagle(with: "選擇宅配數量")
         button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
     
-        
         view.addSubViews(views: topView, nameField, button, phoneField, addressField)
         view.backgroundColor = .white
     }

@@ -51,6 +51,16 @@ final class ContentViewController: UIViewController {
     let topLabel = UILabel()
     let itemStackView = UIStackView()
     
+    init(id: Int, productName: String) {
+        super.init(nibName: nil, bundle: nil)
+        self.id = id
+        topLabel.text = productName
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK : - Properties
     var id = -1
     
@@ -59,13 +69,7 @@ final class ContentViewController: UIViewController {
             updateUI()
         }
     }
-    
-    var productName: String? {
-        didSet {
-            topLabel.text = productName
-        }
-    }
-    
+
     // MARK : - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -130,7 +134,7 @@ private extension ContentViewController {
         
         collectionView.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(20)
-            make.top.bottom.equalToSuperview().inset(10)
+            make.top.bottom.equalToSuperview().inset(10).priority(900)
             make.width.equalTo(180)
         }
         
@@ -141,7 +145,20 @@ private extension ContentViewController {
     }
     
     @objc func toDetail(_ sender: UIButton) {
-        delegate?.push(id: id)
+
+        guard let productEntity = DBManager.query(ProductEntity.self, withPrimaryKey: id) else {
+            //fatalError("Query ProductEntity failed!")
+            return
+        }
+        switch productEntity.giftboxTypeId {
+        case 0:
+            print("This isn't giftBox")
+        case 1, 2:
+            delegate?.push(id: id)
+        default:
+            break
+        }
+        
     }
 }
 

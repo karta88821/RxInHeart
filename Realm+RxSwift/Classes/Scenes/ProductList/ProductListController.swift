@@ -149,7 +149,7 @@ extension ProductListController: BaseExpandable {
         sections[section].expanded = !sections[section].expanded
             
         tableView.beginUpdates()
-        for i in 0 ..< sections[section].pickedItem.count {
+        for i in 0 ..< sections[section].getPickItems().count {
             tableView.reloadRows(at: [IndexPath(row: i, section: section)], with: .automatic)
         }
         tableView.endUpdates()

@@ -12,10 +12,37 @@ import Kingfisher
 
 class CartExpandView: BaseExpandView {
     
-    let deleteButton = UIButton()
-    let plusButton = UIButton()
-    let countLabel = UILabel()
-    let minusButton = UIButton()
+    lazy var deleteButton: UIButton = {
+        let button = UIButton()
+        button.setAttributedTitle(NSAttributedString(string: "刪除",
+                                                     attributes: [.font: UIFont.systemFont(ofSize: 16),
+                                                                  .foregroundColor: pinkButtonBg!]), for: .normal)
+        button.addTarget(self, action: #selector(deleteSection(_:)), for: .touchUpInside)
+        return button
+    }()
+    lazy var plusButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .white
+        button.setup(title: "+", textColor: .black)
+        button.makeBorder(width: 1.0)
+        button.addTarget(self, action: #selector(plusAction(_:)), for: .touchUpInside)
+        return button
+    }()
+    lazy var countLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.textColor = .black
+        label.makeBorder(width: 1.0)
+        return label
+    }()
+    lazy var minusButton: UIButton = {
+        let button = UIButton()
+        button.setup(title: "-", textColor: .black)
+        button.makeBorder(width: 1.0)
+        button.backgroundColor = .white
+        button.addTarget(self, action: #selector(minusAction(_:)), for: .touchUpInside)
+        return button
+    }()
     
     let services: APIDelegate = APIClient.sharedAPI
     
@@ -35,13 +62,15 @@ class CartExpandView: BaseExpandView {
     
     override func setupUI(cartItem: CartItem, section: Int, delegate: BaseExpandable) {
         super.setupUI(cartItem: cartItem, section: section, delegate: delegate)
-        self.countLabel.text = String(item!.count)
+
+        self.countLabel.text = String(item.getCount())
+        
     }
 }
 
 extension CartExpandView {
     @objc func plusAction(_ sender: UIButton) {
-        services.updateItem(cartItemId: item.id, item: addItem())
+        services.updateItem(cartItemId: item.getId(), item: addItem())
             .subscribe(onNext:{ [unowned self] bool in
                 if bool == true {
                     self.delegate?.reloadData!()
@@ -51,13 +80,16 @@ extension CartExpandView {
     }
     
     @objc func minusAction(_ sender: UIButton) {
-        services.updateItem(cartItemId: item.id, item: minusItem())
-            .subscribe(onNext:{ [unowned self] bool in
-                if bool == true {
-                    self.delegate?.reloadData!()
-                }
-            })
-            .disposed(by: rx.disposeBag)
+        if item.getCount() > 1 {
+            services.updateItem(cartItemId: item.getId(), item: minusItem())
+                .subscribe(onNext:{ [unowned self] bool in
+                    if bool == true {
+                        self.delegate?.reloadData!()
+                    }
+                })
+                .disposed(by: rx.disposeBag)
+        }
+
     }
     //    func setCollapsed(_ collapsed: Bool) {
     //        arrowLabel.rotate(collapsed ? 0.0 : .pi / 2)
@@ -76,7 +108,7 @@ extension CartExpandView {
             UIAlertAction in
             NSLog("OK Pressed")
             
-            self.services.deleteItem(cartItemId: self.item.id)
+            self.services.deleteItem(cartItemId: self.item.getId())
                 .subscribe(onNext:{ [unowned self] bool in
                     if bool == true {
                         self.delegate?.deleteSection!(section: self.section)
@@ -94,26 +126,9 @@ extension CartExpandView {
 
 private extension CartExpandView {
     func initUI() {
-        deleteButton.setAttributedTitle(NSAttributedString(string: "刪除", attributes: [.font: UIFont.systemFont(ofSize: 16),.foregroundColor: pinkButtonBg!]), for: .normal)
-        deleteButton.addTarget(self, action: #selector(deleteSection(_:)), for: .touchUpInside)
-        
-        plusButton.backgroundColor = .white
-        plusButton.setup(title: "+", textColor: .black)
-        plusButton.makeCircle()
-        plusButton.makeBorder(width: 1.0)
-        plusButton.addTarget(self, action: #selector(plusAction(_:)), for: .touchUpInside)
-        
-        countLabel.textAlignment = .center
-        countLabel.textColor = .black
-        countLabel.makeBorder(width: 1.0)
-        
-        minusButton.setup(title: "-", textColor: .black)
-        minusButton.makeCircle()
-        minusButton.makeBorder(width: 1.0)
-        minusButton.backgroundColor = .white
-        minusButton.addTarget(self, action: #selector(minusAction(_:)), for: .touchUpInside)
-        
         addSubViews(views: deleteButton, plusButton, countLabel, minusButton)
+        plusButton.makeCircle()
+        minusButton.makeCircle()
     }
     
     func constraintUI() {
@@ -145,16 +160,16 @@ private extension CartExpandView {
     
     func addItem() -> CartItem {
         
-        let addCount = item.count + 1
-        let addSubtotal = addCount * item.product.price
-        return CartItem(id: item.id, count: addCount, subtotal: addSubtotal, pickedItem: item.pickedItem, productId: item.productId, cartId: item.cartId)
+        let addCount = item.getCount() + 1
+        let addSubtotal = addCount * item.getProduct().getPrice()
+        return CartItem(id: item.getId(), count: addCount, subtotal: addSubtotal, pickedItem: item.getPickItems(), productId: item.getProductId(), cartId: item.getCartId())
     }
     
     func minusItem() -> CartItem {
         
-        let minusCount = item.count - 1
-        let minusSubtotal = minusCount * item.product.price
-        return CartItem(id: item.id, count: minusCount, subtotal: minusSubtotal, pickedItem: item.pickedItem, productId: item.productId, cartId: item.cartId)
+        let minusCount = item.getCount() - 1
+        let minusSubtotal = minusCount * item.getProduct().getPrice()
+        return CartItem(id: item.getId(), count: minusCount, subtotal: minusSubtotal, pickedItem: item.getPickItems(), productId: item.getProductId(), cartId: item.getCartId())
     }
 }
 

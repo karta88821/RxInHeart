@@ -7,14 +7,14 @@
 //
 
 import ObjectMapper
+import AutoEquatable
 
 struct Food_cart: Mappable {
-    var id: Int!
-    var name: String!
-    var foodCategoryId: Int!
-    var foodCategoryName: String!
+    private var id: Int!
+    private var name: String!
+    private var foodCategoryId: Int!
+    private var foodCategoryName: String!
 
-    
     init?(map: Map) {
         
     }
@@ -27,11 +27,11 @@ struct Food_cart: Mappable {
     }
 }
 
-extension Food_cart: Equatable {
-    static func ==(lhs: Food_cart, rhs: Food_cart) -> Bool {
-        return (lhs.id == rhs.id &&
-            lhs.name == rhs.name &&
-            lhs.foodCategoryId == rhs.foodCategoryId &&
-            lhs.foodCategoryName == rhs.foodCategoryName)
-    }
+extension Food_cart: AutoEquatable {}
+
+extension Food_cart {
+    func getId() -> Int { return id }
+    func getName() -> String { return name }
+    func getFoodCategoryId() -> Int { return foodCategoryId }
+    func getFoodCategoryName() -> String { return foodCategoryName }
 }

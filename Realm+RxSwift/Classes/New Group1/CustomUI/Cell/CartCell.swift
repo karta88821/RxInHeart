@@ -50,16 +50,13 @@ class CartCell: UITableViewCell, Reusable {
     }
     
     func updateUI() {
-        guard let item = self.item ,
-              let foodId = item.foodId ,
-              let foodName = item.food.name ,
-              let count = item.count else { return }
-        let string = String(foodId).foodUrl()
+        guard let item = item else { return }
+        let string = String(item.getFoodId()).foodUrl()
         let url = URL(string: string)
         foodImageView.kf.setImage(with: url)
-        foodNameLabel.text = foodName
+        foodNameLabel.text = item.getFood().getName()
         
-        countLabel.text = "\(count)個"
+        countLabel.text = "\(item.getCount())個"
     }
 }
 

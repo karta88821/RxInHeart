@@ -15,7 +15,7 @@ import Reusable
 
 final class MainTableViewCell: UITableViewCell {
     
-    var product: ProductModel? {
+    var product: ProductPresentable? {
         didSet {
             updateUI()
         }
@@ -29,28 +29,13 @@ final class MainTableViewCell: UITableViewCell {
     let titleIconImageView = UIImageView()
     let productTypeNameLabel = UILabel()
     
-    lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let itemWidth = (screenWidth - 45) / 2
-        let itemHight: CGFloat = 210 - 50
-        layout.itemSize = CGSize(width: itemWidth, height: itemHight)
-        layout.sectionInset = UIEdgeInsets(top: -10, left: 15, bottom: 0, right: 15)
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 15
-        layout.minimumInteritemSpacing = 15
-        
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout )
-        cv.backgroundColor = .white
-        cv.showsHorizontalScrollIndicator = false
-        cv.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: "MainCollectionViewCell")
-        
-        return cv
-    }()
+    var collectionView: UICollectionView!
 
     private(set) var disposeBag = DisposeBag()
     
     // MARK: - Properties
     var products = Variable<[Product]>([])
+    var caseModels = Variable<[CasePresentable]>([])
     var viewControllers: [ContentViewController]!
     
     // MARK : - Init
@@ -71,9 +56,9 @@ final class MainTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         disposeBag = DisposeBag()
-        product = nil
-        products.value = []
-        viewControllers = []
+//        product = nil
+//        products.value = []
+//        viewControllers = []
     }
 }
 
@@ -85,6 +70,25 @@ private extension MainTableViewCell {
     }
     
     func initUI() {
+        
+        let layout = UICollectionViewFlowLayout()
+        let itemWidth = (screenWidth - 45) / 2
+        let itemHight: CGFloat = 210 - 50
+        layout.itemSize = CGSize(width: itemWidth, height: itemHight)
+        layout.sectionInset = UIEdgeInsets(top: -10, left: 15, bottom: 0, right: 15)
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 15
+        layout.minimumInteritemSpacing = 15
+        
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout )
+        cv.backgroundColor = .white
+        cv.showsHorizontalScrollIndicator = false
+        cv.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: "MainCollectionViewCell")
+        cv.delegate = nil
+        cv.dataSource = nil
+        self.collectionView = cv
+        
+        
         selectionStyle = .none
         clipsToBounds = true
         
@@ -116,7 +120,7 @@ private extension MainTableViewCell {
         
         labelView.snp.makeConstraints {
             $0.left.top.right.equalToSuperview()
-            $0.height.equalTo(50)
+            $0.height.equalTo(50).priority(900)
         }
         
         titleIconImageView.snp.makeConstraints {
@@ -150,9 +154,7 @@ private extension MainTableViewCell {
                 let titles = products.map{$0.name}
                 
                 let childViewControllers: [ContentViewController] = products.map { product -> ContentViewController in
-                    let controller = ContentViewController()
-                    controller.id = product.id
-                    controller.productName = product.name
+                    let controller = ContentViewController(id: product.id, productName: product.name)
                     controller.items = product.items
                     return controller
                 }
@@ -165,8 +167,13 @@ private extension MainTableViewCell {
                 manager.contentView.snp.makeConstraints { (make) in
                     make.edges.equalToSuperview()
                 }
-                
             })
+            .disposed(by: disposeBag)
+        
+        caseModels.asObservable()
+            .bind(to: collectionView.rx.items(cellIdentifier: "MainCollectionViewCell", cellType: MainCollectionViewCell.self)) { row, item, cell in
+                cell.caseModel = item
+            }
             .disposed(by: disposeBag)
     }
 }

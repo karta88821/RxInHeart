@@ -137,10 +137,10 @@ extension PopupView: UITableViewDataSource {
         switch type {
         case .allocate:
             if let item = item {
-                return item.pickedItem.count
+                return item.getPickItems().count
             }
         case .orderInfo:
-            return deliveryInfo?.deliveryInfoCartItems[section].cartItem.pickedItem.count ?? 0
+            return deliveryInfo?.deliveryInfoCartItems[section].cartItem.getPickItems().count ?? 0
         }
         return 0
     }
@@ -150,14 +150,14 @@ extension PopupView: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(for: indexPath) as PopupFoodCell
         switch type {
         case .allocate:
-            if let pickItems = item?.pickedItem {
+            if let pickItems = item?.getPickItems() {
                 cell.item = pickItems[indexPath.row]
                 cell.cellType = .allocatePopup
                 return cell
             }
         case .orderInfo:
             if let deliveryInfoCartItems = deliveryInfo?.deliveryInfoCartItems {
-                cell.item = deliveryInfoCartItems[indexPath.section].cartItem.pickedItem[indexPath.row]
+                cell.item = deliveryInfoCartItems[indexPath.section].cartItem.getPickItems()[indexPath.row]
                 cell.cellType = .orderPopup
                 return cell
             }

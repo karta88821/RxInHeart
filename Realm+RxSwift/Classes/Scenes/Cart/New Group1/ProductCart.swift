@@ -7,16 +7,17 @@
 //
 
 import ObjectMapper
+import AutoEquatable
 
 struct Product_cart: Mappable {
-    var giftboxTypeName: String?
-    var giftboxTypeId: Int?
-    var id: Int!
-    var name: String!
-    var price: Int!
-    var productTypeName: String!
-    var productTypeId: Int!
-    var giftboxItems: [GiftboxItem_cart]!
+    private var giftboxTypeName: String?
+    private var giftboxTypeId: Int!
+    private var id: Int!
+    private var name: String!
+    private var price: Int!
+    private var productTypeName: String!
+    private var productTypeId: Int!
+    private var giftboxItems: [GiftboxItem_cart]!
     
     init?(map: Map) {
         
@@ -34,16 +35,15 @@ struct Product_cart: Mappable {
     }
 }
 
-extension Product_cart: Equatable {
-    static func ==(lhs: Product_cart, rhs: Product_cart) -> Bool {
-        return lhs.giftboxTypeName == rhs.giftboxTypeName &&
-            lhs.giftboxTypeId == rhs.giftboxTypeId &&
-            lhs.giftboxTypeName == rhs.giftboxTypeName &&
-            lhs.id == rhs.id &&
-            lhs.name == rhs.name &&
-            lhs.price == rhs.price &&
-            lhs.productTypeName == rhs.productTypeName &&
-            lhs.productTypeId == rhs.productTypeId &&
-            lhs.giftboxItems == rhs.giftboxItems
-    }
+extension Product_cart {
+    func getGiftboxTypeName() -> String { return giftboxTypeName ?? "這不是禮盒" }
+    func getGiftboxTypeId() -> Int { return giftboxTypeId }
+    func getId() -> Int { return id }
+    func getName() -> String { return name }
+    func getPrice() -> Int { return price }
+    func getProductTypeName() -> String { return productTypeName }
+    func getProductTypeId() -> Int { return giftboxTypeId }
+    func getGiftboxItems() -> [GiftboxItem_cart] { return giftboxItems }
 }
+
+extension Product_cart: AutoEquatable {}

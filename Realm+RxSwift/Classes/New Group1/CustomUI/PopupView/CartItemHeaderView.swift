@@ -60,8 +60,8 @@ private extension CartItemHeaderView {
     func updateUI() {
         guard let deliveryInfoCartItem = deliveryInfoCartItem else { return }
         
-        let giftboxTypeName = deliveryInfoCartItem.cartItem.product.giftboxTypeName ?? "空的禮盒"
-        let productTypeName = deliveryInfoCartItem.cartItem.product.productTypeName ?? "空的產品"
+        let giftboxTypeName = deliveryInfoCartItem.cartItem.getProduct().getGiftboxTypeName()
+        let productTypeName = deliveryInfoCartItem.cartItem.getProduct().getProductTypeName()
         
         giftBoxLabel.text = "\(giftboxTypeName) / \(productTypeName)"
         countLabel.text = "\(deliveryInfoCartItem.count)盒"

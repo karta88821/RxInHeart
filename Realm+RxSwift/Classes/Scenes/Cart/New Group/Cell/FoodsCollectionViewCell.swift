@@ -29,7 +29,6 @@ class FoodsCollectionViewCell: UICollectionViewCell {
     }
     
     func initUI() {
-        
         foodImageView.contentMode = .scaleAspectFit
         
         let label = UILabel()

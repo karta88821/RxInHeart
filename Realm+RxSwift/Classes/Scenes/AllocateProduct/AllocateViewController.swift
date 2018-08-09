@@ -90,7 +90,7 @@ private extension AllocateViewController {
         
         viewModel.products
             .subscribe(onNext:{ [unowned self] products in
-                let idArray = products.map{$0.id!}
+                let idArray = products.map{$0.getId()}
                 infoManager.setCurrentIdArray(with: idArray)
                 infoManager.configureCountList()
                 
@@ -214,7 +214,7 @@ extension AllocateViewController: PopViewPresentable {
         
         popupView.setupAllocate(with: item)
         
-        var contentH: CGFloat = CGFloat(50 + (item.pickedItem.count * 45))
+        var contentH: CGFloat = CGFloat(50 + (item.getPickItems().count * 45))
         
         if contentH > 800 {
             contentH = 800

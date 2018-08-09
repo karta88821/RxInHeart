@@ -51,16 +51,16 @@ class BaseExpandView: UIView {
     
     func setupUI(cartItem: CartItem, section: Int, delegate: BaseExpandable) {
         self.item = cartItem
-        self.congifureImageView(giftboxTypeId: item!.product.giftboxTypeId)
+        self.congifureImageView(giftboxTypeId: item!.getProduct().getGiftboxTypeId())
         self.productNameLabel.setupWithTitle(textAlignment: .left,
                                     fontSize: 22,
                                     textColor: grayColor!,
-                                    text: item!.product.giftboxTypeName!)
+                                    text: item!.getProduct().getGiftboxTypeName())
         self.nameLabel.setupWithTitle(textAlignment: .left,
                                     fontSize: 18,
                                     textColor: grayColor!,
-                                    text: item!.product.name)
-        self.configurePriceLabel(price: item!.product.price)
+                                    text: item!.getProduct().getName())
+        self.configurePriceLabel(price: item!.getProduct().getPrice())
         self.section = section
         self.delegate = delegate
     }

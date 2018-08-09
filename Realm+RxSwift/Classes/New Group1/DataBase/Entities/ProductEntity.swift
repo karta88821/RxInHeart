@@ -39,7 +39,12 @@ class ProductEntity: DBBaseBean, Mappable {
         productTypeId       <- map["ProductTypeId"]
         items               <- (map["GiftboxItems"], ListTransform<GiftboxItem>())
     }
-    
+}
+
+extension ProductEntity {
+    var totalCount: Int {
+        return Array(items).map{$0.count}.reduce(0, {$0 + $1})
+    }
 }
 
 class GiftboxItem: DBBaseBean, Mappable {

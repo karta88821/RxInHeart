@@ -15,7 +15,19 @@ import NSObject_Rx
 class MainViewController: UIViewController {
     
     // MARK : - UI
-    var tableView: UITableView!
+    lazy var tableView: UITableView = {
+        let tv = UITableView(frame: .zero)
+        tv.backgroundColor = .white
+        tv.showsVerticalScrollIndicator = false
+        tv.separatorStyle = .singleLine
+        //tv.rowHeight = UITableViewAutomaticDimension
+        tv.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        tv.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.tabBarHight, right: 0)
+        tv.register(MainTableViewCell.self, forCellReuseIdentifier: "MainTableViewCell")
+        tv.tableHeaderView = headerView
+        tv.estimatedRowHeight = 380
+        return tv
+    }()
     
     lazy var headerView: UIView = {
         let header = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 60))
@@ -34,14 +46,12 @@ class MainViewController: UIViewController {
         let ai = UIActivityIndicatorView()
         ai.startAnimating()
         ai.activityIndicatorViewStyle = .gray
-        view.insertSubview(ai, belowSubview: tableView)
         return ai
     }()
     
     lazy var activityLabel: UILabel = {
         let label = UILabel()
         label.setupWithTitle(textAlignment: .center, fontSize: 14, textColor: grayColor, text: "載入中請稍候...")
-        view.insertSubview(label, belowSubview: tableView)
         return label
     }()
     
@@ -64,21 +74,12 @@ fileprivate extension MainViewController {
     
     func initUI() {
         view.backgroundColor = .white
-        //tableView.rowHeight = UITableViewAutomaticDimension
-        let tv = UITableView(frame: .zero)
-        tv.backgroundColor = .white
-        tv.showsVerticalScrollIndicator = false
-        tv.separatorStyle = .singleLine
 
-        tv.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        tv.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.tabBarHight, right: 0)
-        tv.register(MainTableViewCell.self, forCellReuseIdentifier: "MainTableViewCell")
-        tv.tableHeaderView = headerView
-        tv.estimatedRowHeight = 380
-        tv.dataSource = nil
-        tv.delegate = nil
-        self.tableView = tv
         view.addSubview(tableView)
+        view.insertSubview(activityIndicator, belowSubview: tableView)
+        view.insertSubview(activityLabel, belowSubview: tableView)
+        tableView.dataSource = nil
+        tableView.delegate = nil
     }
     
     func bindUI() {
@@ -100,18 +101,17 @@ fileprivate extension MainViewController {
                 
                 let indexPath = IndexPath(row: row, section: 0)
                 
-                
-
                 cell.product = item
+                cell.caseModels.value = item.caseModels
 
-                Observable.just(item.caseModels)
-                    .bind(to: cell.collectionView.rx.items(cellIdentifier: "MainCollectionViewCell", cellType: MainCollectionViewCell.self)) { _row, _item, _cell in
-                        _cell.caseModel = _item
-                    }
-                    .disposed(by: cell.rx.disposeBag)
+//                Observable.just(item.caseModels)
+//                    .bind(to: cell.collectionView.rx.items(cellIdentifier: "MainCollectionViewCell", cellType: MainCollectionViewCell.self)) { _row, _item, _cell in
+//                        _cell.caseModel = _item
+//                    }
+//                    .disposed(by: cell.rx.disposeBag)
 
                 cell.collectionView.rx
-                    .modelSelected(CaseModel.self)
+                    .modelSelected(CasePresentable.self)
                     .bind(to: strongSelf.viewModel.selectCase)
                     .disposed(by: cell.rx.disposeBag)
 
@@ -162,7 +162,7 @@ extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if selectedIndex == indexPath.row {
-            return 380
+            return (selectedIndex == 2) ? (60 + 210) : 380
         } else {
             return 210
         }

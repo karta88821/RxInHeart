@@ -24,16 +24,16 @@ class MainViewModel {
     let databaseIsEmpty = Variable<Bool>(true)
     
     // MARK: - Input
-    let selectCase = PublishSubject<CaseModel>()
+    let selectCase = PublishSubject<CasePresentable>()
     
     // MARK: - Output
-    let products = Variable<[ProductModel]>([])
+    let products = Variable<[ProductPresentable]>([])
     let currentGiftBoxItems: Observable<[Product]>
 
     init(service: APIDelegate = APIClient.sharedAPI) {
         
         self.service = service
-        
+
         self.currentGiftBoxItems = selectCase.asObservable().map { cases -> [Product] in
             let giftboxId = cases.giftboxId
             let predicate = NSPredicate(format: "giftboxTypeId == \(giftboxId)")
@@ -98,40 +98,32 @@ class MainViewModel {
             default: break
             }
         }
-
-
-        let caseModel1 = productArray[0]
-                            .map{CaseModel($0.giftboxTypeName!,
-                                           $0.giftboxTypeId,
-                                           $0.price,
-                                           Array($0.items).map{$0.count}.reduce(0, {$0 + $1}))}
-                            .filterDuplicate{$0.giftboxId}
         
+        let caseModelsCollection = productArray.map { products -> [CasePresentable] in
+            
+            let newProducts = products.map { product -> CaseModel in
+                if product.giftboxTypeId == 0 {
+                    return CaseModel(product.name, product.giftboxTypeId, product.price, 1)
+                } else {
+                    return CaseModel(product.giftboxTypeName!, product.giftboxTypeId, product.price, product.totalCount)
+                }
+            }
+            
+            if newProducts.first?.giftboxId != 0 {
+                return newProducts.filterDuplicate{$0.giftboxId}
+            }
+            
+            return newProducts
+        }
         
-        let caseModel2 = productArray[1]
-                            .map{CaseModel($0.giftboxTypeName!,
-                                           $0.giftboxTypeId,
-                                           $0.price,
-                                           Array($0.items).map{$0.count}.reduce(0, {$0 + $1}))}
-                            .filterDuplicate{$0.giftboxId}
+        let firstProductCollection = productArray.map{$0.first!}
         
-        let caseModel3 = productArray[2].map{CaseModel($0.name, $0.giftboxTypeId, $0.price, 1) }
-
-        guard let productModel1First = productArray[0].first,
-            let productModel2First = productArray[1].first,
-            let productModel3First = productArray[2].first else { return [] }
+        let productModels = zip(firstProductCollection, caseModelsCollection)
+                                .map{ProductModel($0.0.productTypeName,
+                                                  $0.0.productTypeId,
+                                                  $0.1)}
         
-        let productModel1 = ProductModel(productModel1First.productTypeName,
-                                         productModel1First.productTypeId,
-                                         caseModel1)
-        let productModel2 = ProductModel(productModel2First.productTypeName,
-                                         productModel2First.productTypeId,
-                                         caseModel2)
-        let productModel3 = ProductModel(productModel3First.productTypeName,
-                                         productModel3First.productTypeId,
-                                         caseModel3)
-        
-        return [productModel1, productModel2, productModel3]
+        return productModels
     }
 }
 

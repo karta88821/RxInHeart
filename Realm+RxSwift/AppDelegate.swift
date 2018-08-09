@@ -33,9 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         coordinator.coordinate(flow: self.appFlow, withStepper: OneStepper(withSingleStep: InHeartStep.firstScreen))
         
         DropDown.startListeningToKeyboard()
-        
-        
-        
+
         return true
     }
 

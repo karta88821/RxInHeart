@@ -157,11 +157,10 @@ extension CartViewController: UITableViewDelegate {
         let cartItem = sections[indexPath.section]
         
         guard let cell = tableView.cellForRow(at: indexPath) as? CartCell,
-              let item = cell.item,
-              let categoryId = item.food.foodCategoryId else { return }
+              let item = cell.item else { return }
         
         let vc = ExchangeViewController()
-        vc.viewModel = ExchangeViewModel(categoryId: categoryId)
+        vc.viewModel = ExchangeViewModel(categoryId: item.getFood().getFoodCategoryId())
         vc.currentIndexPath = indexPath
         vc.cartItem = cartItem
         vc.delegate = self
@@ -221,7 +220,7 @@ extension CartViewController: BaseExpandable {
             sections[section].expanded = !sections[section].expanded
             
             tableView.beginUpdates()
-            for i in 0 ..< sections[section].pickedItem.count {
+            for i in 0 ..< sections[section].getPickItems().count {
                 tableView.reloadRows(at: [IndexPath(row: i, section: section)], with: .fade)
             }
             tableView.endUpdates()
@@ -238,7 +237,7 @@ extension CartViewController: BaseExpandable {
         viewModel.cartSections.asObservable()
             .subscribe(onNext:{ [weak self] sections in
                 
-                let total = sections.map{$0.subtotal}.reduce(0, {$0 + $1})
+                let total = sections.map{$0.getSubtotal()}.reduce(0, {$0 + $1})
                 self?.sections = sections
                 self?.tableView.reloadData()
                 self?.footerView.subtotalLabel.text = "$\(total)"

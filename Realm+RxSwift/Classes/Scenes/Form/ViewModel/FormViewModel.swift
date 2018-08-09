@@ -54,7 +54,7 @@ class FormViewModel {
 
         service.getCartItems()
             .map { items -> Int in
-                return items.map{$0.subtotal}.reduce(0,{ $0 + $1})
+                return items.map{$0.getSubtotal()}.reduce(0,{ $0 + $1})
             }
             .bind(to: totalPrice)
             .disposed(by: disposeBag)

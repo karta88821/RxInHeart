@@ -7,12 +7,13 @@
 //
 
 import ObjectMapper
+import AutoEquatable
 
 struct GiftboxItem_cart: Mappable {
-    var id: Int!
-    var foodCategoryName: String!
-    var foodCategoryId: Int!
-    var count: Int!
+    private var id: Int!
+    private var foodCategoryName: String!
+    private var foodCategoryId: Int!
+    private var count: Int!
     
     init?(map: Map) {
         
@@ -26,11 +27,11 @@ struct GiftboxItem_cart: Mappable {
     }
 }
 
-extension GiftboxItem_cart: Equatable {}
+extension GiftboxItem_cart: AutoEquatable {}
 
-func ==(lhs: GiftboxItem_cart, rhs: GiftboxItem_cart) -> Bool {
-    return lhs.id == rhs.id &&
-        lhs.foodCategoryName == rhs.foodCategoryName &&
-        lhs.foodCategoryId == rhs.foodCategoryId &&
-        lhs.count == rhs.id
+extension GiftboxItem_cart {
+    func getId() -> Int { return id }
+    func getFoodCategoryName() -> String { return foodCategoryName }
+    func getFoodCategoryId() -> Int { return foodCategoryId }
+    func getCount() -> Int { return count }
 }

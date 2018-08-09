@@ -13,7 +13,7 @@ extension CustomPagingViewController {
     
     var selectedIndex: Int? {
         if let selected = pageViewController.selectedViewController as? IconViewController,
-            let index = viewControllers.index(of: selected) {
+           let index = viewControllers.index(of: selected) {
             return index
         }
         return nil

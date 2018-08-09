@@ -148,10 +148,11 @@ private extension FormViewController {
  
     @objc func validationAction(_ sender: UIButton) {
         
-        let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as! PaymentCell
-        let deliverySection = tableView.headerView(forSection: 0) as! DeliveryHeaderView
-        let paymentSection = tableView.headerView(forSection: 1) as! PaymentHeaderView
-        let checkSection = tableView.headerView(forSection: 2) as! CheckmarkHeaderView
+        guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? PaymentCell,
+              let deliverySection = tableView.headerView(forSection: 0) as? DeliveryHeaderView,
+              let paymentSection = tableView.headerView(forSection: 1) as? PaymentHeaderView ,
+              let checkSection = tableView.headerView(forSection: 2) as? CheckmarkHeaderView else {return}
+
         var checkStatus = true
         
         let deliveryStatus = !addButtonIsHide
