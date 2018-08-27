@@ -14,7 +14,7 @@ import Reusable
 class CheckmarkHeaderView: UITableViewHeaderFooterView, Reusable {
     
     let checkBox = M13Checkbox()
-    let titleLabel = UILabel()
+    let titleLabel = UILabel(alignment: .left, fontSize: 18)
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -46,7 +46,6 @@ private extension CheckmarkHeaderView {
         checkBox.checkmarkLineWidth = 5
         checkBox.stateChangeAnimation = .expand(.fill)
         checkBox.boxType = .square
-        titleLabel.setup(textAlignment: .left, fontSize: 18, textColor: grayColor)
         
         contentView.addSubViews(views: checkBox, titleLabel)
     }

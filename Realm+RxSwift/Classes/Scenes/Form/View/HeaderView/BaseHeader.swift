@@ -26,8 +26,8 @@ enum BaseTitle: String {
 }
 
 class BaseHeader: UITableViewHeaderFooterView, Reusable {
-    
-    let titleLabel = UILabel()
+
+    let titleLabel = UILabel(alignment: .left, fontSize: 20)
     let dropButton = UIButton()
     let dropDown = DropDown()
     
@@ -56,8 +56,6 @@ private extension BaseHeader {
         
         contentView.backgroundColor = .white
         contentView.makeShadow(shadowOpacity: 0.1, shadowOffsetW: 0.1, shadowOffsetH: 0.1)
-        
-        titleLabel.setup(textAlignment: .left, fontSize: 20, textColor: grayColor)
         
         dropButton.backgroundColor = dropBg
         dropButton.makeShadow(shadowOpacity: 0.1, shadowOffsetW: 0.1, shadowOffsetH: 0.1)

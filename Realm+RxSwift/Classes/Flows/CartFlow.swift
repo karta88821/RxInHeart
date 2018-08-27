@@ -17,9 +17,11 @@ class CartFlow: Flow {
     
     private let rootViewController = UINavigationController()
     private let cartStepper: CartStepper
+    private let services: AppServices
 
-    init(with stepper: CartStepper) {
+    init(with stepper: CartStepper, services: AppServices) {
         self.cartStepper = stepper
+        self.services = services
     }
     
     func navigate(to step: Step) -> NextFlowItems {
@@ -55,7 +57,7 @@ class CartFlow: Flow {
     }
     
     private func navigateToCartScreen() -> NextFlowItems {
-        let viewModel = CartViewModel()
+        let viewModel = CartViewModel(services: services)
         let viewController = CartViewController()
         viewController.title = "購物車"
         viewController.viewModel = viewModel
@@ -68,7 +70,7 @@ class CartFlow: Flow {
     }
     
     private func navigateToProductListScreen() -> NextFlowItems {
-        let viewModel = ProductListViewModel()
+        let viewModel = ProductListViewModel(services: services)
         let viewController = ProductListController()
         viewController.viewModel = viewModel
         viewController.title = "ProductList"
@@ -78,7 +80,7 @@ class CartFlow: Flow {
     
     private func navigateToFormScreen() -> NextFlowItems {
         let viewController = FormViewController()
-        let viewModel = FormViewModel()
+        let viewModel = FormViewModel(services: services)
         viewController.viewModel = viewModel
         viewController.title = "Form"
         self.rootViewController.pushViewController(viewController, animated: true)
@@ -87,7 +89,7 @@ class CartFlow: Flow {
     
     private func navigateToAddressScreen() -> NextFlowItems {
         let addressStepper = AddressStepper()
-        let addressFlow = AddressFlow(with: addressStepper)
+        let addressFlow = AddressFlow(with: addressStepper, services: services)
         Flows.whenReady(flow1: addressFlow, block: { [unowned self] (root: UINavigationController) in
             root.navigationBar.isTranslucent = false
             root.navigationBar.makeShadow()
@@ -110,7 +112,7 @@ class CartFlow: Flow {
     }
     
     private func navigateToSendOrderScreen(with sendModel: SendOrderModel) -> NextFlowItems {
-        let viewModel = SendOrderViewModel()
+        let viewModel = SendOrderViewModel(services: services)
         let viewController = SendOrderViewController()
         viewController.viewModel = viewModel
         viewController.sendModel = sendModel

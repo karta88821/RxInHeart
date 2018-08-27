@@ -14,42 +14,23 @@ import RealmSwift
 
 class MainViewModel {
     
-    var service: APIDelegate!
-    
-    let `$`: Dependencies = Dependencies.sharedDependencies
+    let services: AppServices
     
     private let disposeBag = DisposeBag()
     
-    let currentId = Variable<Int>(1)
     let databaseIsEmpty = Variable<Bool>(true)
-    
-    // MARK: - Input
-    let selectCase = PublishSubject<CasePresentable>()
-    
+
     // MARK: - Output
     let products = Variable<[ProductPresentable]>([])
-    let currentGiftBoxItems: Observable<[Product]>
 
-    init(service: APIDelegate = APIClient.sharedAPI) {
-        
-        self.service = service
-
-        self.currentGiftBoxItems = selectCase.asObservable().map { cases -> [Product] in
-            let giftboxId = cases.giftboxId
-            let predicate = NSPredicate(format: "giftboxTypeId == \(giftboxId)")
-            let sort = SortOption(propertyName: "id", isAscending: true)
-            let objects = DBManager.query(ProductEntity.self, filter: predicate, sort: sort)
-
-            let products = objects.map{Product(with: $0)}
-             
-            return products
-        }
+    init(services: AppServices) {
+        self.services = services
     }
     
     func start() {
         DBManager.isEmpty()
-            .subscribeOn(`$`.backgroundWorkScheduler)
-            .observeOn(`$`.mainScheduler)
+            .subscribeOn(services.`$`.backgroundWorkScheduler)
+            .observeOn(services.`$`.mainScheduler)
             .subscribe(onNext:{ [weak self] bool in
             switch bool {
             case true:
@@ -57,10 +38,11 @@ class MainViewModel {
                 sleep(3)
                 self?.databaseIsEmpty.value = false
             case false:
-                sleep(1)
+                
                 let productResults = DBManager.query(ProductEntity.self,
                                                      sort: SortOption(propertyName: "id", isAscending: true))
                 self?.products.value = (self?.setupModel(with: productResults))!
+                sleep(3)
                 self?.databaseIsEmpty.value = false
             }
         })
@@ -68,36 +50,39 @@ class MainViewModel {
     }
     
     func setupDatabase() {
-        service.getFoods().subscribe(onNext:{ response in
-            DBManager.write(response)
-        },onError:{ error in
-            print("數據請求失敗!錯誤原因：", error)
-        })
-        .disposed(by: disposeBag)
+        services.productsService.getFoods()
+            .subscribe(onNext:{ response in
+                DBManager.write(response)
+            },onError:{ error in
+                print("數據請求失敗!錯誤原因：", error)
+            })
+            .disposed(by: disposeBag)
         
-        service.getProducts().subscribe(onNext:{ [weak self] response in
-            self?.products.value = (self?.setupModel(with: response))!
-            DBManager.write(response)
-        },onError:{ error in
-            print("數據請求失敗!錯誤原因：", error)
-        })
-        .disposed(by: self.disposeBag)
+        services.productsService.getProducts()
+            .subscribe(onNext:{ [weak self] response in
+                self?.products.value = (self?.setupModel(with: response))!
+                DBManager.write(response)
+            },onError:{ error in
+                print("數據請求失敗!錯誤原因：", error)
+            })
+            .disposed(by: self.disposeBag)
     }
 
     func setupModel(with products: [ProductEntity]) -> [ProductModel]{
         var productArray: [[ProductEntity]] = [[],[],[]] // 喜餅禮盒：雙鳳呈祥＋鳳凰于飛 // 彌月禮盒 // 婚禮小物
-
-        products.forEach { results in
-            switch results.productTypeId {
+        
+        products.forEach { result in
+            switch result.productTypeId {
             case 1:
-                productArray[0].append(results)
+                productArray[0].append(result)
             case 2:
-                productArray[1].append(results)
+                productArray[1].append(result)
             case 3:
-                productArray[2].append(results)
+                productArray[2].append(result)
             default: break
             }
         }
+        
         
         let caseModelsCollection = productArray.map { products -> [CasePresentable] in
             
@@ -105,7 +90,8 @@ class MainViewModel {
                 if product.giftboxTypeId == 0 {
                     return CaseModel(product.name, product.giftboxTypeId, product.price, 1)
                 } else {
-                    return CaseModel(product.giftboxTypeName!, product.giftboxTypeId, product.price, product.totalCount)
+                    let productEntities = products.filter {$0.giftboxTypeId == product.giftboxTypeId}
+                    return CaseModel(product.giftboxTypeName!, product.giftboxTypeId, product.price, product.totalCount, products: productEntities)
                 }
             }
             
@@ -115,14 +101,17 @@ class MainViewModel {
             
             return newProducts
         }
-        
+
         let firstProductCollection = productArray.map{$0.first!}
-        
         let productModels = zip(firstProductCollection, caseModelsCollection)
-                                .map{ProductModel($0.0.productTypeName,
-                                                  $0.0.productTypeId,
-                                                  $0.1)}
-        
+            .map { (zip) -> ProductModel in
+
+                let (product, caseModels) = zip
+                return ProductModel(product.productTypeName,
+                                    product.productTypeId,
+                                    caseModels)
+            }
+
         return productModels
     }
 }

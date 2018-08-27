@@ -11,14 +11,13 @@ import RxSwift
 import RxAlamofire
 import RxCocoa
 import ObjectMapper
-import SwiftyJSON
 
 extension ObservableType where E == Any {
-    public func hc_json(_ json : @escaping ((E) -> JSON)) -> Observable<Any> {
-        return flatMap { (result) -> Observable<Any> in
-            return Observable.just(json(result).object)
-        }
-    }
+//    public func hc_json(_ json : @escaping ((E) -> JSON)) -> Observable<Any> {
+//        return flatMap { (result) -> Observable<Any> in
+//            return Observable.just(json(result).object)
+//        }
+//    }
     
     // 将Json解析为Observable<Model>
     public func mapObject<T: BaseMappable>(_ type: T.Type) -> Observable<T> {

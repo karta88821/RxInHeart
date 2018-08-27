@@ -35,8 +35,7 @@ class AllocateViewController: UIViewController {
     lazy var footerView: UIView = {
         let footer = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
         footer.backgroundColor = .white
-        let label = UILabel()
-        label.setupWithTitle(textAlignment: .left, fontSize: 20, textColor: .lightGray, text: footerText)
+        let label = UILabel(alignment: .left, fontSize: 20, textColor: .lightGray, text: footerText)
         footer.addSubview(label)
         label.snp.makeConstraints {
             $0.centerY.equalToSuperview()
@@ -66,14 +65,17 @@ class AllocateViewController: UIViewController {
         initUI()
         bindUI()
         constraintUI()
+        configureButton(for: button)
+    }
+    
+    private func configureButton(for button: UIButton) {
+        button.makeRetagle(with: "確定")
+        button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
     }
 }
 
 private extension AllocateViewController {
     func initUI() {
-
-        button.makeRetagle(with: "確定")
-        button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
         
         backgroundButton.backgroundColor = .white
         backgroundButton.alpha = 0
@@ -90,7 +92,7 @@ private extension AllocateViewController {
         
         viewModel.products
             .subscribe(onNext:{ [unowned self] products in
-                let idArray = products.map{$0.getId()}
+                let idArray = products.map{$0.id!}
                 infoManager.setCurrentIdArray(with: idArray)
                 infoManager.configureCountList()
                 
@@ -132,12 +134,12 @@ private extension AllocateViewController {
         backgroundButton.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-    
+        let popWidth = screenWidth - 40
         popupView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview().offset(1000)
-            $0.left.right.equalToSuperview().inset(30)
-            $0.height.equalTo(50)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(popWidth)
+            $0.height.equalTo(100)
         }
         
 
@@ -173,9 +175,7 @@ extension AllocateViewController: UITableViewDelegate {
         
         let cell = tableView.cellForRow(at: indexPath) as! AllocateCell
         
-        guard let frameSizess = cell.frameSizes else {
-            return
-        }
+        guard let frameSizess = cell.frameSizes else { return }
         
         let alert = UIAlertController(style: .alert, title: "選取商品", message: "")
         alert.setTitle(font: UIFont.systemFont(ofSize: 18, weight: .light), color: .black)
@@ -214,7 +214,7 @@ extension AllocateViewController: PopViewPresentable {
         
         popupView.setupAllocate(with: item)
         
-        var contentH: CGFloat = CGFloat(50 + (item.getPickItems().count * 45))
+        var contentH: CGFloat = CGFloat(50 + (item.pickedItem.count * 45))
         
         if contentH > 800 {
             contentH = 800

@@ -17,7 +17,7 @@ class AccountCell: UITableViewCell, Reusable {
         }
     }
     
-    let titleLabel = UILabel()
+    let titleLabel = UILabel(alignment: .left, fontSize: 18)
     let arrowLabel = UILabel()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -42,10 +42,7 @@ class AccountCell: UITableViewCell, Reusable {
 
 private extension AccountCell {
     func initUI() {
-        
-        selectionStyle = .none
-        
-        titleLabel.setup(textAlignment: .left, fontSize: 18, textColor: grayColor)
+
         arrowLabel.text = ">"
         arrowLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         arrowLabel.textAlignment = .right

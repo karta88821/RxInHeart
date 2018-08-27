@@ -12,12 +12,10 @@ import RxFlow
 
 class SendOrderViewModel {
     
-    var services: APIDelegate!
+    let services: AppServices
     
-    init() {
-        
-        services = APIClient.sharedAPI
-        
+    init(services: AppServices) {
+        self.services = services
     }
 }
 

@@ -8,18 +8,18 @@
 
 import RxSwift
 
-class ExchangeViewModel: ServicesViewModel {
+class ExchangeViewModel {
     
-    var services: APIDelegate!
+    let services: AppServices
     
-    let foods: Observable<[Food_cart]>
+    let foods: Observable<[Food]>
     
-    init(categoryId: Int) {
+    init(categoryId: Int, services: AppServices) {
         
-        self.services = APIClient.sharedAPI
+        self.services = services
         
-        self.foods = services.getUniqueFoods(categoryId: categoryId)
-                        .catchErrorJustReturn([])
+        self.foods = services.productsService.getUniqueFoods(categoryId: categoryId)
+                            .catchErrorJustReturn([])
         
     }
 }

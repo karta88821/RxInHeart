@@ -14,7 +14,7 @@ class AllocateHeaderView: UIView {
     // MARK : - UI
     let topView = BaseTopView()
     let addtionalView = UIView()
-    let addtionalLabel = UILabel()
+    let addtionalLabel = UILabel(alignment: .right, fontSize: 20)
     
     // MARK : - Property
     private let addtionalText = "宅配量/剩餘量"
@@ -42,10 +42,7 @@ private extension AllocateHeaderView {
     func initUI() {
         topView.highlightedPosition = .right
         addtionalView.backgroundColor = .white
-        addtionalLabel.setupWithTitle(textAlignment: .right,
-                                      fontSize: 20,
-                                      textColor: grayColor,
-                                      text: addtionalText)
+        addtionalLabel.text = addtionalText
         addSubViews(views: topView, addtionalView)
         addtionalView.addSubview(addtionalLabel)
     }

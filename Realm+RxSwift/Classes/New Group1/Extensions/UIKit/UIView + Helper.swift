@@ -12,4 +12,8 @@ extension UIView {
     func addSubViews(views: UIView...) {
         views.forEach { addSubview($0) }
     }
+    convenience init(backgroundColor: UIColor?) {
+        self.init()
+        self.backgroundColor = backgroundColor
+    }
 }

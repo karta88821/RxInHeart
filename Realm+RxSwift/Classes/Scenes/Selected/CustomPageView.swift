@@ -10,7 +10,6 @@ import Parchment
 import UIKit
 
 extension CustomPagingViewController {
-    
     var selectedIndex: Int? {
         if let selected = pageViewController.selectedViewController as? IconViewController,
            let index = viewControllers.index(of: selected) {
@@ -30,14 +29,15 @@ class CustomPagingViewController: PagingViewController<IconItem> {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        dataSource = self
     }
     
     override func loadView() {
         options.menuBackgroundColor = pinkBackground!
         options.indicatorColor = pinkBackground!
         options.borderColor = .clear
-        options.menuItemClass = IconPagingCell.self
+        options.menuItemSource = .class(type: IconPagingCell.self)
         options.menuItemSize = .sizeToFit(minWidth: 100, height: 100)
         options.menuItemSpacing = -20
         options.menuHorizontalAlignment = .center
@@ -45,7 +45,8 @@ class CustomPagingViewController: PagingViewController<IconItem> {
         view = CustomPageView(
             options: options,
             collectionView: collectionView,
-            pageView: pageViewController.view)
+            pageView: pageViewController.view
+        )
     }
     
     func configure(with viewControllers: [IconViewController]) {
@@ -69,6 +70,7 @@ extension CustomPagingViewController: PagingViewControllerDataSource {
 }
 
 class CustomPageView: PagingView {
+    
     override init(options: PagingOptions, collectionView: UICollectionView, pageView: UIView) {
         super.init(options: options, collectionView: collectionView, pageView: pageView)
     }
@@ -81,6 +83,7 @@ class CustomPageView: PagingView {
         super.configure()
         pageView.makeShadow(cornerRadius: 20, shadowOpacity: 0.3, shadowOffsetW: 0.3, shadowOffsetH: 0.3)
     }
+    
     override func setupConstraints() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         pageView.translatesAutoresizingMaskIntoConstraints = false

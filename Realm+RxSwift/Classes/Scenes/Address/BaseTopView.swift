@@ -16,7 +16,7 @@ class BaseTopView: UIView {
     // MARK : - UI
     let leftLabel = UILabel()
     let rightLabel = UILabel()
-    let sepView = UIView()
+    let sepLayer = CALayer()
     
     enum LabelPostion {
         case left
@@ -41,17 +41,21 @@ class BaseTopView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         initUI()
+        constraintUI()
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initUI()
+        constraintUI()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        initUI()
-        constraintUI()
+    func configureSepLayer(y: CGFloat) {
+        sepLayer.frame = CGRect(
+            x: 0,
+            y: y,
+            width: frame.size.width,
+            height: 1)
     }
 }
 
@@ -59,7 +63,7 @@ private extension BaseTopView {
     
     func initUI() {
         backgroundColor = .white
-        sepView.backgroundColor = .lightGray
+        sepLayer.backgroundColor = UIColor.lightGray.cgColor
         
         leftLabel.textAlignment = .left
         leftLabel.font = UIFont.systemFont(ofSize: 20)
@@ -67,7 +71,8 @@ private extension BaseTopView {
         rightLabel.textAlignment = .left
         rightLabel.font = UIFont.systemFont(ofSize: 20)
         rightLabel.text = titles[1]
-        addSubViews(views: leftLabel, rightLabel, sepView)
+        addSubViews(views: leftLabel, rightLabel)
+        layer.addSublayer(sepLayer)
     }
     
     func constraintUI() {
@@ -79,11 +84,6 @@ private extension BaseTopView {
         rightLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalTo(leftLabel.snp.right).offset(addressMargin)
-        }
-        
-        sepView.snp.makeConstraints {
-            $0.left.bottom.right.equalToSuperview()
-            $0.height.equalTo(sepViewH)
         }
     }
     

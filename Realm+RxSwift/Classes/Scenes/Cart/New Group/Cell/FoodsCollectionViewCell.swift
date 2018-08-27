@@ -11,7 +11,7 @@ import Kingfisher
 
 class FoodsCollectionViewCell: UICollectionViewCell {
     
-    var food: Food_cart!
+    var food: Food!
     var foodLabel: UILabel!
     
     let foodImageView = UIImageView()
@@ -31,8 +31,7 @@ class FoodsCollectionViewCell: UICollectionViewCell {
     func initUI() {
         foodImageView.contentMode = .scaleAspectFit
         
-        let label = UILabel()
-        label.setup(fontSize: 15)
+        let label = UILabel(fontSize: 15, textColor: .black)
         label.numberOfLines = 0
         self.foodLabel = label
         

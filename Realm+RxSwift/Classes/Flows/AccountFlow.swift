@@ -17,9 +17,11 @@ class AccountFlow: Flow {
     
     private let rootViewController = UINavigationController()
     private let accountStepper: AccountStepper
+    private let services: AppServices
     
-    init(with stepper: AccountStepper) {
+    init(with stepper: AccountStepper, services: AppServices) {
         self.accountStepper = stepper
+        self.services = services
     }
     
     func navigate(to step: Step) -> NextFlowItems {
@@ -72,7 +74,7 @@ class AccountFlow: Flow {
             navigationBarItem.leftBarButtonItem = leftView
             navigationBarItem.rightBarButtonItem = barButton
         }
-        return NextFlowItems.none
+        return NextFlowItems.one(flowItem: NextFlowItem(nextPresentable: viewController, nextStepper: viewController.viewModel))
     }
     
     private func navigateToShoppingNoteScreen() -> NextFlowItems {
@@ -85,7 +87,7 @@ class AccountFlow: Flow {
     
     private func navigateToCartScreen() -> NextFlowItems {
         let cartStepper = CartStepper()
-        let cartFlow = CartFlow(with: cartStepper)
+        let cartFlow = CartFlow(with: cartStepper, services: self.services)
         Flows.whenReady(flow1: cartFlow, block: { [unowned self] (root: UINavigationController) in
             root.navigationBar.isTranslucent = false
             root.navigationBar.makeShadow()

@@ -59,8 +59,7 @@ private extension InfoDetailViewController {
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 80))
         headerView.backgroundColor = pinkBackground
-        let headerLabel = UILabel()
-        headerLabel.setupWithTitle(textAlignment: .left, fontSize: 20, textColor: grayColor, text: "內容")
+        let headerLabel = UILabel(alignment: .left, fontSize: 20, text: "內容")
         headerView.addSubview(headerLabel)
         headerLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()

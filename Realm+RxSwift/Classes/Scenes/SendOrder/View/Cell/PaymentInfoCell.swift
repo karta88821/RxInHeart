@@ -73,10 +73,8 @@ class PaymentInfoCell: InfoCell {
         
         
         for (key, value) in paymentInfoList {
-            let titleLabel = UILabel()
-            let infoLabel = UILabel()
-            titleLabel.setupWithTitle(textAlignment: .left, fontSize: 16, textColor: grayColor, text: key)
-            infoLabel.setupWithTitle(textAlignment: .right, fontSize: 16, textColor: grayColor, text: value)
+            let titleLabel = UILabel(alignment: .left, text: key)
+            let infoLabel = UILabel(alignment: .right, text: value)
             
             let horizontalStackView = UIStackView(arrangedSubviews: [titleLabel, infoLabel])
             horizontalStackView.axis = .horizontal
@@ -88,10 +86,8 @@ class PaymentInfoCell: InfoCell {
                              ("運費", "0")]
         
         for (key, value) in priceInfoList {
-            let titleLabel = UILabel()
-            let infoLabel = UILabel()
-            titleLabel.setupWithTitle(textAlignment: .left, fontSize: 16, textColor: grayColor, text: key)
-            infoLabel.setupWithTitle(textAlignment: .right, fontSize: 16, textColor: grayColor, text: value)
+            let titleLabel = UILabel(alignment: .left, text: key)
+            let infoLabel = UILabel(alignment: .right, text: value)
             
             let horizontalStackView = UIStackView(arrangedSubviews: [titleLabel, infoLabel])
             horizontalStackView.axis = .horizontal

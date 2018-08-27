@@ -23,13 +23,11 @@ class CartFooterView: UIView {
         return view
     }()
     lazy var label: UILabel = {
-        let lb = UILabel()
-        lb.setupWithTitle(textAlignment: .left, fontSize: 18, text: "訂單金額")
+        let lb = UILabel(alignment: .left, fontSize: 18, textColor: .black, text: "訂單金額")
         return lb
     }()
     lazy var subtotalLabel: UILabel = {
-        let label = UILabel()
-        label.setup(textAlignment: .left, fontSize: 18)
+        let label = UILabel(alignment: .left, fontSize: 18, textColor: .black)
         return label
     }()
     lazy var checkoutButton: UIButton = {

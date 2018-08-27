@@ -16,8 +16,8 @@ enum SectionType {
 
 class SectionHeaderView: UIView {
     
-    let titleLabel = UILabel()
-    let stateLabel = UILabel()
+    var titleLabel: UILabel!
+    var stateLabel: UILabel!
     let sepView = UIView()
     
     var type: SectionType? {
@@ -34,11 +34,6 @@ class SectionHeaderView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initUI()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        constraintUI()
     }
     
     func updateUI() {
@@ -61,12 +56,14 @@ private extension SectionHeaderView {
     func initUI() {
         backgroundColor = .white
         sepView.backgroundColor = sepBackground
-        addSubViews(views: titleLabel, stateLabel, sepView)
+        addSubViews(views: sepView)
     }
     
     private func setupUI(with titleText: String, and stateText: String) {
-        titleLabel.setupWithTitle(textAlignment: .left, fontSize: 16, textColor: grayColor, text: titleText)
-        stateLabel.setupWithTitle(textAlignment: .right, fontSize: 16, textColor: grayColor, text: stateText)
+        self.titleLabel = UILabel(alignment: .left, text: titleText)
+        self.stateLabel = UILabel(alignment: .right, text: stateText)
+        addSubViews(views: titleLabel, stateLabel)
+        constraintUI()
     }
     
     private func setupDateUI(with numberText: String, and date: Date) {
@@ -74,8 +71,11 @@ private extension SectionHeaderView {
         dateFormate.dateFormat = "yyyy/MM/dd"
         let stringOfDate = dateFormate.string(from: date)
         let dateCompleteText = "結帳日期：\(stringOfDate)"
-        titleLabel.setupWithTitle(textAlignment: .left, fontSize: 16, textColor: grayColor, text: numberText)
-        stateLabel.setupWithTitle(textAlignment: .right, fontSize: 16, textColor: grayColor, text: dateCompleteText)
+        
+        self.titleLabel = UILabel(alignment: .left, text: numberText)
+        self.stateLabel = UILabel(alignment: .right, text: dateCompleteText)
+        addSubViews(views: titleLabel, stateLabel)
+        constraintUI()
     }
     
     private func constraintUI() {

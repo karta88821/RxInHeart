@@ -59,9 +59,9 @@ class BaseAxisView: UIView {
     let midCircleView = CircleView()
     let rightCircleView = CircleView()
     let lineView = UIView()
-    let leftLabel = UILabel()
-    let midLabel = UILabel()
-    let rightLabel = UILabel()
+    let leftLabel = UILabel(text: "商品清單")
+    let midLabel = UILabel(text: "運送/付款資訊")
+    let rightLabel = UILabel(text: "送出訂單")
     
     let indexCircleView = IndexCircleView()
 
@@ -89,9 +89,6 @@ class BaseAxisView: UIView {
     private func initUI() {
         backgroundColor = pinkBackground
         lineView.backgroundColor = pinkLine
-        leftLabel.setupWithTitle(text: "商品清單")
-        midLabel.setupWithTitle(text: "運送/付款資訊")
-        rightLabel.setupWithTitle(text: "送出訂單")
         
         addSubViews(views: leftCircleView, midCircleView, rightCircleView, leftLabel, midLabel, rightLabel)
         insertSubview(lineView, belowSubview: midCircleView)

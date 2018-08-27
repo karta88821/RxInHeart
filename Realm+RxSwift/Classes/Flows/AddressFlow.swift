@@ -17,9 +17,11 @@ class AddressFlow: Flow {
     
     private let rootViewController = UINavigationController()
     private let addressStepper: AddressStepper
+    private let services: AppServices
     
-    init(with stepper: AddressStepper) {
+    init(with stepper: AddressStepper, services: AppServices) {
         self.addressStepper = stepper
+        self.services = services
     }
     
     func navigate(to step: Step) -> NextFlowItems {
@@ -51,11 +53,10 @@ class AddressFlow: Flow {
     }
     
     private func navigateToAllocateListScreen(deliveryInfo: DeliveryInfo) -> NextFlowItems {
-        let viewModel = AllocateViewModel()
+        let viewModel = AllocateViewModel(services: services)
         let viewController = AllocateViewController()
         viewController.deliveryInfo = deliveryInfo
         viewController.viewModel = viewModel
-        //viewController.title = "Allocate Product"
         self.rootViewController.pushViewController(viewController, animated: true)
         return NextFlowItems.one(flowItem: NextFlowItem(nextPresentable: viewController, nextStepper: viewController))
     }

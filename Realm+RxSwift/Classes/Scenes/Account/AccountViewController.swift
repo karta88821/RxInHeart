@@ -9,14 +9,23 @@
 import UIKit
 import Reusable
 
-class AccountViewController: UIViewController {
+class AccountViewController: UIViewController, AccountRequired {
     
     var viewModel: AccountViewModel!
     
     let logoutView = LogoutView()
-    var tableView: UITableView!
     
-    private let titles = ["會員資料","訂單查詢","線上諮詢"]
+    lazy var tableView: UITableView = {
+        let tv = UITableView(frame: .zero)
+        tv.backgroundColor = pinkBackground
+        tv.showsVerticalScrollIndicator = false
+        tv.isScrollEnabled = false
+        tv.separatorStyle = .none
+        tv.delegate = self
+        tv.dataSource = self
+        tv.register(cellType: AccountCell.self)
+        return tv
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,30 +52,15 @@ extension AccountViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-        if indexPath.row == 0 {
-            viewModel.goShoppingNote()
-        } else if indexPath.row == 2 {
-            viewModel.goShoppingNote()
-        }
+        tableView.deselectRow(at: indexPath, animated: true)
+        viewModel.push(with: indexPath.row)
     }
 }
 
 private extension AccountViewController {
     func initUI() {
         view.backgroundColor = pinkBackground
-        
-        let tableView = UITableView(frame: .zero)
-        tableView.backgroundColor = pinkBackground
-        tableView.showsVerticalScrollIndicator = false
-        tableView.isScrollEnabled = false
-        tableView.separatorStyle = .none
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(cellType: AccountCell.self)
-        self.tableView = tableView
-        
-        view.addSubViews(views: logoutView, self.tableView)
+        view.addSubViews(views: logoutView, tableView)
     }
     
     func constraintUI() {

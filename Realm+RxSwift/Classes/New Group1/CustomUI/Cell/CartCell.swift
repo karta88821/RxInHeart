@@ -27,8 +27,8 @@ class CartCell: UITableViewCell, Reusable {
     
     let containerView = UIView()
     let foodImageView = UIImageView()
-    let foodNameLabel = UILabel()
-    let countLabel = UILabel()
+    let foodNameLabel = UILabel(alignment: .left, fontSize: 18)
+    let countLabel = UILabel(alignment: .right, fontSize: 18)
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -44,19 +44,22 @@ class CartCell: UITableViewCell, Reusable {
     
     func isShow() {
         if let expaned = expaned {
-            print(expaned)
             self.isHidden = !expaned
         }
     }
     
     func updateUI() {
-        guard let item = item else { return }
-        let string = String(item.getFoodId()).foodUrl()
+        guard let item = item,
+              let foodId = item.foodId,
+              let foodName = item.food.name,
+              let count = item.count  else { return }
+        
+        let string = String(foodId).foodUrl()
         let url = URL(string: string)
         foodImageView.kf.setImage(with: url)
-        foodNameLabel.text = item.getFood().getName()
+        foodNameLabel.text = foodName
         
-        countLabel.text = "\(item.getCount())個"
+        countLabel.text = "\(count)個"
     }
 }
 
@@ -68,20 +71,9 @@ private extension CartCell {
         containerView.backgroundColor = .white
         
         foodImageView.contentMode = .scaleAspectFill
-        foodNameLabel.setup(textAlignment: .left, fontSize: 18, textColor: grayColor)
-        countLabel.setup(textAlignment: .right, fontSize: 18, textColor: grayColor)
         
         contentView.addSubview(containerView)
         containerView.addSubViews(views: foodImageView, foodNameLabel, countLabel)
-    }
-    
-    func setupUI(foodId:Int, foodName: String, count: Int) {
-        let string = String(foodId).foodUrl()
-        let url = URL(string: string)
-        foodImageView.kf.setImage(with: url)
-        foodNameLabel.text = foodName
-        
-        countLabel.text = "\(count)個"
     }
     
     func constraintUI() {

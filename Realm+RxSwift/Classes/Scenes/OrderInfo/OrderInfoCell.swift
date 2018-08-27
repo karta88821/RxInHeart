@@ -30,11 +30,8 @@ class OrderInfoCell: InfoCell {
         
         
         for (key, value) in orderInfoList {
-            let titleLabel = UILabel()
-            let infoLabel = UILabel()
-            
-            titleLabel.setupWithTitle(textAlignment: .left, fontSize: 16, textColor: grayColor, text: key)
-            infoLabel.setupWithTitle(textAlignment: .right, fontSize: 16, textColor: grayColor, text: value)
+            let titleLabel = UILabel(alignment: .left, text: key)
+            let infoLabel = UILabel(alignment: .right, text: value)
             
             if key == "付款狀態" {
                 infoLabel.textColor = orderInfo.payStatus.textColor()

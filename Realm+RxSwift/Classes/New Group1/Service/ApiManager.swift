@@ -11,9 +11,6 @@ import RxSwift
 import RealmSwift
 import RxCocoa
 
-let apiProvider = MoyaProvider<ApiManager>()
-
-
 enum ApiManager {
     case products //所有商品
     case foods // 所有食品

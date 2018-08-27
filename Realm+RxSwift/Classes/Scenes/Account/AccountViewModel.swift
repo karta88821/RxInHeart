@@ -16,7 +16,16 @@ class AccountViewModel {
 }
 
 extension AccountViewModel: Stepper {
-    public func goShoppingNote() {
-        self.step.accept(InHeartStep.shoppingNote)
+    public func push(with row: Int) {
+        switch row {
+        case 0:
+            self.step.accept(InHeartStep.shoppingNote)
+        case 1:
+            self.step.accept(InHeartStep.shoppingNote)
+        case 2:
+            self.step.accept(InHeartStep.shoppingNote)
+        default:
+            break
+        }
     }
 }

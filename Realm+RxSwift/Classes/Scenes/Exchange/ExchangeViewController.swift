@@ -41,21 +41,21 @@ class ExchangeViewController: UIViewController {
         viewModel.foods
             .bind(to: collectionView.rx.items(cellIdentifier: "collectionCell", cellType: FoodsCollectionViewCell.self)) { (row, element, cell) in
                 cell.food = element
-                cell.setImage(id: element.getId())
-                cell.foodLabel.text = element.getName()
+                cell.setImage(id: element.id)
+                cell.foodLabel.text = element.name
             }
             .disposed(by: disposeBag)
         
-        collectionView.rx.modelSelected(Food_cart.self)
+        collectionView.rx.modelSelected(Food.self)
             .subscribe(onNext:{ [unowned self] food in
                 
-                var pickItems = self.cartItem.getPickItems().map { PickedItem_cart(id: $0.getId(), count: $0.getCount(), foodId: $0.getFoodId(), cartItemId: $0.getCartItemId())}
+                var pickItems = self.cartItem.pickedItem.map { PickedItem_cart(id: $0.id, count: $0.count, foodId: $0.foodId, cartItemId: $0.cartItemId)}
                 
-                pickItems[self.currentIndexPath.row].foodId = food.getId()
+                pickItems[self.currentIndexPath.row].foodId = food.id
                 
-                let item = CartItem(id: self.cartItem.getId(), count: self.cartItem.getCount(), subtotal: self.cartItem.getSubtotal(), pickedItem: pickItems, productId: self.cartItem.getProductId(), cartId: self.cartItem.getCartId())
+                let item = CartItem(id: self.cartItem.id, count: self.cartItem.count, subtotal: self.cartItem.subtotal, pickedItem: pickItems, productId: self.cartItem.productId, cartId: self.cartItem.cartId)
                 
-                self.viewModel.services.updateItem(cartItemId: self.cartItem.getId(), item: item)
+                self.viewModel.services.modifyCartItemService.updateItem(cartItemId: self.cartItem.id, item: item)
                     .subscribe(onNext:{ bool in
                         if bool == true {
                             self.dismiss(animated: true, completion: nil)

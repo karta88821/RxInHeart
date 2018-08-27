@@ -12,15 +12,15 @@ import RxCocoa
 
 class AllocateViewModel {
     
-    var services: APIDelegate!
+    let services: AppServices
     
     let products: Observable<[CartItem]>
     
-    init() {
-        services = APIClient.sharedAPI
+    init(services: AppServices) {
+        self.services = services
         
-        self.products = services.getCartItems()
-            .catchErrorJustReturn([])
+        self.products = services.modifyCartItemService.getCartItems()
+                                .catchErrorJustReturn([])
     }
 }
 

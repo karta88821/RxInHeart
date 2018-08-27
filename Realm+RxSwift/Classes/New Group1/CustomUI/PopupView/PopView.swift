@@ -78,7 +78,6 @@ private extension PopupView {
         addSubview(self.tableView)
     }
 
-    
     func constraintUI() {
         tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -89,18 +88,20 @@ private extension PopupView {
         guard let type = type else { return UIView() }
         
         let header = UIView(frame: CGRect(x: 0, y: 0, width: Int(frame.width), height: 50))
-        let headerLabel = UILabel()
+        var headerLabel: UILabel!
         let sepView = UIView()
         sepView.backgroundColor = sepBackground
-        header.addSubViews(views: headerLabel, sepView)
+        
         
         switch type {
         case .allocate:
-            headerLabel.setupWithTitle(textAlignment: .left, fontSize: 20, textColor: grayColor, text: "商品內容")
+            headerLabel = UILabel(alignment: .left, fontSize: 20, text: "商品內容")
             sepView.isHidden = true
         case .orderInfo:
-            headerLabel.setupWithTitle(textAlignment: .center, fontSize: 20, textColor: grayColor, text: "宅配內容")
+            headerLabel = UILabel(alignment: .center, fontSize: 20, text: "宅配內容")
         }
+        
+        header.addSubViews(views: headerLabel, sepView)
         
         headerLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
@@ -114,7 +115,7 @@ private extension PopupView {
         
         sepView.snp.makeConstraints {
             $0.bottom.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(20)
+            $0.left.right.equalToSuperview().inset(20).priority(750)
             $0.height.equalTo(1)
         }
         return header
@@ -137,10 +138,10 @@ extension PopupView: UITableViewDataSource {
         switch type {
         case .allocate:
             if let item = item {
-                return item.getPickItems().count
+                return item.pickedItem.count
             }
         case .orderInfo:
-            return deliveryInfo?.deliveryInfoCartItems[section].cartItem.getPickItems().count ?? 0
+            return deliveryInfo?.deliveryInfoCartItems[section].cartItem.pickedItem.count ?? 0
         }
         return 0
     }
@@ -150,14 +151,14 @@ extension PopupView: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(for: indexPath) as PopupFoodCell
         switch type {
         case .allocate:
-            if let pickItems = item?.getPickItems() {
+            if let pickItems = item?.pickedItem {
                 cell.item = pickItems[indexPath.row]
                 cell.cellType = .allocatePopup
                 return cell
             }
         case .orderInfo:
             if let deliveryInfoCartItems = deliveryInfo?.deliveryInfoCartItems {
-                cell.item = deliveryInfoCartItems[indexPath.section].cartItem.getPickItems()[indexPath.row]
+                cell.item = deliveryInfoCartItems[indexPath.section].cartItem.pickedItem[indexPath.row]
                 cell.cellType = .orderPopup
                 return cell
             }

@@ -23,17 +23,16 @@ class SelectedViewController: UIViewController {
     var viewControllers = [IconViewController]()
     
     // MARK : - UI
-    let categoryLabel = UILabel()
+    let categoryLabel = UILabel(alignment: .center, fontSize: 16)
     var pagingViewController = CustomPagingViewController()
     var collectionView: UICollectionView!
-    let submitButton = UIButton()
+    var submitButton: UIButton!
     
     // MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        initUI()
+        createViews()
         bindUI()
-        setupPageView()
         constraintUI()
     }
     
@@ -49,19 +48,26 @@ class SelectedViewController: UIViewController {
 
 fileprivate extension SelectedViewController {
     
-    func initUI() {
-        
-        tabBarController?.tabBar.isHidden = true
+    func createViews() {
+        configureButton()
+        configurePageView()
+        configureView(for: view)
+    }
+    
+    func configureButton() {
+        submitButton = {
+            let button = UIButton()
+            button.makeShadow(cornerRadius: 20, shadowOpacity: 0.2, shadowOffsetH: 0.3)
+            button.clipsToBounds = true
+            button.backgroundColor = pinkButtonBg
+            button.setup(title: "加入購物車", textColor: .white)
+            button.addTarget(self, action: #selector(addItem(_:)), for: .touchUpInside)
+            return button
+        }()
+    }
+    
+    func configureView(for view: UIView) {
         view.backgroundColor = pinkBackground
-        
-        categoryLabel.setup(textAlignment: .center, fontSize: 16, textColor: grayColor)
-        
-        submitButton.makeShadow(cornerRadius: 20, shadowOpacity: 0.2, shadowOffsetH: 0.3)
-        submitButton.clipsToBounds = true
-        submitButton.backgroundColor = pinkButtonBg
-        submitButton.setup(title: "加入購物車", textColor: .white)
-        submitButton.addTarget(self, action: #selector(addItem(_:)), for: .touchUpInside)
-        
         view.addSubViews(views: categoryLabel, submitButton)
     }
     
@@ -90,8 +96,7 @@ fileprivate extension SelectedViewController {
         }
     }
     
-    func setupPageView() {
-        
+    func configurePageView() {
         viewModel.foodItems.asObservable()
             .subscribe(onNext:{ [weak self] products in
                 
@@ -121,7 +126,6 @@ fileprivate extension SelectedViewController {
     }
     
     func bindUI() {
-        
         viewModel.giftBoxItems.asObservable()
             .subscribe(onNext:{ [weak self] items in
                 let layout = CustomLayout()
@@ -154,7 +158,7 @@ fileprivate extension SelectedViewController {
             .bind(to: viewModel.gbButtomIndex)
             .disposed(by: rx.disposeBag)
         
-        collectionView.rx.modelSelected(GiftBoxViewModel.self)
+        collectionView.rx.modelSelected(GiftboxItem.self)
             .bind(to: viewModel.tapBtnCell)
             .disposed(by: rx.disposeBag)
         
@@ -163,57 +167,33 @@ fileprivate extension SelectedViewController {
             .disposed(by: rx.disposeBag)
     }
     
-    func alertMessage(title: String) {
-        let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
-        alert.show(self, sender: nil)
+    func alertMessage(title: String, message: String, action: UIAlertAction) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
     }
     
     func postItem() {
-        
-        let selectedStatus = viewModel.pickItems.value.contains {$0.foodId == "0"}
-        
-        switch selectedStatus {
-        case true:
-            let alert = UIAlertController(title: "錯誤", message: "還沒選完喔", preferredStyle: .alert)
-            alert.addAction(title: "確定")
-            present(alert, animated: true, completion: nil)
-        case false:
-            viewModel.product
-                .subscribe(onNext:{ [unowned self] p in
-                    let subtotal = String(p.price)
-                    let productId = String(p.id)
-                    
-                    let newCartItem = NewCartItem(count: "1", subtotal: subtotal, cartId: "1", productId: productId,
-                                                  pickedItems: self.viewModel.pickItems.value)
-
-                    self.viewModel.services.addItem(item: newCartItem)
-                        .subscribe(onNext:{ [unowned self] bool in
-                            if bool == true {
-                                let alert = UIAlertController(title: "購物車", message: "已將商品加入購物車", preferredStyle: .alert)
-                                let okAction = UIAlertAction(title: "確定", style: .default) {_ in
-                                    DispatchQueue.main.async {
-                                        self.navigationController?.popToRootViewController(animated: true)
-                                    }
-                                }
-                                alert.addAction(okAction)
-                                self.present(alert, animated: true, completion: nil)
-                            } else {
-                                let alert = UIAlertController(title: "購物車", message: "無法加入購物車", preferredStyle: .alert)
-                                alert.addAction(title: "OK")
-                                self.present(alert, animated: true, completion: nil)
-                            }
-                        })
-                        .disposed(by: self.rx.disposeBag)
-                })
-                .disposed(by: rx.disposeBag)
-        }
-        
+        viewModel.addItem(success: { [weak self] (title, message) in
+            let action = UIAlertAction(title: "確定", style: .default) {_ in
+                DispatchQueue.main.async {
+                    self?.navigationController?.popToRootViewController(animated: true)
+                }
+            }
+            self?.alertMessage(title: title, message: message, action: action)
+            
+        }, failure: { [weak self] (title, message) in
+            let action = UIAlertAction(title: "確定", style: .default)
+            self?.alertMessage(title: title, message: message, action: action)
+        }, haventSelect: { [weak self] (title, message) in
+            let action = UIAlertAction(title: "確定", style: .default)
+            self?.alertMessage(title: title, message: message, action: action)
+        })
     }
 }
 
 
 extension SelectedViewController: PagingViewControllerDelegate {
-
     func pagingViewController<T>(
         _ pagingViewController: PagingViewController<T>,
         didScrollToItem pagingItem: T,
@@ -226,12 +206,10 @@ extension SelectedViewController: PagingViewControllerDelegate {
             
             guard let selectedIndex = self.pagingViewController.selectedIndex,
                   let cell = collectionView.cellForItem(at: IndexPath(row: btmIndex, section: 0)) as? DetailCollectionViewCell else {return}
-                
-                viewModel.pickItems.value[btmIndex].index = selectedIndex
-                
+                viewModel.changeSection(index: selectedIndex)
+
                 let foods = self.viewModel.foodItems.value
-                viewModel.pickItems.value[btmIndex].foodId = String(foods[viewModel.pickItems.value[btmIndex].index].id)
-                cell.textLabel.text = foods[viewModel.pickItems.value[btmIndex].index].name
+                cell.changeFoodText(to: foods[viewModel.pickItems.value[btmIndex].index].name)
         }
 
     }

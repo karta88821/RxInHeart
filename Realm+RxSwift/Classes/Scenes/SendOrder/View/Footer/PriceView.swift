@@ -14,8 +14,8 @@ class PriceView: UIView {
     let topView = UIView()
     let bottomView = UIView()
     let sepView = UIView()
-    let titleLabel = UILabel()
-    let priceLabel = UILabel()
+    var titleLabel: UILabel!
+    var priceLabel: UILabel!
     
     enum SectionType {
         case cartItem
@@ -58,7 +58,7 @@ private extension PriceView {
         bottomView.backgroundColor = pinkBackground
         sepView.backgroundColor = sepBackground
         addSubViews(views: topView, bottomView)
-        topView.addSubViews(views: sepView, titleLabel, priceLabel)
+        topView.addSubViews(views: sepView)
         //topView.makeShadow(shadowOpacity: 0.1, shadowOffsetW: 0.1, shadowOffsetH: 0)
     }
     
@@ -107,7 +107,8 @@ private extension PriceView {
     }
     
     func configurePriceUI(with titleText: String?, and fontSize: CGFloat) {
-        titleLabel.setupWithTitle(textAlignment: .left, fontSize: fontSize, textColor: grayColor, text: titleText)
-        priceLabel.setup(textAlignment: .right, fontSize: fontSize, textColor: grayColor)
+        self.titleLabel = UILabel(alignment: .left, fontSize: fontSize, text: titleText)
+        self.priceLabel = UILabel(alignment: .right, fontSize: fontSize)
+        topView.addSubViews(views: titleLabel, priceLabel)
     }
 }

@@ -12,20 +12,20 @@ import RxSwift
 
 class ProductListViewModel {
     
-    var services: APIDelegate!
+    let services: AppServices
     
     let cartSections: Observable<[CartItem]>
     let totalPrice: Observable<String>
     
-    init() {
-        services = APIClient.sharedAPI
+    init(services: AppServices) {
+        self.services = services
         
-        self.cartSections = services.getCartItems()
+        self.cartSections = services.modifyCartItemService.getCartItems()
             .catchErrorJustReturn([])
         
-        self.totalPrice = services.getCartItems()
+        self.totalPrice = services.modifyCartItemService.getCartItems()
             .map { items -> String in
-                let total = items.map{$0.getSubtotal()}.reduce(0,{ $0 + $1})
+                let total = items.map{$0.subtotal}.reduce(0,{ $0 + $1})
                 
                 return "$\(total)"
             }

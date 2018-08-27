@@ -16,41 +16,29 @@ final class ContentViewController: UIViewController {
     
     // MARK : - Delegate
     weak var delegate: ContentViewDelegate?
-    
-    lazy var collectionView: UICollectionView = {
-        guard let items = items else {return UICollectionView()}
-        let totalCount = items.count
-        let layout = CustomLayout()
-        layout.totalCount = totalCount
-        layout.spacing = 3
-        layout.contentInset = 5
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.dataSource = self
-        cv.isScrollEnabled = false
-        cv.showsVerticalScrollIndicator = false
-        cv.backgroundColor = detailCollectionBg
-        cv.contentInset = UIEdgeInsetsMake(5, 5, 5, 5)
-        cv.layer.masksToBounds = false
-        cv.layer.cornerRadius = 3
-        cv.register(cellType: UICollectionViewCell.self)
-        return cv
-    }()
-    
-    lazy var button: UIButton = {
-        let btn = UIButton()
-        btn.backgroundColor = pinkButtonBg
-        btn.setup(title: "Next", textColor: .white)
-        btn.makeShadow(cornerRadius: 15, shadowOpacity: 0.2, shadowOffsetW: 0.1, shadowOffsetH: 0.1)
-        btn.addTarget(self, action: #selector(toDetail), for: .touchUpInside)
-        return btn
-    }()
-    
+
     // MARK : - UI
-    let topView = UIView()
-    let buttomView = UIView()
-    let topLabel = UILabel()
-    let itemStackView = UIStackView()
+    var topView: UIView!
+    var bottomView: UIView!
+    let topLabel = UILabel(alignment: .left, fontSize: 18)
+    var collectionView: UICollectionView!
+    lazy var itemStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.spacing = 5
+        stackView.axis = .vertical
+        return stackView
+    }()
+    var pushButton: UIButton!
     
+    // MARK : - Properties
+    var id = -1
+    var items: [GiftboxItem]? {
+        didSet {
+            updateUI()
+        }
+    }
+    
+    // MARK : - Init
     init(id: Int, productName: String) {
         super.init(nibName: nil, bundle: nil)
         self.id = id
@@ -60,20 +48,11 @@ final class ContentViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK : - Properties
-    var id = -1
-    
-    var items: [GiftboxItem]? {
-        didSet {
-            updateUI()
-        }
-    }
 
     // MARK : - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        initUI()
+        createViews()
         constraintUI()
     }
 }
@@ -81,31 +60,72 @@ final class ContentViewController: UIViewController {
 
 private extension ContentViewController {
     
-    func initUI() {
-        view.backgroundColor = pinkBackground
-        buttomView.backgroundColor = pinkBackground
-        topView.backgroundColor = pinkBackground
-        topLabel.setup(textAlignment: .left, fontSize: 18, textColor: grayColor)
+    func createViews() {
+        configureCollectionView()
+        configureButton()
+        addSubViewsForTopAndBottomView()
+        configureView(for: view)
+    }
     
-        view.addSubViews(views: topView, buttomView)
-        topView.addSubViews(views: topLabel, button)
-        buttomView.addSubViews(views: collectionView, itemStackView)
-
-        itemStackView.spacing = 5
-        itemStackView.axis = .vertical
+    func configureCollectionView() {
+        guard let items = items else { return }
+        
+        let totalCount = items.count
+        let layout = CustomLayout()
+        layout.totalCount = totalCount
+        layout.spacing = 3
+        layout.contentInset = 5
+        
+        collectionView = {
+            let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+            cv.register(cellType: UICollectionViewCell.self)
+            cv.dataSource = self
+            cv.isScrollEnabled = false
+            cv.showsVerticalScrollIndicator = false
+            cv.backgroundColor = detailCollectionBg
+            cv.contentInset = UIEdgeInsetsMake(5, 5, 5, 5)
+            cv.layer.masksToBounds = false
+            cv.layer.cornerRadius = 3
+            
+            return cv
+        }()
+    }
+    
+    func configureButton() {
+        pushButton = {
+            let button = UIButton()
+            button.backgroundColor = pinkButtonBg
+            button.setup(title: "Next", textColor: .white)
+            button.makeShadow(cornerRadius: 15, shadowOpacity: 0.2, shadowOffsetW: 0.1, shadowOffsetH: 0.1)
+            button.addTarget(self, action: #selector(toDetail), for: .touchUpInside)
+            return button
+        }()
+    }
+    
+    func configureView(for view: UIView) {
+        view.backgroundColor = pinkBackground
+        view.addSubViews(views: topView, bottomView)
+    }
+    
+    func addSubViewsForTopAndBottomView() {
+        topView = UIView(backgroundColor: pinkBackground)
+        bottomView = UIView(backgroundColor: pinkBackground)
+        
+        topView.addSubViews(views: topLabel, pushButton)
+        bottomView.addSubViews(views: collectionView, itemStackView)
     }
     
     func updateUI() {
-        
         guard let items = items else { return }
-        
+
         items.forEach { item in
-            let label = UILabel()
             let categoryName = item.foodCategoryName
-            
             let completeText = "\(categoryName) \(item.count)個"
-            label.setupWithTitle(textAlignment: .left, fontSize: 14, textColor: grayColor, text: completeText)
-            
+            let label = UILabel(
+                alignment: .left,
+                fontSize: 14,
+                text: completeText
+            )
             itemStackView.addArrangedSubview(label)
         }
     }
@@ -116,7 +136,7 @@ private extension ContentViewController {
             make.height.equalTo(50)
         }
         
-        buttomView.snp.makeConstraints { make in
+        bottomView.snp.makeConstraints { make in
             make.left.bottom.right.equalToSuperview()
             make.top.equalTo(topView.snp.bottom)
         }
@@ -126,7 +146,7 @@ private extension ContentViewController {
             make.left.equalToSuperview().offset(30)
         }
         
-        button.snp.makeConstraints { make in
+        pushButton.snp.makeConstraints { make in
             make.centerY.equalTo(topLabel.snp.centerY).offset(-3)
             make.right.equalToSuperview().inset(20)
             make.width.equalTo(90)
@@ -145,11 +165,8 @@ private extension ContentViewController {
     }
     
     @objc func toDetail(_ sender: UIButton) {
-
-        guard let productEntity = DBManager.query(ProductEntity.self, withPrimaryKey: id) else {
-            //fatalError("Query ProductEntity failed!")
-            return
-        }
+        guard let productEntity = DBManager.query(ProductEntity.self, withPrimaryKey: id) else { return }
+        
         switch productEntity.giftboxTypeId {
         case 0:
             print("This isn't giftBox")
@@ -158,7 +175,6 @@ private extension ContentViewController {
         default:
             break
         }
-        
     }
 }
 

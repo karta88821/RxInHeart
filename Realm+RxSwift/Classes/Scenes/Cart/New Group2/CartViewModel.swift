@@ -11,38 +11,33 @@ import RxSwift
 import RxCocoa
 import RxFlow
 
-class CartViewModel: ServicesViewModel {
+class CartViewModel {
     
-    var services: APIDelegate!
+    let services: AppServices
     
     private let disposeBag = DisposeBag()
-    
-    let `$`: Dependencies = Dependencies.sharedDependencies
     
     var dataSource = RxTableViewSectionedAnimatedDataSource<CartItem>(configureCell: {(_,_,_,_) in
         fatalError()
     }) 
     
-    let cartSections = Variable<[CartItem]>([])
+    let cartSections: Observable<[CartItem]>
     let subtotal: Observable<String>
     let totalPrice: Observable<String>
     
-    init(services: APIDelegate = APIClient.sharedAPI) {
+    init(services: AppServices) {
         
         self.services = services
         
-        services.getCartItems().catchErrorJustReturn([])
-            .bind(to: cartSections)
-            .disposed(by: disposeBag)
+        self.cartSections = services.modifyCartItemService.getCartItems().catchErrorJustReturn([])
 
-        
-        self.subtotal = services.getCartSubtotal()
+        self.subtotal = services.modifyCartItemService.getCartSubtotal()
                                 .map{String($0)}
                                 .catchErrorJustReturn("0")
         
-        self.totalPrice = services.getCartItems()
+        self.totalPrice = services.modifyCartItemService.getCartItems()
                                 .map { items -> String in
-                                    let total = items.map{$0.getSubtotal()}.reduce(0,{ $0 + $1})
+                                    let total = items.map{$0.subtotal}.reduce(0,{ $0 + $1})
             
                                     return "$\(total)"
                                 }

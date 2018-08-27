@@ -13,9 +13,9 @@ class InfoProductCell: UITableViewCell, Reusable {
     
     // MARK : - UI
     let productImageView = UIImageView()
-    let productTypeNameLabel = UILabel()
-    let productNameLabel = UILabel()
-    let countLabel = UILabel()
+    let productTypeNameLabel = UILabel(alignment: .left, fontSize: 20)
+    let productNameLabel = UILabel(alignment: .left, fontSize: 16)
+    let countLabel = UILabel(alignment: .left, fontSize: 16)
     
     var cartItem: DeliveryInfoCartItem? {
         didSet {
@@ -26,33 +26,22 @@ class InfoProductCell: UITableViewCell, Reusable {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         initUI()
+        constraintUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initUI()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
         constraintUI()
     }
-    
-
 }
 
 private extension InfoProductCell {
     func initUI() {
-        
         selectionStyle = .none
         
         productImageView.contentMode = .scaleAspectFill
         productImageView.makeShadow(shadowOpacity: 0.3, shadowOffsetW: 0.3, shadowOffsetH: 0.4)
-        
-        productTypeNameLabel.setup(textAlignment: .left, fontSize: 20, textColor: grayColor)
-        productNameLabel.setup(textAlignment: .left, fontSize: 16, textColor: grayColor)
-        
-        countLabel.setup(textAlignment: .right, fontSize: 20, textColor: grayColor)
         
         contentView.addSubViews(views: productImageView, productTypeNameLabel, productNameLabel, countLabel)
     }
@@ -83,17 +72,18 @@ private extension InfoProductCell {
     
     func updateUI() {
 
-        guard let item = cartItem?.cartItem else { return }
-        let giftboxId = item.getProduct().getGiftboxTypeId()
+        guard let item = cartItem?.cartItem,
+              let giftboxId = item.product.giftboxTypeId,
+              let productName = item.product.name,
+              let productTypeName = item.product.productTypeName,
+              let count = cartItem?.count else { return }
+
         let url = URL(string: String(giftboxId).giftBoxUrl())
-        let productName = item.getProduct().getName()
-        let productTypeName = item.getProduct().getProductTypeName()
-        let count = cartItem?.count
         
         productImageView.kf.setImage(with: url)
         productTypeNameLabel.text = productTypeName
         productNameLabel.text = productName
         
-        countLabel.text = "X \(count ?? 0)"
+        countLabel.text = "X \(count)"
     }
 }

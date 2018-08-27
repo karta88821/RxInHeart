@@ -14,4 +14,4 @@ class ShoppingNoteViewModel {
     }
 }
 
-extension ShoppingNoteViewModel: Stepper {}
+//extension ShoppingNoteViewModel: Stepper {}

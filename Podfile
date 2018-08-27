@@ -15,25 +15,21 @@ target 'Realm+RxSwift' do
    pod 'Differentiator', '~> 3.0.2'
    
    pod 'Reusable'
-#   pod 'Then'
    pod "AutoEquatable"
    
    pod 'RealmSwift'
    pod 'Alamofire', '~> 4.5'
    pod 'Moya/RxSwift'
    pod 'Kingfisher'
-   pod 'SwiftyJSON', '~> 4.0'
    
-   pod 'ObjectMapper', '~> 3.1'
+   pod 'ObjectMapper', '~> 3.3'
    pod "ObjectMapper+Realm"
    
    pod "ESTabBarController-swift"
-   pod 'ExpandableCell'
    pod 'SnapKit', '~> 4.0.0'
    pod 'TYCyclePagerView'
 #   pod 'MJRefresh'
    pod 'M13Checkbox'
-#   pod 'MaterialComponents'
    pod 'DNSPageView'
    pod 'Parchment'
    pod 'SkyFloatingLabelTextField', '~> 3.0'

@@ -9,19 +9,30 @@
 import UIKit
 
 extension UILabel {
-    func setup(textAlignment: NSTextAlignment = .center,
-               fontSize: CGFloat = 16,
-               textColor: UIColor? = .black) {
-        self.textAlignment = textAlignment
-        self.font = UIFont.systemFont(ofSize: fontSize)
-        self.textColor = textColor
-    }
+//    func setup(textAlignment: NSTextAlignment = .center,
+//               fontSize: CGFloat = 16,
+//               textColor: UIColor? = .black) {
+//        self.textAlignment = textAlignment
+//        self.font = UIFont.systemFont(ofSize: fontSize)
+//        self.textColor = textColor
+//    }
+//    
+//    func setupWithTitle(textAlignment: NSTextAlignment = .center,
+//                        fontSize: CGFloat = 16,
+//                        textColor: UIColor? = .black,
+//                        text: String? ) {
+//        self.textAlignment = textAlignment
+//        self.font = UIFont.systemFont(ofSize: fontSize)
+//        self.textColor = textColor
+//        self.text = text
+//    }
     
-    func setupWithTitle(textAlignment: NSTextAlignment = .center,
-                        fontSize: CGFloat = 16,
-                        textColor: UIColor? = .black,
-                        text: String? ) {
-        self.textAlignment = textAlignment
+    convenience init(alignment: NSTextAlignment = .center,
+                     fontSize: CGFloat = 16,
+                     textColor: UIColor? = grayColor,
+                     text: String? = nil) {
+        self.init()
+        self.textAlignment = alignment
         self.font = UIFont.systemFont(ofSize: fontSize)
         self.textColor = textColor
         self.text = text

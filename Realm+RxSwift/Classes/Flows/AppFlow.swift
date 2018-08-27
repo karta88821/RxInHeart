@@ -17,9 +17,11 @@ class AppFlow: Flow {
     }
     
     private let rootWindow: UIWindow
+    private let services: AppServices
     
-    init(withWindow window: UIWindow) {
+    init(withWindow window: UIWindow, services: AppServices) {
         self.rootWindow = window
+        self.services = services
     }
     
     func navigate(to step: Step) -> NextFlowItems {
@@ -37,8 +39,8 @@ class AppFlow: Flow {
         let esTabbarController = ESTabBarController()
         let selectedStepper = SelectedStepper()
         let accountStepper = AccountStepper()
-        let selectedFlow = SelectedFlow(with: selectedStepper)
-        let accountFlow = AccountFlow(with: accountStepper)
+        let selectedFlow = SelectedFlow(with: selectedStepper, services: services)
+        let accountFlow = AccountFlow(with: accountStepper, services: services)
         
         Flows.whenReady(flow1: selectedFlow, flow2: accountFlow, block: { [unowned self] (root1: UINavigationController, root2: UINavigationController) in
             let esTabbarItem1 = ESTabBarItem.init(ExampleBasicContentView(),title: "商品", image: UIImage(named: "home"), selectedImage: UIImage(named: "home_1"))

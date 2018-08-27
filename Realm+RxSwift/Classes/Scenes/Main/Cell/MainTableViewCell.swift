@@ -13,7 +13,7 @@ import DNSPageView
 import SnapKit
 import Reusable
 
-final class MainTableViewCell: UITableViewCell {
+final class MainTableViewCell: UITableViewCell, Reusable {
     
     var product: ProductPresentable? {
         didSet {
@@ -22,105 +22,192 @@ final class MainTableViewCell: UITableViewCell {
     }
 
     // MARK: - UI
-    let stackView = UIStackView()
-    let topView = UIView()
-    let labelView = UIView()
-    let bottomView = UIView()
-    let titleIconImageView = UIImageView()
-    let productTypeNameLabel = UILabel()
+    lazy var stackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [topView, expandableView])
+        stack.axis = .vertical
+        stack.spacing = 0
+        stack.alignment = .fill
+        stack.distribution = .fill
+        return stack
+    }()
     
-    var collectionView: UICollectionView!
+    var topView: UIView!
+    let labelView = UIView(backgroundColor: .white)
+    var expandableView: UIView!
+    var titleIconImageView: UIImageView!
+    let productTypeNameLabel = UILabel(alignment: .left, fontSize: 18, textColor: darkRed)
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let itemWidth = (screenWidth - 45) / 2
+        let itemHight: CGFloat = 210 - 50
+        layout.itemSize = CGSize(
+            width: itemWidth,
+            height: itemHight
+        )
+        layout.sectionInset = UIEdgeInsets(
+            top: -10,
+            left: 15,
+            bottom: 0,
+            right: 15
+        )
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 15
+        layout.minimumInteritemSpacing = 15
+        
+        let cv = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: layout
+        )
+        cv.backgroundColor = .white
+        cv.showsHorizontalScrollIndicator = false
+        cv.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: "MainCollectionViewCell")
+        return cv
+    }()
 
     private(set) var disposeBag = DisposeBag()
     
     // MARK: - Properties
-    var products = Variable<[Product]>([])
-    var caseModels = Variable<[CasePresentable]>([])
+    var products = Variable<[ProductEntity]>([])
     var viewControllers: [ContentViewController]!
+    var itemHasBeenSelected = false 
     
     // MARK : - Init
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        initUI()
+        createViews()
+        configureCell()
         constraintUI()
-        setupPageView()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        initUI()
+        createViews()
+        configureCell()
         constraintUI()
-        setupPageView()
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         disposeBag = DisposeBag()
-//        product = nil
-//        products.value = []
-//        viewControllers = []
+        products.value = []
+        viewControllers = []
     }
+    
+    func setupCollectionView(with caseModels: Observable<[CasePresentable]>, and tag: Int) {
+        caseModels
+            .bind(to: collectionView.rx.items(cellIdentifier: "MainCollectionViewCell", cellType: MainCollectionViewCell.self)) { (row, element, cell) in
+                cell.caseModel = element
+            }
+            .disposed(by: disposeBag)
+        
+        collectionView.tag = tag
+    }
+    
+    func setupPageView(with productEnties: [ProductEntity]) {
+        
+        expandableView.subviews.forEach{$0.removeFromSuperview()}
+        
+        let style = DNSPageStyle()
+        style.isShowBottomLine = true
+        style.isTitleScrollEnable = true
+        style.titleViewBackgroundColor = UIColor.clear
+        
+        let titles = productEnties.map{$0.name}
+        
+        let childViewControllers: [ContentViewController] = productEnties.map { product -> ContentViewController in
+            let controller = ContentViewController(id: product.id, productName: product.name)
+            controller.items = Array(product.items)
+            return controller
+        }
+        
+        self.viewControllers = childViewControllers
+        
+        let manager = DNSPageViewManager(
+            style: style,
+            titles: titles,
+            childViewControllers: childViewControllers
+        )
+        
+        expandableView.addSubview(manager.contentView)
+        
+        manager.contentView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+    }
+
+    func expandView() {
+        if itemHasBeenSelected == false {
+            itemHasBeenSelected = true
+            expandableView.isHidden = false
+        } else {
+            
+        }
+    }
+
 }
 
 private extension MainTableViewCell {
+    
+    func createViews() {
+        configureImageView()
+        configureTopView()
+        configureExpandedView()
+        configureContentView()
+    }
     
     func updateUI() {
         guard let product = product else { return }
         productTypeNameLabel.text = product.productTypeName
     }
     
-    func initUI() {
-        
-        let layout = UICollectionViewFlowLayout()
-        let itemWidth = (screenWidth - 45) / 2
-        let itemHight: CGFloat = 210 - 50
-        layout.itemSize = CGSize(width: itemWidth, height: itemHight)
-        layout.sectionInset = UIEdgeInsets(top: -10, left: 15, bottom: 0, right: 15)
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 15
-        layout.minimumInteritemSpacing = 15
-        
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout )
-        cv.backgroundColor = .white
-        cv.showsHorizontalScrollIndicator = false
-        cv.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: "MainCollectionViewCell")
-        cv.delegate = nil
-        cv.dataSource = nil
-        self.collectionView = cv
-        
-        
-        selectionStyle = .none
-        clipsToBounds = true
-        
-        stackView.axis = .vertical
-        stackView.spacing = 0
-        topView.backgroundColor = .white
-        labelView.backgroundColor = .white
-        titleIconImageView.contentMode = .scaleAspectFit
-        titleIconImageView.image = UIImage(named: "giftcard")
-        productTypeNameLabel.setup(textAlignment: .left, fontSize: 18, textColor: darkRed)
-
+    func configureContentView() {
         contentView.addSubview(stackView)
-        stackView.insertArrangedSubview(topView, at: 0)
-        stackView.insertArrangedSubview(bottomView, at: 1)
         topView.addSubViews(views: labelView, collectionView)
         labelView.addSubViews(views: titleIconImageView, productTypeNameLabel)
     }
     
+    func configureImageView() {
+        titleIconImageView = {
+            let imageView = UIImageView()
+            imageView.contentMode = .scaleAspectFit
+            imageView.image = UIImage(named: "giftcard")
+            return imageView
+        }()
+    }
+    
+    func configureTopView() {
+        topView = UIView(backgroundColor: .white)
+    }
+    
+    func configureExpandedView() {
+        expandableView = {
+            let view = UIView(backgroundColor: .white)
+            view.isHidden = true
+            return view
+        }()
+    }
+    
+    func configureCell() {
+        selectionStyle = .none
+        clipsToBounds = true
+    }
+
     func constraintUI() {
-        
         stackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
         topView.snp.makeConstraints{
-            $0.left.top.right.equalToSuperview()
-            $0.height.equalTo(210).priority(999)
+            $0.height.equalTo(210).priority(750)
+        }
+
+        expandableView.snp.makeConstraints {
+            $0.height.equalTo(170).priority(750)
         }
         
         labelView.snp.makeConstraints {
             $0.left.top.right.equalToSuperview()
-            $0.height.equalTo(50).priority(900)
+            $0.height.equalTo(50).priority(999)
         }
         
         titleIconImageView.snp.makeConstraints {
@@ -140,40 +227,4 @@ private extension MainTableViewCell {
         }
     }
     
-    func setupPageView() {
-        
-        let style = DNSPageStyle()
-        style.isShowBottomLine = true
-        style.isTitleScrollEnable = true
-        style.titleViewBackgroundColor = UIColor.clear
-        
-        products.asObservable()
-            .subscribe(onNext:{ [weak self] products in
-                guard let `self` = self else { return }
-                
-                let titles = products.map{$0.name}
-                
-                let childViewControllers: [ContentViewController] = products.map { product -> ContentViewController in
-                    let controller = ContentViewController(id: product.id, productName: product.name)
-                    controller.items = product.items
-                    return controller
-                }
-                
-                self.viewControllers = childViewControllers
-                let manager = DNSPageViewManager(style: style, titles: titles, childViewControllers: childViewControllers)
-                
-                self.bottomView.addSubview(manager.contentView)
-                
-                manager.contentView.snp.makeConstraints { (make) in
-                    make.edges.equalToSuperview()
-                }
-            })
-            .disposed(by: disposeBag)
-        
-        caseModels.asObservable()
-            .bind(to: collectionView.rx.items(cellIdentifier: "MainCollectionViewCell", cellType: MainCollectionViewCell.self)) { row, item, cell in
-                cell.caseModel = item
-            }
-            .disposed(by: disposeBag)
-    }
 }

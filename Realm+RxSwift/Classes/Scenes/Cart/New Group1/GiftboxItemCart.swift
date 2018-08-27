@@ -10,10 +10,10 @@ import ObjectMapper
 import AutoEquatable
 
 struct GiftboxItem_cart: Mappable {
-    private var id: Int!
-    private var foodCategoryName: String!
-    private var foodCategoryId: Int!
-    private var count: Int!
+    var id: Int!
+    var foodCategoryName: String!
+    var foodCategoryId: Int!
+    var count: Int!
     
     init?(map: Map) {
         
@@ -29,9 +29,9 @@ struct GiftboxItem_cart: Mappable {
 
 extension GiftboxItem_cart: AutoEquatable {}
 
-extension GiftboxItem_cart {
-    func getId() -> Int { return id }
-    func getFoodCategoryName() -> String { return foodCategoryName }
-    func getFoodCategoryId() -> Int { return foodCategoryId }
-    func getCount() -> Int { return count }
-}
+//extension GiftboxItem_cart {
+//    func getId() -> Int { return id }
+//    func getFoodCategoryName() -> String { return foodCategoryName }
+//    func getFoodCategoryId() -> Int { return foodCategoryId }
+//    func getCount() -> Int { return count }
+//}

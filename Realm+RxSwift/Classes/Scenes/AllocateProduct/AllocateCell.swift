@@ -13,12 +13,12 @@ import Kingfisher
 class AllocateCell: UITableViewCell {
     
     private var limitCount = 12
-    
+
     let giftBoxImageView = UIImageView()
-    let productLabel = UILabel()
-    let giftBoxLabel = UILabel()
+    let productLabel = UILabel(alignment: .left, fontSize: 20)
+    let giftBoxLabel = UILabel(alignment: .left)
     let moreButton = UIButton()
-    let countLabel = UILabel()
+    let countLabel = UILabel(alignment: .right, fontSize: 20, textColor: darkRed)
     
     var item: CartItem?
     var frameSizes: [CGFloat]?
@@ -45,14 +45,17 @@ class AllocateCell: UITableViewCell {
     
     func setupUI(cartItem: CartItem, selectedCount: Int) {
         self.item = cartItem
-        let url = URL(string: String(cartItem.getProduct().getGiftboxTypeId()).giftBoxUrl())
+        let url = URL(string: String(cartItem.product.giftboxTypeId).giftBoxUrl())
         self.giftBoxImageView.kf.setImage(with: url)
-        self.productLabel.text = cartItem.getProduct().getName()
-        self.giftBoxLabel.text = cartItem.getProduct().getGiftboxTypeName()
-        self.totalCount = cartItem.getCount()
+        self.productLabel.text = cartItem.product.name
+        self.giftBoxLabel.text = cartItem.product.giftboxTypeName ?? "沒有禮盒"
+        self.totalCount = cartItem.count
         self.selectedCount = selectedCount
         self.countLabel.text = "0/\(totalCount - selectedCount)"
-        self.frameSizes = (0...cartItem.getCount() - selectedCount).filter{$0 % 12 == 0}.map{CGFloat($0)}
+        if let count = cartItem.count {
+            self.frameSizes = (0...count - selectedCount).filter{$0 % 12 == 0}.map{CGFloat($0)}
+        }
+
         self.newTotal = totalCount - selectedCount
         
         isUserInteractionEnabled = (totalCount - selectedCount == 0) ? false : true
@@ -64,16 +67,11 @@ private extension AllocateCell {
     func initUI() {
         giftBoxImageView.makeShadow(shadowOpacity: 0.3, shadowOffsetW: 0.3, shadowOffsetH: 0.3)
         giftBoxImageView.contentMode = .scaleAspectFill
-        
-        productLabel.setup(textAlignment: .left, fontSize: 20, textColor: grayColor)
-        giftBoxLabel.setup(textAlignment: .left, fontSize: 16, textColor: grayColor)
        
         let attributeString = NSAttributedString(string: "顯示更多",
                                                  attributes: [.foregroundColor: darkRed!, .font:  UIFont.systemFont(ofSize: 16)])
         moreButton.setAttributedTitle(attributeString, for: .normal)
         moreButton.addTarget(self, action: #selector(moreAction(_:)), for: .touchUpInside)
-        
-        countLabel.setup(textAlignment: .right, fontSize: 20, textColor: darkRed)
 
         contentView.addSubViews(views: giftBoxImageView, productLabel, giftBoxLabel, moreButton, countLabel)
         contentView.makeShadow(shadowOpacity: 0.1, shadowOffsetW: 0.1, shadowOffsetH: 0.1)

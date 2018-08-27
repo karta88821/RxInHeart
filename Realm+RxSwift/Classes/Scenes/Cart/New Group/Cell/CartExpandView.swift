@@ -10,7 +10,13 @@ import UIKit
 import SnapKit
 import Kingfisher
 
-class CartExpandView: BaseExpandView {
+protocol CartRequired: class {
+    func reloadData()
+    func deleteSection(section: Int)
+    func showAlert(alertController: UIAlertController)
+}
+
+class CartExpandView: BaseCartItemExpandableView {
     
     lazy var deleteButton: UIButton = {
         let button = UIButton()
@@ -44,14 +50,17 @@ class CartExpandView: BaseExpandView {
         return button
     }()
     
-    let services: APIDelegate = APIClient.sharedAPI
+    let services: AppServices
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    weak var cartDelegate: CartRequired?
+    
+    init(reuseIdentifier: String?, services: AppServices) {
+        self.services = services
+        super.init(reuseIdentifier: reuseIdentifier)
     }
     
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func layoutSubviews() {
@@ -62,29 +71,27 @@ class CartExpandView: BaseExpandView {
     
     override func setupUI(cartItem: CartItem, section: Int, delegate: BaseExpandable) {
         super.setupUI(cartItem: cartItem, section: section, delegate: delegate)
-
-        self.countLabel.text = String(item.getCount())
-        
+        self.countLabel.text = String(item.count)
     }
 }
 
 extension CartExpandView {
     @objc func plusAction(_ sender: UIButton) {
-        services.updateItem(cartItemId: item.getId(), item: addItem())
+        services.modifyCartItemService.updateItem(cartItemId: item.id, item: addItem())
             .subscribe(onNext:{ [unowned self] bool in
                 if bool == true {
-                    self.delegate?.reloadData!()
+                    self.cartDelegate?.reloadData()
                 }
             })
             .disposed(by: rx.disposeBag)
     }
     
     @objc func minusAction(_ sender: UIButton) {
-        if item.getCount() > 1 {
-            services.updateItem(cartItemId: item.getId(), item: minusItem())
+        if item.count > 1 {
+            services.modifyCartItemService.updateItem(cartItemId: item.id, item: minusItem())
                 .subscribe(onNext:{ [unowned self] bool in
                     if bool == true {
-                        self.delegate?.reloadData!()
+                        self.cartDelegate?.reloadData()
                     }
                 })
                 .disposed(by: rx.disposeBag)
@@ -108,10 +115,10 @@ extension CartExpandView {
             UIAlertAction in
             NSLog("OK Pressed")
             
-            self.services.deleteItem(cartItemId: self.item.getId())
+            self.services.modifyCartItemService.deleteItem(cartItemId: self.item.id)
                 .subscribe(onNext:{ [unowned self] bool in
                     if bool == true {
-                        self.delegate?.deleteSection!(section: self.section)
+                        self.cartDelegate?.deleteSection(section: self.section)
                     }
                 })
                 .disposed(by: self.rx.disposeBag)
@@ -120,7 +127,7 @@ extension CartExpandView {
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
         
-        delegate?.showAlert!(alertController: alertController)
+        cartDelegate?.showAlert(alertController: alertController)
     }
 }
 
@@ -160,16 +167,16 @@ private extension CartExpandView {
     
     func addItem() -> CartItem {
         
-        let addCount = item.getCount() + 1
-        let addSubtotal = addCount * item.getProduct().getPrice()
-        return CartItem(id: item.getId(), count: addCount, subtotal: addSubtotal, pickedItem: item.getPickItems(), productId: item.getProductId(), cartId: item.getCartId())
+        let addCount = item.count + 1
+        let addSubtotal = addCount * item.product.price
+        return CartItem(id: item.id, count: addCount, subtotal: addSubtotal, pickedItem: item.pickedItem, productId: item.productId, cartId: item.cartId)
     }
     
     func minusItem() -> CartItem {
         
-        let minusCount = item.getCount() - 1
-        let minusSubtotal = minusCount * item.getProduct().getPrice()
-        return CartItem(id: item.getId(), count: minusCount, subtotal: minusSubtotal, pickedItem: item.getPickItems(), productId: item.getProductId(), cartId: item.getCartId())
+        let minusCount = item.count - 1
+        let minusSubtotal = minusCount * item.product.price
+        return CartItem(id: item.id, count: minusCount, subtotal: minusSubtotal, pickedItem: item.pickedItem, productId: item.productId, cartId: item.cartId)
     }
 }
 

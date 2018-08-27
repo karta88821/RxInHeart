@@ -10,33 +10,32 @@ import UIKit
 
 class LogoutView: UIView {
     
-    let profileImageView = UIView()
+    lazy var profileImageView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .gray
+        return view
+    }()
     let logoutButton = UIButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
         initUI()
         constraintUI()
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initUI()
+        constraintUI()
+    }
+
     private func initUI() {
         backgroundColor = pinkBackground
-        
-        profileImageView.backgroundColor = .gray
-        profileImageView.layer.cornerRadius = 50
-        profileImageView.layer.masksToBounds = false
-
         logoutButton.setup(title: "Logout", textColor: grayColor)
         
         addSubViews(views: profileImageView, logoutButton)
+        profileImageView.layer.cornerRadius = 50
+        profileImageView.layer.masksToBounds = false
     }
     
     private func constraintUI() {

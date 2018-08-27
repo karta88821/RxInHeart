@@ -12,7 +12,6 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-
 class ProductListController: UIViewController {
     
     // MARK : - ViewModel
@@ -41,6 +40,7 @@ private extension ProductListController {
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = pinkBackground
         tableView.separatorStyle = .none
+        tableView.register(headerFooterViewType: BaseCartItemExpandableView.self)
         tableView.register(cellType: CartCell.self)
         tableView.contentInset = UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
         tableView.dataSource = self
@@ -120,12 +120,15 @@ extension ProductListController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let header = BaseExpandView()
+        guard let header = tableView.dequeueReusableHeaderFooterView(BaseCartItemExpandableView.self) else {
+            fatalError("❌ Create BaseCartItemExpandableView failed")
+        }
+        
         if sections.count != 0 {
             header.setupUI(cartItem: sections[section], section: section, delegate: self)
-            
             return header
         }
+
         return nil
     }
     
@@ -144,12 +147,12 @@ extension ProductListController: UITableViewDelegate {
 }
 
 extension ProductListController: BaseExpandable {
-    func toggleSection(header: BaseExpandView, section: Int) {
+    func toggleSection(header: BaseExpandableView, section: Int) {
         
         sections[section].expanded = !sections[section].expanded
             
         tableView.beginUpdates()
-        for i in 0 ..< sections[section].getPickItems().count {
+        for i in 0 ..< sections[section].pickedItem.count {
             tableView.reloadRows(at: [IndexPath(row: i, section: section)], with: .automatic)
         }
         tableView.endUpdates()

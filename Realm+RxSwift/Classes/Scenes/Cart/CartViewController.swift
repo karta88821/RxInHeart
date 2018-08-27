@@ -15,37 +15,29 @@ import SnapKit
 
 class CartViewController: UIViewController {
     
+    // MARK: - ViewModel
+    var viewModel: CartViewModel!
+    
     // MARK : - UI
-    lazy var tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .grouped)
-        tv.backgroundColor = pinkBackground
-        tv.dataSource = self
-        tv.delegate = self
-        tv.contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
-        tv.register(cellType: CartCell.self)
-        tv.separatorStyle = .none
-        view.addSubview(tv)
-        return tv
-    }()
-    
-    lazy var footerView: CartFooterView = {
-        let footer = CartFooterView()
-        footer.setupUI(buttonTitle: "結帳")
-        view.addSubview(footer)
-        
-        return footer
-    }()
-    
+    var tableView: UITableView!
+    var footerView: CartFooterView!
     lazy var loadingView: UIView = {
         let loadView = UIView()
         loadView.backgroundColor = pinkBackground
+        
         let ai = UIActivityIndicatorView()
         ai.startAnimating()
         ai.activityIndicatorViewStyle = .gray
         ai.sizeToFit()
         
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: view.bounds.size.width, height: view.bounds.size.height))
-        label.setupWithTitle(textAlignment: .center, fontSize: 14, textColor: grayColor, text: "載入中請稍候...")
+        let label = UILabel(alignment: .center, fontSize: 14, text: "載入中請稍候...")
+        label.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: view.bounds.size.width,
+            height: view.bounds.size.height
+        )
+
         label.sizeToFit()
         
         loadView.addSubViews(views: ai, label)
@@ -62,32 +54,58 @@ class CartViewController: UIViewController {
         return loadView
     }()
     
-    // MARK: - ViewModel
-    var viewModel: CartViewModel!
-
     // MARK: - Properties
     var sections = [CartItem]()
     
     // MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        initUI()
-        setupBinding()
+        createViews()
+        bindUI()
         constraintUI()
     }
-
 }
 
 extension CartViewController {
-
-    func initUI() {
-        view.backgroundColor = pinkBackground
-        tableView.estimatedRowHeight = 65.0
-        tableView.rowHeight = UITableViewAutomaticDimension
+    
+    func createViews() {
+        configureTableView()
+        configureFooterView()
+        configureView(for: view)
     }
     
-    func setupBinding() {
-        
+    func configureView(for view: UIView) {
+        view.backgroundColor = pinkBackground
+        view.addSubViews(views: tableView, footerView)
+    }
+    
+    func configureTableView() {
+        tableView = {
+            let tv = UITableView(frame: .zero, style: .grouped)
+            tv.backgroundColor = pinkBackground
+            tv.dataSource = self
+            tv.delegate = self
+            tv.contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
+            tv.register(CartExpandView.self, forHeaderFooterViewReuseIdentifier: "CartExpandView")
+            tv.register(cellType: CartCell.self)
+            tv.separatorStyle = .none
+            
+            tv.estimatedRowHeight = 65.0
+            tv.rowHeight = UITableViewAutomaticDimension
+            
+            return tv
+        }()
+    }
+    
+    func configureFooterView() {
+        footerView = {
+            let footer = CartFooterView()
+            footer.setupUI(buttonTitle: "結帳")
+            return footer
+        }()
+    }
+    
+    func bindUI() {
         viewModel.totalPrice
             .subscribe(onNext:{ [weak self] price in
                 self?.footerView.subtotalLabel.text = price
@@ -129,7 +147,6 @@ extension CartViewController: UITableViewDataSource {
             tableView.backgroundView = nil
             return sections.count
         } else {
-            
             tableView.backgroundView = loadingView
         }
         return 0
@@ -149,7 +166,6 @@ extension CartViewController: UITableViewDataSource {
     }
 }
 
-
 extension CartViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -157,10 +173,11 @@ extension CartViewController: UITableViewDelegate {
         let cartItem = sections[indexPath.section]
         
         guard let cell = tableView.cellForRow(at: indexPath) as? CartCell,
-              let item = cell.item else { return }
+              let item = cell.item,
+              let foodCategoryId = item.food.foodCategoryId  else { return }
         
         let vc = ExchangeViewController()
-        vc.viewModel = ExchangeViewModel(categoryId: item.getFood().getFoodCategoryId())
+        vc.viewModel = ExchangeViewModel(categoryId: foodCategoryId, services: self.viewModel.services)
         vc.currentIndexPath = indexPath
         vc.cartItem = cartItem
         vc.delegate = self
@@ -178,9 +195,9 @@ extension CartViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
-        let header = CartExpandView()
+        let header = CartExpandView(reuseIdentifier: "CartExpandView", services: self.viewModel.services)
         header.setupUI(cartItem: sections[section], section: section, delegate: self)
-        
+        header.cartDelegate = self
         return header
     }
     
@@ -197,11 +214,25 @@ extension CartViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 2
     }
-    
-
 }
 
 extension CartViewController: BaseExpandable {
+    func toggleSection(header: BaseExpandableView, section: Int) {
+        
+        if sections.count != 0 {
+            sections[section].expanded = !sections[section].expanded
+            
+            tableView.beginUpdates()
+            for i in 0 ..< sections[section].pickedItem.count {
+                tableView.reloadRows(at: [IndexPath(row: i, section: section)], with: .fade)
+            }
+            tableView.endUpdates()
+        }
+        
+    }
+}
+
+extension CartViewController: CartRequired {
     
     func deleteSection(section: Int) {
         
@@ -214,30 +245,15 @@ extension CartViewController: BaseExpandable {
         }
     }
     
-    func toggleSection(header: BaseExpandView, section: Int) {
-        
-        if sections.count != 0 {
-            sections[section].expanded = !sections[section].expanded
-            
-            tableView.beginUpdates()
-            for i in 0 ..< sections[section].getPickItems().count {
-                tableView.reloadRows(at: [IndexPath(row: i, section: section)], with: .fade)
-            }
-            tableView.endUpdates()
-        }
-
-    }
-    
     func showAlert(alertController: UIAlertController) {
         present(alertController, animated: true, completion: nil)
     }
     
     func reloadData() {
-        
         viewModel.cartSections.asObservable()
+            .observeOn(MainScheduler.instance)
             .subscribe(onNext:{ [weak self] sections in
-                
-                let total = sections.map{$0.getSubtotal()}.reduce(0, {$0 + $1})
+                let total = sections.map{$0.subtotal}.reduce(0, {$0 + $1})
                 self?.sections = sections
                 self?.tableView.reloadData()
                 self?.footerView.subtotalLabel.text = "$\(total)"
@@ -251,6 +267,7 @@ extension CartViewController: ExchangeDelegate {
     func reloadItems(indexPath: IndexPath) {
         viewModel.cartSections.asObservable()
             .subscribe(onNext:{ [weak self] sections in
+                
                 self?.sections = sections
                 self?.tableView.reloadData()
             })

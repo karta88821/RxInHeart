@@ -17,9 +17,11 @@ class SelectedFlow: Flow {
     
     private let rootViewController = UINavigationController()
     private let selectedStepper: SelectedStepper
+    private let services: AppServices
 
-    init(with stepper: SelectedStepper) {
+    init(with stepper: SelectedStepper, services: AppServices) {
         self.selectedStepper = stepper
+        self.services = services
     }
     
     func navigate(to step: Step) -> NextFlowItems {
@@ -45,7 +47,7 @@ class SelectedFlow: Flow {
     
     private func navigateToMainScreen () -> NextFlowItems {
         let viewController = MainViewController()
-        viewController.viewModel = MainViewModel()
+        viewController.viewModel = MainViewModel(services: services)
         
         self.rootViewController.pushViewController(viewController, animated: true)
         if let navigationBarItem = self.rootViewController.navigationBar.items?[0] {
@@ -77,7 +79,7 @@ class SelectedFlow: Flow {
     }
     
     private func navigateToSelectedScreen(with id: Int) -> NextFlowItems {
-        let viewModel = SelectedViewModel(id: id)
+        let viewModel = SelectedViewModel(id: id, services: services)
         let viewController = SelectedViewController()
         viewController.viewModel = viewModel
         viewController.title = "選擇品項" 
@@ -87,7 +89,7 @@ class SelectedFlow: Flow {
     
     private func navigateToCartScreen() -> NextFlowItems {
         let cartStepper = CartStepper()
-        let cartFlow = CartFlow(with: cartStepper)
+        let cartFlow = CartFlow(with: cartStepper, services: services)
         Flows.whenReady(flow1: cartFlow, block: { [unowned self] (root: UINavigationController) in
             root.navigationBar.isTranslucent = false
             root.navigationBar.makeShadow()

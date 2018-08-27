@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import Kingfisher
+import Reusable
 
 class MainCollectionViewCell: UICollectionViewCell {
     
@@ -22,9 +23,9 @@ class MainCollectionViewCell: UICollectionViewCell {
     // MARK : - UI
     let caseImageView = UIImageView()
     let bottomView = UIView()
-    let caseNameLabel = UILabel()
-    let priceAndCountLabel = UILabel()
-    
+    let caseNameLabel = UILabel(alignment: .left, fontSize: 15)
+    let priceAndCountLabel = UILabel(alignment: .right, fontSize: 15)
+
     // MARK : - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,10 +41,9 @@ class MainCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-//        caseModel = nil
-//        caseImageView.image = nil
-//        caseNameLabel.text = nil
-//        priceAndCountLabel.text = nil
+        caseImageView.image = nil
+        caseNameLabel.text = nil
+        priceAndCountLabel.text = nil
     }
 }
 
@@ -66,8 +66,6 @@ private extension MainCollectionViewCell {
     func initUI() {
         caseImageView.contentMode = .scaleToFill
         bottomView.backgroundColor = .white
-        caseNameLabel.setup(textAlignment: .left, fontSize: 15, textColor: grayColor)
-        priceAndCountLabel.setup(textAlignment: .right, fontSize: 15, textColor: grayColor)
 
         contentView.addSubViews(views: caseImageView, bottomView)
         bottomView.addSubViews(views: caseNameLabel, priceAndCountLabel)

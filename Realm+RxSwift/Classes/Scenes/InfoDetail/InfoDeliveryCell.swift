@@ -10,9 +10,9 @@ import UIKit
 import Reusable
 
 class InfoDeliveryCell: UITableViewCell, Reusable {
-    
-    let label = UILabel()
-    let infoLabel = UILabel()
+
+    let label = UILabel(alignment: .left, fontSize: 14, textColor: pinkButtonBg)
+    let infoLabel = UILabel(alignment: .left, fontSize: 18)
     
     var title: String? {
         didSet {
@@ -45,14 +45,8 @@ class InfoDeliveryCell: UITableViewCell, Reusable {
 private extension InfoDeliveryCell {
     
     func initUI() {
-        
         selectionStyle = .none
-
-        label.setup(textAlignment: .left, fontSize: 14, textColor: pinkButtonBg)
-        infoLabel.setup(textAlignment: .left, fontSize: 18, textColor: grayColor)
-        
-        contentView.addSubview(label)
-        contentView.addSubview(infoLabel)
+        contentView.addSubViews(views: label, infoLabel)
     }
     
     func constraintUI() {

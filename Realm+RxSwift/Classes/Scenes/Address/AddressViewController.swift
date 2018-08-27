@@ -33,6 +33,10 @@ class AddressViewController: UIViewController {
         bindUI()
         hideKeyboard()
     }
+    
+    override func viewDidLayoutSubviews() {
+        topView.configureSepLayer(y: topView.frame.size.height)
+    }
 
 }
 
@@ -94,9 +98,10 @@ private extension AddressViewController {
     }
     
     @objc func buttonAction(_ sender: AnyObject) {
-        guard let nameText = nameField.text, let phoneText = phoneField.text, let addressText = addressField.text else {
-            return
-        }
+        guard let nameText = nameField.text,
+              let phoneText = phoneField.text,
+              let addressText = addressField.text else { return }
+        
         let deliveryInfo = DeliveryInfo(name: nameText, phone: phoneText, address: addressText)
         viewModel.goAllocate(deliveryInfo: deliveryInfo)
     }

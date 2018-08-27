@@ -10,9 +10,9 @@ import UIKit
 import SnapKit
 
 class CartItemHeaderView: UIView {
-    
-    let giftBoxLabel = UILabel()
-    let countLabel = UILabel()
+
+    let giftBoxLabel = UILabel(alignment: .left, fontSize: 18)
+    let countLabel = UILabel(alignment: .right, fontSize: 18)
     
     var deliveryInfoCartItem: DeliveryInfoCartItem? {
         didSet {
@@ -40,8 +40,6 @@ private extension CartItemHeaderView {
     
     func initUI() {
         backgroundColor = .white
-        giftBoxLabel.setup(textAlignment: .left, fontSize: 18, textColor: grayColor)
-        countLabel.setup(textAlignment: .right, fontSize: 18, textColor: grayColor)
         addSubViews(views: giftBoxLabel, countLabel)
     }
     
@@ -58,11 +56,10 @@ private extension CartItemHeaderView {
     }
     
     func updateUI() {
-        guard let deliveryInfoCartItem = deliveryInfoCartItem else { return }
-        
-        let giftboxTypeName = deliveryInfoCartItem.cartItem.getProduct().getGiftboxTypeName()
-        let productTypeName = deliveryInfoCartItem.cartItem.getProduct().getProductTypeName()
-        
+        guard let deliveryInfoCartItem = deliveryInfoCartItem,
+              let giftboxTypeName = deliveryInfoCartItem.cartItem.product.giftboxTypeName,
+              let productTypeName = deliveryInfoCartItem.cartItem.product.productTypeName else { return }
+
         giftBoxLabel.text = "\(giftboxTypeName) / \(productTypeName)"
         countLabel.text = "\(deliveryInfoCartItem.count)盒"
     }

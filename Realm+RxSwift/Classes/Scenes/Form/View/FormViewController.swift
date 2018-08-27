@@ -165,7 +165,7 @@ private extension FormViewController {
         case .unchecked, .mixed:    checkStatus = true
         }
 
-        let status = deliveryStatus || paymentStatus || checkStatus
+        let prepareSendOrderInfo = deliveryStatus || paymentStatus || checkStatus
         
         let deliverySelection = deliverySection.state
         let paymentSelection = paymentSection.state
@@ -186,15 +186,14 @@ private extension FormViewController {
                                        paymentInfo: paymentInfo,
                                        orderInfo: orderInfo)
 
-        switch status {
-        case true:
+        if prepareSendOrderInfo {
             let alertController = UIAlertController(title: "錯誤", message: "尚有資料未填寫", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "確定", style: .default)
             
             alertController.addAction(okAction)
             
             present(alertController, animated: true, completion: nil)
-        case false:
+        } else {
             viewModel.goSendOrder(with: sendOrder)
         }
     }

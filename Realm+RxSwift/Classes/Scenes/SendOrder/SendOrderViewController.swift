@@ -78,7 +78,7 @@ extension SendOrderViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0...(itemCount - 1):
-            return sendModel.cartItems[section].getPickItems().count
+            return sendModel.cartItems[section].pickedItem.count
         case itemCount:
             return infoManager.getCount()
         case itemCount + 1:
@@ -133,7 +133,7 @@ extension SendOrderViewController: UITableViewDelegate {
         case 0...(itemCount - 1):
             let header = SendOrderExpandView()
             header.setupUI(cartItem: sendModel.cartItems[section], section: section, delegate: self)
-            header.setupCountText(with: sendModel.cartItems[section].getCount())
+            header.setupCountText(with: sendModel.cartItems[section].count)
             return header
         case itemCount:
             let header = SectionHeaderView()
@@ -200,12 +200,12 @@ extension SendOrderViewController: UITableViewDelegate {
 }
 
 extension SendOrderViewController: BaseExpandable {
-    func toggleSection(header: BaseExpandView, section: Int) {
+    func toggleSection(header: BaseExpandableView, section: Int) {
         
         sendModel.cartItems[section].expanded = !sendModel.cartItems[section].expanded
         
         tableView.beginUpdates()
-        for i in 0 ..< sendModel.cartItems[section].getPickItems().count {
+        for i in 0 ..< sendModel.cartItems[section].pickedItem.count {
             tableView.reloadRows(at: [IndexPath(row: i, section: section)], with: .automatic)
         }
         tableView.endUpdates()

@@ -13,7 +13,7 @@ class IconViewController: UIViewController {
     
     // MARK : - UI
     let foodImageView = UIImageView()
-    let foodLabel = UILabel()
+    let foodLabel = UILabel(alignment: .center, fontSize: 20)
     var foodId: Int!
     
     // MARK : - Initialization
@@ -32,6 +32,7 @@ class IconViewController: UIViewController {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         initUI()
+        constraintsUI()
     }
 }
 
@@ -41,10 +42,7 @@ fileprivate extension IconViewController {
         foodImageView.contentMode = .scaleAspectFit
         foodImageView.sizeToFit()
         
-        foodLabel.setup(textAlignment: .center, fontSize: 20, textColor: grayColor)
-        
-        view.addSubview(foodImageView)
-        view.addSubview(foodLabel)
+        view.addSubViews(views: foodImageView, foodLabel)
         view.backgroundColor = .white
     }
     

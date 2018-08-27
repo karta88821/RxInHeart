@@ -14,13 +14,13 @@ import Foundation
 import AutoEquatable
 
 struct CartItem: Mappable {
-    fileprivate var id: Int!
-    fileprivate var count: Int!
-    fileprivate var subtotal: Int!
-    fileprivate var pickedItem: [PickedItem_cart]!
-    fileprivate var productId: Int!
-    fileprivate var product: Product_cart!
-    fileprivate var cartId: Int!
+    var id: Int!
+    var count: Int!
+    var subtotal: Int!
+    var pickedItem: [PickedItem_cart]!
+    var productId: Int!
+    var product: Product_cart!
+    var cartId: Int!
     var expanded: Bool = false
     
     init?(map: Map) {
@@ -44,21 +44,20 @@ struct CartItem: Mappable {
         productId    <- map["ProductId"]
         product      <- map["Product"]
         cartId       <- map["CartId"]
-        
     }
 }
 
 extension CartItem: AutoEquatable {}
 
-extension CartItem {
-    func getId() -> Int { return id }
-    func getCount() -> Int { return count }
-    func getSubtotal() -> Int { return subtotal }
-    func getPickItems() -> [PickedItem_cart] { return pickedItem }
-    func getProductId() -> Int { return productId }
-    func getProduct() -> Product_cart { return product }
-    func getCartId() -> Int { return cartId }
-}
+//extension CartItem {
+//    func getId() -> Int { return id }
+//    func getCount() -> Int { return count }
+//    func getSubtotal() -> Int { return subtotal }
+//    func getPickItems() -> [PickedItem_cart] { return pickedItem }
+//    func getProductId() -> Int { return productId }
+//    func getProduct() -> Product_cart { return product }
+//    func getCartId() -> Int { return cartId }
+//}
 
 extension CartItem: AnimatableSectionModelType {
     
@@ -66,7 +65,7 @@ extension CartItem: AnimatableSectionModelType {
     typealias Identity = String
     
     var identity: String {
-        return getProduct().getProductTypeName()
+        return product.productTypeName
     }
     
     var items: [PickedItem_cart] {
@@ -78,7 +77,3 @@ extension CartItem: AnimatableSectionModelType {
         self.pickedItem = items
     }
 }
-
-
-
-

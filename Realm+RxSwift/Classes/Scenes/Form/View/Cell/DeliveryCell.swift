@@ -17,8 +17,8 @@ protocol DeliveryCellDelegate: class {
 class DeliveryCell: UITableViewCell, Reusable {
     
     // MARK : - UI
-    let addressIndexLabel = UILabel()
-    let addressLabel = UILabel()
+    let addressIndexLabel = UILabel(alignment: .left, fontSize: 14, textColor: textFieldTitleColor)
+    let addressLabel = UILabel(alignment: .left, fontSize: 20)
     let contentButton = UIButton()
     let deleteButton = UIButton()
 
@@ -58,8 +58,6 @@ private extension DeliveryCell {
     func initUI() {
         selectionStyle = .none
         backgroundColor = .white
-        addressIndexLabel.setup(textAlignment: .left, fontSize: 14, textColor: textFieldTitleColor)
-        addressLabel.setup(textAlignment: .left, fontSize: 20, textColor: grayColor)
         let deleteString = NSAttributedString(string: "X", attributes: [.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: UIColor.black])
         let contentString = NSAttributedString(string: "內容", attributes: [.font: UIFont.systemFont(ofSize: 18), .foregroundColor: darkRed!])
     

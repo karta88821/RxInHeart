@@ -11,7 +11,7 @@ import UIKit
 class DeliveryContentCell: InfoCell {
     
     let bottomView = UIView()
-    let contentTitleLabel = UILabel()
+    let contentTitleLabel = UILabel(alignment: .left, text: "宅配內容")
     let contentButton = UIButton()
     
     var deliveryInfo: DeliveryInfo?
@@ -42,11 +42,9 @@ class DeliveryContentCell: InfoCell {
                                 ("宅配地址", deliveryInfo.address)]
         
         for (key, value) in deliveryInfoList {
-            let titleLabel = UILabel()
-            let infoLabel = UILabel()
-            titleLabel.setupWithTitle(textAlignment: .left, fontSize: 16, textColor: grayColor, text: key)
-            infoLabel.setupWithTitle(textAlignment: .right, fontSize: 16, textColor: grayColor, text: value)
-            
+            let titleLabel = UILabel(alignment: .left, text: key)
+            let infoLabel = UILabel(alignment: .right, text: value)
+
             let horizontalStackView = UIStackView(arrangedSubviews: [titleLabel, infoLabel])
             horizontalStackView.axis = .horizontal
             
@@ -66,7 +64,6 @@ private extension DeliveryContentCell {
         bottomView.backgroundColor = .white
         contentView.addSubview(bottomView)
         
-        contentTitleLabel.setupWithTitle(textAlignment: .left, fontSize: 16, textColor: grayColor, text: "宅配內容")
         let attributeString = NSAttributedString(string: "內容",
                                                  attributes: [.font: UIFont.systemFont(ofSize: 16),
                                                               .foregroundColor: textFieldTitleColor!])

@@ -8,16 +8,15 @@
 
 import UIKit
 import RxSwift
-import Reusable
 
 class DetailCollectionViewCell: UICollectionViewCell {
     
     // MARK : - UI
-    let textLabel = UILabel()
+    let textLabel = UILabel(alignment: .center, fontSize: 16)
     
     private(set) var disposeBag = DisposeBag()
     
-    var itemModel: GiftBoxViewModel! {
+    var itemModel: GiftboxItem! {
         didSet {
             updateUI()
         }
@@ -32,15 +31,12 @@ class DetailCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         initUI()
+        constraintUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initUI()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
         constraintUI()
     }
     
@@ -49,15 +45,15 @@ class DetailCollectionViewCell: UICollectionViewCell {
         disposeBag = DisposeBag()
         textLabel.text = nil
     }
+    
+    func changeFoodText(to foodName: String) {
+        textLabel.text = foodName
+    }
 }
 
 private extension DetailCollectionViewCell {
     func initUI() {
-
         contentView.backgroundColor = pinkCvCellBackground
-
-        textLabel.setup(textAlignment: .center, fontSize: 16, textColor: grayColor)
-        
         contentView.addSubview(textLabel)
     }
     
@@ -67,6 +63,11 @@ private extension DetailCollectionViewCell {
     
     func updateUI() {
         let categoryName = itemModel.foodCategoryName
-        textLabel.text = categoryName + " " + String(itemModel.count) + "個"
+        textLabel.text = textFormat(text: categoryName)
     }
+    
+    func textFormat(text: String) -> String {
+        return text + " \(itemModel.count)個"
+    }
+ 
 }

@@ -121,7 +121,7 @@ extension OrderInfoViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0...(itemCount - 1):
-            return sendModel.cartItems[section].getPickItems().count
+            return sendModel.cartItems[section].pickedItem.count
         case itemCount, itemCount + 1, itemCount + 3:
             return 1
         case itemCount + 2:
@@ -185,7 +185,7 @@ extension OrderInfoViewController: UITableViewDelegate {
         case 0...(itemCount - 1):
             let header = SendOrderExpandView()
             header.setupUI(cartItem: sendModel.cartItems[section], section: section, delegate: self)
-            header.setupCountText(with: sendModel.cartItems[section].getCount())
+            header.setupCountText(with: sendModel.cartItems[section].count)
             return header
         default:
             return nil
@@ -212,12 +212,12 @@ extension OrderInfoViewController: UITableViewDelegate {
 }
 
 extension OrderInfoViewController: BaseExpandable {
-    func toggleSection(header: BaseExpandView, section: Int) {
+    func toggleSection(header: BaseExpandableView, section: Int) {
 
         sendModel.cartItems[section].expanded = !sendModel.cartItems[section].expanded
 
         tableView.beginUpdates()
-        for i in 0 ..< sendModel.cartItems[section].getPickItems().count {
+        for i in 0 ..< sendModel.cartItems[section].pickedItem.count {
             tableView.reloadRows(at: [IndexPath(row: i, section: section)], with: .automatic)
         }
         tableView.endUpdates()
@@ -231,7 +231,7 @@ extension OrderInfoViewController: PopViewPresentable {
         popupView.setupOrderInfo(with: deliveryInfo)
         
         let intValue = deliveryInfo.deliveryInfoCartItems
-                        .map{$0.cartItem.getPickItems().count * 45 + 45}
+                        .map{$0.cartItem.pickedItem.count * 45 + 45}
                         .reduce(50, {$0 + $1})
         var contentH: CGFloat = CGFloat(intValue)
         

@@ -33,15 +33,20 @@ class OrderInfoFooterView: UIView {
         paymentButton.clipsToBounds = true
         paymentButton.backgroundColor = pinkButtonBg
         paymentButton.setup(title: "立即付款", textColor: .white)
+        paymentButton.addTarget(self, action: #selector(paymentBtnDimAnimation(_:)), for: .touchUpInside)
         
         popButton.makeShadow(cornerRadius: 20, shadowOpacity: 0.2, shadowOffsetH: 0.3)
         popButton.clipsToBounds = true
         popButton.makeBorder(width: 2, color: pinkButtonBg!)
         popButton.backgroundColor = .white
         popButton.setup(title: "取消訂單", textColor: pinkButtonBg)
-        
+
         backgroundColor = pinkBackground
         addSubViews(views: paymentButton, popButton)
+    }
+    
+    @objc func paymentBtnDimAnimation(_ sender: UIButton) {
+        paymentButton.dim()
     }
     
     func constraintUI() {
