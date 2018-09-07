@@ -1,7 +1,7 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '11.4'
 
-target 'Realm+RxSwift' do
+target 'RxInHeart' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
@@ -34,6 +34,5 @@ target 'Realm+RxSwift' do
    pod 'Parchment'
    pod 'SkyFloatingLabelTextField', '~> 3.0'
    pod 'DropDown'
-#   pod 'R.swift'
 
 end

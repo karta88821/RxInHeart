@@ -1,6 +1,0 @@
-framework module Pods_Realm_RxSwift {
-  umbrella header "Pods-Realm+RxSwift-umbrella.h"
-
-  export *
-  module * { export * }
-}

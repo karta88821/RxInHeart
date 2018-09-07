@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1000"
+   LastUpgradeVersion = "0940"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6B35A8BE2032C82C00D4259E"
-               BuildableName = "Realm+RxSwift.app"
-               BlueprintName = "Realm+RxSwift"
-               ReferencedContainer = "container:Realm+RxSwift.xcodeproj">
+               BuildableName = "RxInHeart.app"
+               BlueprintName = "RxInHeart"
+               ReferencedContainer = "container:RxInHeart.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,14 +28,34 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6B9F193D2142555A0072730F"
+               BuildableName = "RxInHeartUITests.xctest"
+               BlueprintName = "RxInHeartUITests"
+               ReferencedContainer = "container:RxInHeart.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6B4C634E2142AB990060432B"
+               BuildableName = "RxInHeartTests.xctest"
+               BlueprintName = "RxInHeartTests"
+               ReferencedContainer = "container:RxInHeart.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6B35A8BE2032C82C00D4259E"
-            BuildableName = "Realm+RxSwift.app"
-            BlueprintName = "Realm+RxSwift"
-            ReferencedContainer = "container:Realm+RxSwift.xcodeproj">
+            BuildableName = "RxInHeart.app"
+            BlueprintName = "RxInHeart"
+            ReferencedContainer = "container:RxInHeart.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6B35A8BE2032C82C00D4259E"
-            BuildableName = "Realm+RxSwift.app"
-            BlueprintName = "Realm+RxSwift"
-            ReferencedContainer = "container:Realm+RxSwift.xcodeproj">
+            BuildableName = "RxInHeart.app"
+            BlueprintName = "RxInHeart"
+            ReferencedContainer = "container:RxInHeart.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -75,9 +95,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6B35A8BE2032C82C00D4259E"
-            BuildableName = "Realm+RxSwift.app"
-            BlueprintName = "Realm+RxSwift"
-            ReferencedContainer = "container:Realm+RxSwift.xcodeproj">
+            BuildableName = "RxInHeart.app"
+            BlueprintName = "RxInHeart"
+            ReferencedContainer = "container:RxInHeart.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

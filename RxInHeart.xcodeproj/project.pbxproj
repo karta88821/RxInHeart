@@ -54,6 +54,7 @@
 		6B465DDA2049340200EED286 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B465DD82049340200EED286 /* MainViewController.swift */; };
 		6B465DDE2049342200EED286 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B465DDC2049342200EED286 /* AccountViewController.swift */; };
 		6B465DF02049680600EED286 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B465DEF2049680600EED286 /* Key.swift */; };
+		6B4C63522142AB990060432B /* Realm_RxSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4C63512142AB990060432B /* Realm_RxSwiftTests.swift */; };
 		6B4E424B20F8753A000FF7C5 /* ShoppingNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4E424A20F8753A000FF7C5 /* ShoppingNoteViewController.swift */; };
 		6B4E424D20F87563000FF7C5 /* ShoppingNoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4E424C20F87563000FF7C5 /* ShoppingNoteViewModel.swift */; };
 		6B5ECFCF209AF99000345100 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5ECFCE209AF99000345100 /* ContentViewController.swift */; };
@@ -85,6 +86,7 @@
 		6B9BC55820F78DCA00355D9D /* UIViewController+HideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9BC55720F78DCA00355D9D /* UIViewController+HideKeyboard.swift */; };
 		6B9BC55A20F7AC8200355D9D /* LogoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9BC55920F7AC8200355D9D /* LogoutView.swift */; };
 		6B9BC55C20F7C2C600355D9D /* AccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9BC55B20F7C2C600355D9D /* AccountCell.swift */; };
+		6B9F19412142555B0072730F /* Realm_RxSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9F19402142555B0072730F /* Realm_RxSwiftUITests.swift */; };
 		6BA307E820DEBE72006A029E /* ExchangeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA307E720DEBE72006A029E /* ExchangeViewModel.swift */; };
 		6BA307EC20E08B9C006A029E /* ExchangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA307EB20E08B9C006A029E /* ExchangeViewController.swift */; };
 		6BA4337B207DBF1700A1B331 /* CartFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA4337A207DBF1700A1B331 /* CartFlow.swift */; };
@@ -100,7 +102,7 @@
 		6BBC690220F263E1003B1CC2 /* InfoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC690120F263E1003B1CC2 /* InfoDetailViewController.swift */; };
 		6BBC690420F2640F003B1CC2 /* InfoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC690320F2640F003B1CC2 /* InfoDetailViewModel.swift */; };
 		6BBD0480205CCBA400B29388 /* MainItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBD047F205CCBA400B29388 /* MainItemViewModel.swift */; };
-		6BBD0482205CE39800B29388 /* Realm+Rxswift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBD0481205CE39800B29388 /* Realm+Rxswift.swift */; };
+		6BBD0482205CE39800B29388 /* RxInHeart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BBD0481205CE39800B29388 /* RxInHeart.swift */; };
 		6BC5F3C12091C0F9006F652C /* Theme.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BC5F3C02091C0F9006F652C /* Theme.xcassets */; };
 		6BC5F3C32091C173006F652C /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5F3C22091C173006F652C /* Color.swift */; };
 		6BC7D7BF2108A4C50028BFD5 /* UIStackView+RemoveAllArrangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC7D7BE2108A4C50028BFD5 /* UIStackView+RemoveAllArrangeView.swift */; };
@@ -154,8 +156,26 @@
 		6BFA32FE208305A000613ADE /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFA32FD208305A000613ADE /* CartViewController.swift */; };
 		6BFA3300208305D800613ADE /* CartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFA32FF208305D800613ADE /* CartViewModel.swift */; };
 		6BFD79CA21184C1800902D2F /* Group.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BFD79C921184C1800902D2F /* Group.png */; };
+		91D051AABEB89057A27FDA33 /* Pods_RxInHeart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E5EEE4054DF851D1E9F24E4 /* Pods_RxInHeart.framework */; };
 		B23235C6314D44F9A3ED9BC6 /* Pods_Realm_RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 448E959ECA76F5E222282696 /* Pods_Realm_RxSwift.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6B4C63542142AB990060432B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B35A8B72032C82C00D4259E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6B35A8BE2032C82C00D4259E;
+			remoteInfo = RxInHeart;
+		};
+		6B9F19432142555B0072730F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B35A8B72032C82C00D4259E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6B35A8BE2032C82C00D4259E;
+			remoteInfo = RxInHeart;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		6B35A9892033020A00D4259E /* Embed Frameworks */ = {
@@ -172,8 +192,8 @@
 
 /* Begin PBXFileReference section */
 		448E959ECA76F5E222282696 /* Pods_Realm_RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Realm_RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4924433ACD23206E5F380419 /* Pods-Realm+RxSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Realm+RxSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Realm+RxSwift/Pods-Realm+RxSwift.debug.xcconfig"; sourceTree = "<group>"; };
-		64FB243E7C0EA7221386C3D5 /* Pods-Realm+RxSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Realm+RxSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-Realm+RxSwift/Pods-Realm+RxSwift.release.xcconfig"; sourceTree = "<group>"; };
+		4924433ACD23206E5F380419 /* Pods-RxInHeart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxInHeart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxInHeart/Pods-RxInHeart.debug.xcconfig"; sourceTree = "<group>"; };
+		64FB243E7C0EA7221386C3D5 /* Pods-RxInHeart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxInHeart.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxInHeart/Pods-RxInHeart.release.xcconfig"; sourceTree = "<group>"; };
 		6B07FDE220D5393C00F7D269 /* CartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCell.swift; sourceTree = "<group>"; };
 		6B07FDE420D62AB900F7D269 /* CartFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartFooterView.swift; sourceTree = "<group>"; };
 		6B0ABE1920333D8C00FEEE87 /* Single+MoyaObjectMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Single+MoyaObjectMapper.swift"; sourceTree = "<group>"; };
@@ -205,7 +225,7 @@
 		6B24B5D720EFC9FE00985C3D /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
 		6B330FE521343E7400E714BF /* ProductService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductService.swift; sourceTree = "<group>"; };
 		6B330FE721343F4300E714BF /* ModifyCartItemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyCartItemService.swift; sourceTree = "<group>"; };
-		6B35A8BF2032C82C00D4259E /* Realm+RxSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Realm+RxSwift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B35A8BF2032C82C00D4259E /* RxInHeart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxInHeart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B35A8C22032C82C00D4259E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B35A8CC2032C82C00D4259E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B35A8CE2032C82C00D4259E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -223,6 +243,9 @@
 		6B465DD82049340200EED286 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		6B465DDC2049342200EED286 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		6B465DEF2049680600EED286 /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
+		6B4C634F2142AB990060432B /* RxInHeartTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RxInHeartTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B4C63512142AB990060432B /* Realm_RxSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Realm_RxSwiftTests.swift; sourceTree = "<group>"; };
+		6B4C63532142AB990060432B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B4E424A20F8753A000FF7C5 /* ShoppingNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingNoteViewController.swift; sourceTree = "<group>"; };
 		6B4E424C20F87563000FF7C5 /* ShoppingNoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingNoteViewModel.swift; sourceTree = "<group>"; };
 		6B5ECFCE209AF99000345100 /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
@@ -254,6 +277,9 @@
 		6B9BC55720F78DCA00355D9D /* UIViewController+HideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+HideKeyboard.swift"; sourceTree = "<group>"; };
 		6B9BC55920F7AC8200355D9D /* LogoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutView.swift; sourceTree = "<group>"; };
 		6B9BC55B20F7C2C600355D9D /* AccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCell.swift; sourceTree = "<group>"; };
+		6B9F193E2142555A0072730F /* RxInHeartUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RxInHeartUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B9F19402142555B0072730F /* Realm_RxSwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Realm_RxSwiftUITests.swift; sourceTree = "<group>"; };
+		6B9F19422142555B0072730F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6BA307E720DEBE72006A029E /* ExchangeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeViewModel.swift; sourceTree = "<group>"; };
 		6BA307EB20E08B9C006A029E /* ExchangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeViewController.swift; sourceTree = "<group>"; };
 		6BA4337A207DBF1700A1B331 /* CartFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartFlow.swift; sourceTree = "<group>"; };
@@ -269,7 +295,7 @@
 		6BBC690120F263E1003B1CC2 /* InfoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoDetailViewController.swift; sourceTree = "<group>"; };
 		6BBC690320F2640F003B1CC2 /* InfoDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoDetailViewModel.swift; sourceTree = "<group>"; };
 		6BBD047F205CCBA400B29388 /* MainItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainItemViewModel.swift; sourceTree = "<group>"; };
-		6BBD0481205CE39800B29388 /* Realm+Rxswift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Realm+Rxswift.swift"; sourceTree = "<group>"; };
+		6BBD0481205CE39800B29388 /* RxInHeart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxInHeart.swift; sourceTree = "<group>"; };
 		6BC5F3C02091C0F9006F652C /* Theme.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Theme.xcassets; sourceTree = "<group>"; };
 		6BC5F3C22091C173006F652C /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		6BC7D7BE2108A4C50028BFD5 /* UIStackView+RemoveAllArrangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+RemoveAllArrangeView.swift"; sourceTree = "<group>"; };
@@ -323,6 +349,7 @@
 		6BFA32FD208305A000613ADE /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
 		6BFA32FF208305D800613ADE /* CartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewModel.swift; sourceTree = "<group>"; };
 		6BFD79C921184C1800902D2F /* Group.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Group.png; sourceTree = "<group>"; };
+		9E5EEE4054DF851D1E9F24E4 /* Pods_RxInHeart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxInHeart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -331,6 +358,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				B23235C6314D44F9A3ED9BC6 /* Pods_Realm_RxSwift.framework in Frameworks */,
+				91D051AABEB89057A27FDA33 /* Pods_RxInHeart.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6B4C634C2142AB990060432B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6B9F193B2142555A0072730F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +383,7 @@
 			isa = PBXGroup;
 			children = (
 				448E959ECA76F5E222282696 /* Pods_Realm_RxSwift.framework */,
+				9E5EEE4054DF851D1E9F24E4 /* Pods_RxInHeart.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -500,7 +543,9 @@
 		6B35A8B62032C82C00D4259E = {
 			isa = PBXGroup;
 			children = (
-				6B35A8C12032C82C00D4259E /* Realm+RxSwift */,
+				6B35A8C12032C82C00D4259E /* RxInheart */,
+				6B9F193F2142555B0072730F /* RxInHeartUITests */,
+				6B4C63502142AB990060432B /* RxInHeartTests */,
 				6B35A8C02032C82C00D4259E /* Products */,
 				CEA4916176E602F56F9FA7AE /* Pods */,
 				65A9C302D0476E175E470ABC /* Frameworks */,
@@ -510,12 +555,14 @@
 		6B35A8C02032C82C00D4259E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6B35A8BF2032C82C00D4259E /* Realm+RxSwift.app */,
+				6B35A8BF2032C82C00D4259E /* RxInHeart.app */,
+				6B9F193E2142555A0072730F /* RxInHeartUITests.xctest */,
+				6B4C634F2142AB990060432B /* RxInHeartTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6B35A8C12032C82C00D4259E /* Realm+RxSwift */ = {
+		6B35A8C12032C82C00D4259E /* RxInheart */ = {
 			isa = PBXGroup;
 			children = (
 				6B35A8D42032CE0A00D4259E /* Classes */,
@@ -525,7 +572,7 @@
 				6B35A8CB2032C82C00D4259E /* LaunchScreen.storyboard */,
 				6B35A8CE2032C82C00D4259E /* Info.plist */,
 			);
-			path = "Realm+RxSwift";
+			path = RxInheart;
 			sourceTree = "<group>";
 		};
 		6B35A8D42032CE0A00D4259E /* Classes */ = {
@@ -603,6 +650,15 @@
 				6BBC68FE20F26170003B1CC2 /* InfoDetailFlow.swift */,
 			);
 			path = Flows;
+			sourceTree = "<group>";
+		};
+		6B4C63502142AB990060432B /* RxInHeartTests */ = {
+			isa = PBXGroup;
+			children = (
+				6B4C63512142AB990060432B /* Realm_RxSwiftTests.swift */,
+				6B4C63532142AB990060432B /* Info.plist */,
+			);
+			path = RxInHeartTests;
 			sourceTree = "<group>";
 		};
 		6B4E424920F87508000FF7C5 /* ShoppingNote */ = {
@@ -725,7 +781,7 @@
 			children = (
 				6BF1D1B3205D8D7000F58D86 /* Obserable+Extension.swift */,
 				6B7F487D208878C40067626B /* RxAlamofire+ObjectMapper.swift */,
-				6BBD0481205CE39800B29388 /* Realm+Rxswift.swift */,
+				6BBD0481205CE39800B29388 /* RxInHeart.swift */,
 			);
 			path = RxSwift;
 			sourceTree = "<group>";
@@ -787,6 +843,15 @@
 				6BAF50CE20FF360E00D14B65 /* CheckmarkHeaderView.swift */,
 			);
 			path = HeaderView;
+			sourceTree = "<group>";
+		};
+		6B9F193F2142555B0072730F /* RxInHeartUITests */ = {
+			isa = PBXGroup;
+			children = (
+				6B9F19402142555B0072730F /* Realm_RxSwiftUITests.swift */,
+				6B9F19422142555B0072730F /* Info.plist */,
+			);
+			path = RxInHeartUITests;
 			sourceTree = "<group>";
 		};
 		6BA307ED20E09C50006A029E /* ViewModel */ = {
@@ -1006,8 +1071,8 @@
 		CEA4916176E602F56F9FA7AE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				4924433ACD23206E5F380419 /* Pods-Realm+RxSwift.debug.xcconfig */,
-				64FB243E7C0EA7221386C3D5 /* Pods-Realm+RxSwift.release.xcconfig */,
+				4924433ACD23206E5F380419 /* Pods-RxInHeart.debug.xcconfig */,
+				64FB243E7C0EA7221386C3D5 /* Pods-RxInHeart.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1015,9 +1080,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6B35A8BE2032C82C00D4259E /* Realm+RxSwift */ = {
+		6B35A8BE2032C82C00D4259E /* RxInHeart */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6B35A8D12032C82C00D4259E /* Build configuration list for PBXNativeTarget "Realm+RxSwift" */;
+			buildConfigurationList = 6B35A8D12032C82C00D4259E /* Build configuration list for PBXNativeTarget "RxInHeart" */;
 			buildPhases = (
 				7BC3CAB52ABA54063C5F2764 /* [CP] Check Pods Manifest.lock */,
 				6B35A8BB2032C82C00D4259E /* Sources */,
@@ -1030,10 +1095,46 @@
 			);
 			dependencies = (
 			);
-			name = "Realm+RxSwift";
-			productName = "Realm+RxSwift";
-			productReference = 6B35A8BF2032C82C00D4259E /* Realm+RxSwift.app */;
+			name = RxInHeart;
+			productName = RxInHeart;
+			productReference = 6B35A8BF2032C82C00D4259E /* RxInHeart.app */;
 			productType = "com.apple.product-type.application";
+		};
+		6B4C634E2142AB990060432B /* RxInHeartTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6B4C63582142AB990060432B /* Build configuration list for PBXNativeTarget "RxInHeartTests" */;
+			buildPhases = (
+				6B4C634B2142AB990060432B /* Sources */,
+				6B4C634C2142AB990060432B /* Frameworks */,
+				6B4C634D2142AB990060432B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6B4C63552142AB990060432B /* PBXTargetDependency */,
+			);
+			name = RxInHeartTests;
+			productName = RxInHeartTests;
+			productReference = 6B4C634F2142AB990060432B /* RxInHeartTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6B9F193D2142555A0072730F /* RxInHeartUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6B9F19472142555B0072730F /* Build configuration list for PBXNativeTarget "RxInHeartUITests" */;
+			buildPhases = (
+				6B9F193A2142555A0072730F /* Sources */,
+				6B9F193B2142555A0072730F /* Frameworks */,
+				6B9F193C2142555A0072730F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6B9F19442142555B0072730F /* PBXTargetDependency */,
+			);
+			name = RxInHeartUITests;
+			productName = RxInHeartUITests;
+			productReference = 6B9F193E2142555A0072730F /* RxInHeartUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -1041,7 +1142,7 @@
 		6B35A8B72032C82C00D4259E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0910;
+				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "liao yuhao";
 				TargetAttributes = {
@@ -1049,9 +1150,19 @@
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
 					};
+					6B4C634E2142AB990060432B = {
+						CreatedOnToolsVersion = 10.0;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 6B35A8BE2032C82C00D4259E;
+					};
+					6B9F193D2142555A0072730F = {
+						CreatedOnToolsVersion = 9.4.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 6B35A8BE2032C82C00D4259E;
+					};
 				};
 			};
-			buildConfigurationList = 6B35A8BA2032C82C00D4259E /* Build configuration list for PBXProject "Realm+RxSwift" */;
+			buildConfigurationList = 6B35A8BA2032C82C00D4259E /* Build configuration list for PBXProject "RxInHeart" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -1064,7 +1175,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6B35A8BE2032C82C00D4259E /* Realm+RxSwift */,
+				6B35A8BE2032C82C00D4259E /* RxInHeart */,
+				6B9F193D2142555A0072730F /* RxInHeartUITests */,
+				6B4C634E2142AB990060432B /* RxInHeartTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1084,6 +1197,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6B4C634D2142AB990060432B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6B9F193C2142555A0072730F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -1098,7 +1225,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Realm+RxSwift-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-RxInHeart-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1111,7 +1238,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Realm+RxSwift/Pods-Realm+RxSwift-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-RxInHeart/Pods-RxInHeart-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AutoEquatable/AutoEquatable.framework",
 				"${BUILT_PRODUCTS_DIR}/DNSPageView/DNSPageView.framework",
@@ -1170,7 +1297,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Realm+RxSwift/Pods-Realm+RxSwift-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RxInHeart/Pods-RxInHeart-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1183,7 +1310,7 @@
 				6BE30F3C2101D45000900124 /* AllocateHeaderView.swift in Sources */,
 				6B35A9E420332B3000D4259E /* MainTableViewCell.swift in Sources */,
 				6BF899B120E8A864000F4EAA /* FormViewController.swift in Sources */,
-				6BBD0482205CE39800B29388 /* Realm+Rxswift.swift in Sources */,
+				6BBD0482205CE39800B29388 /* RxInHeart.swift in Sources */,
 				6B5ECFD3209C8C2500345100 /* UIColor+Extensions.swift in Sources */,
 				6B465DDE2049342200EED286 /* AccountViewController.swift in Sources */,
 				6BEAAFE220BEF01900125DD3 /* DBConfig.swift in Sources */,
@@ -1323,7 +1450,36 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6B4C634B2142AB990060432B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6B4C63522142AB990060432B /* Realm_RxSwiftTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6B9F193A2142555A0072730F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6B9F19412142555B0072730F /* Realm_RxSwiftUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6B4C63552142AB990060432B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6B35A8BE2032C82C00D4259E /* RxInHeart */;
+			targetProxy = 6B4C63542142AB990060432B /* PBXContainerItemProxy */;
+		};
+		6B9F19442142555B0072730F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6B35A8BE2032C82C00D4259E /* RxInHeart */;
+			targetProxy = 6B9F19432142555B0072730F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		6B35A8CB2032C82C00D4259E /* LaunchScreen.storyboard */ = {
@@ -1387,7 +1543,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1440,7 +1596,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1450,13 +1606,13 @@
 		};
 		6B35A8D22032C82C00D4259E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4924433ACD23206E5F380419 /* Pods-Realm+RxSwift.debug.xcconfig */;
+			baseConfigurationReference = 4924433ACD23206E5F380419 /* Pods-RxInHeart.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HQG43XTZK2;
-				INFOPLIST_FILE = "Realm+RxSwift/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				INFOPLIST_FILE = "$(SRCROOT)/RxInheart/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.liao-yuhao.Realm-RxSwift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1467,13 +1623,13 @@
 		};
 		6B35A8D32032C82C00D4259E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 64FB243E7C0EA7221386C3D5 /* Pods-Realm+RxSwift.release.xcconfig */;
+			baseConfigurationReference = 64FB243E7C0EA7221386C3D5 /* Pods-RxInHeart.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HQG43XTZK2;
-				INFOPLIST_FILE = "Realm+RxSwift/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				INFOPLIST_FILE = "$(SRCROOT)/RxInheart/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.liao-yuhao.Realm-RxSwift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1482,10 +1638,79 @@
 			};
 			name = Release;
 		};
+		6B4C63562142AB990060432B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HQG43XTZK2;
+				INFOPLIST_FILE = RxInHeartTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.liao-yuhao.MyUITesting.Realm-RxSwiftTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RxInHeart.app/RxInHeart";
+			};
+			name = Debug;
+		};
+		6B4C63572142AB990060432B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HQG43XTZK2;
+				INFOPLIST_FILE = RxInHeartTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.liao-yuhao.MyUITesting.Realm-RxSwiftTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RxInHeart.app/RxInHeart";
+			};
+			name = Release;
+		};
+		6B9F19452142555B0072730F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HQG43XTZK2;
+				INFOPLIST_FILE = RxInHeartUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.liao-yuhao.MyUITesting.Realm-RxSwiftUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RxInHeart;
+			};
+			name = Debug;
+		};
+		6B9F19462142555B0072730F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HQG43XTZK2;
+				INFOPLIST_FILE = RxInHeartUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.liao-yuhao.MyUITesting.Realm-RxSwiftUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RxInHeart;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6B35A8BA2032C82C00D4259E /* Build configuration list for PBXProject "Realm+RxSwift" */ = {
+		6B35A8BA2032C82C00D4259E /* Build configuration list for PBXProject "RxInHeart" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6B35A8CF2032C82C00D4259E /* Debug */,
@@ -1494,11 +1719,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6B35A8D12032C82C00D4259E /* Build configuration list for PBXNativeTarget "Realm+RxSwift" */ = {
+		6B35A8D12032C82C00D4259E /* Build configuration list for PBXNativeTarget "RxInHeart" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6B35A8D22032C82C00D4259E /* Debug */,
 				6B35A8D32032C82C00D4259E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6B4C63582142AB990060432B /* Build configuration list for PBXNativeTarget "RxInHeartTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6B4C63562142AB990060432B /* Debug */,
+				6B4C63572142AB990060432B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6B9F19472142555B0072730F /* Build configuration list for PBXNativeTarget "RxInHeartUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6B9F19452142555B0072730F /* Debug */,
+				6B9F19462142555B0072730F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_Realm_RxSwiftVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_Realm_RxSwiftVersionString[];
+FOUNDATION_EXPORT double Pods_RxInHeartVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_RxInHeartVersionString[];
 

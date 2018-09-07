@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BE686C5476B6261E791F956D7CE16349"
-               BuildableName = "Pods_Realm_RxSwift.framework"
-               BlueprintName = "Pods-Realm+RxSwift"
+               BlueprintIdentifier = "0DE3FE7BDA51363864E2BAE610334EC6"
+               BuildableName = "Pods_RxInHeart.framework"
+               BlueprintName = "Pods-RxInHeart"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BE686C5476B6261E791F956D7CE16349"
-            BuildableName = "Pods_Realm_RxSwift.framework"
-            BlueprintName = "Pods-Realm+RxSwift"
+            BlueprintIdentifier = "0DE3FE7BDA51363864E2BAE610334EC6"
+            BuildableName = "Pods_RxInHeart.framework"
+            BlueprintName = "Pods-RxInHeart"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
