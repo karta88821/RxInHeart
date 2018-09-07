@@ -49,16 +49,6 @@ struct CartItem: Mappable {
 
 extension CartItem: AutoEquatable {}
 
-//extension CartItem {
-//    func getId() -> Int { return id }
-//    func getCount() -> Int { return count }
-//    func getSubtotal() -> Int { return subtotal }
-//    func getPickItems() -> [PickedItem_cart] { return pickedItem }
-//    func getProductId() -> Int { return productId }
-//    func getProduct() -> Product_cart { return product }
-//    func getCartId() -> Int { return cartId }
-//}
-
 extension CartItem: AnimatableSectionModelType {
     
     typealias Item = PickedItem_cart

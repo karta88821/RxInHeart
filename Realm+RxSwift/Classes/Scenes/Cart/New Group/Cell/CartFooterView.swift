@@ -11,42 +11,21 @@ import SnapKit
 
 class CartFooterView: UIView {
     
-    lazy var topView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.makeShadow(shadowOpacity: 0.3, shadowOffsetW: 0.2, shadowOffsetH: 0.2)
-        return view
-    }()
-    lazy var bottomView: UIView = {
-        let view = UIView()
-        view.backgroundColor = pinkBackground
-        return view
-    }()
-    lazy var label: UILabel = {
-        let lb = UILabel(alignment: .left, fontSize: 18, textColor: .black, text: "訂單金額")
-        return lb
-    }()
-    lazy var subtotalLabel: UILabel = {
-        let label = UILabel(alignment: .left, fontSize: 18, textColor: .black)
-        return label
-    }()
-    lazy var checkoutButton: UIButton = {
-        let button = UIButton()
-        button.makeShadow(cornerRadius: 20, shadowOpacity: 0.2, shadowOffsetH: 0.3)
-        button.clipsToBounds = true
-        button.backgroundColor = pinkButtonBg
-        return button
-    }()
+    var topView: UIView!
+    var bottomView: UIView!
+    var label: UILabel!
+    var subtotalLabel: UILabel!
+    var checkoutButton: UIButton!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        initUI()
+        configureView()
         constraintsUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        initUI()
+        configureView()
         constraintsUI()
     }
     
@@ -56,12 +35,52 @@ class CartFooterView: UIView {
 }
 
 private extension CartFooterView {
-    func initUI() {
+    
+    func createViews() {
+        configureTopView()
+        configureBottimView()
+        configureLable()
+        configureSubtotalLabel()
+        configureCheckButton()
+    }
+    
+    func configureView() {
         backgroundColor = pinkBackground
-        
+        createViews()
         addSubViews(views: topView, bottomView)
         topView.addSubViews(views: label, subtotalLabel)
         bottomView.addSubViews(views: checkoutButton)
+        
+    }
+    
+    func configureTopView() {
+        topView = {
+            let view = UIView(backgroundColor: .white)
+            view.makeShadow(shadowOpacity: 0.3, shadowOffsetW: 0.2, shadowOffsetH: 0.2)
+            return view
+        }()
+    }
+    
+    func configureBottimView() {
+        bottomView = UIView(backgroundColor: pinkBackground)
+    }
+    
+    func configureLable() {
+        label = UILabel(alignment: .left, fontSize: 18, textColor: .black, text: "訂單金額")
+    }
+    
+    func configureSubtotalLabel() {
+        subtotalLabel = UILabel(alignment: .left, fontSize: 18, textColor: .black)
+    }
+    
+    func configureCheckButton() {
+        checkoutButton = {
+            let button = UIButton()
+            button.makeShadow(cornerRadius: 20, shadowOpacity: 0.2, shadowOffsetH: 0.3)
+            button.clipsToBounds = true
+            button.backgroundColor = pinkButtonBg
+            return button
+        }()
     }
     
     func constraintsUI() {

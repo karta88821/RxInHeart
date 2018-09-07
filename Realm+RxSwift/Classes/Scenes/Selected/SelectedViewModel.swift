@@ -106,7 +106,7 @@ extension SelectedViewModel: AddCartItem {
             product.subscribe(onNext:{ product in
                 let newCartItem = NewCartItem(count: 1, subtotal: product.price, cartId: 1, productId: product.id, pickedItems: self.pickItems.value)
                 
-                self.services.modifyCartItemService.addItem(item: newCartItem)
+                self.services.cartService.addItem(item: newCartItem)
                     .subscribe(onNext:{ bool in
                         return bool ? success("購物車","已將商品加入購物車") : failure("購物車","無法加入購物車")
                     })

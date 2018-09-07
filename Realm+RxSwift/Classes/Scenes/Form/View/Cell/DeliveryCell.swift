@@ -17,13 +17,15 @@ protocol DeliveryCellDelegate: class {
 class DeliveryCell: UITableViewCell, Reusable {
     
     // MARK : - UI
-    let addressIndexLabel = UILabel(alignment: .left, fontSize: 14, textColor: textFieldTitleColor)
-    let addressLabel = UILabel(alignment: .left, fontSize: 20)
-    let contentButton = UIButton()
-    let deleteButton = UIButton()
+    var addressIndexLabel: UILabel!
+    var addressLabel: UILabel!
+    var contentButton: UIButton!
+    var deleteButton: UIButton!
 
+    // MARK : - Delegate
     weak var delegate: DeliveryCellDelegate?
     
+    // MARK : - Property
     var indexPath: IndexPath! {
         didSet {
             guard let indexPath = indexPath else { return }
@@ -34,12 +36,14 @@ class DeliveryCell: UITableViewCell, Reusable {
     // MARK : - Initialization
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        initUI()
+        configureView(for: self)
+        constraintUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        initUI()
+        configureView(for: self)
+        constraintUI()
     }
     
     func setup(with viewModel: DeliveryInfo, delegate: DeliveryCellDelegate) {
@@ -47,29 +51,52 @@ class DeliveryCell: UITableViewCell, Reusable {
         self.delegate = delegate
     }
     
-    // MARK : - Layout
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        constraintUI()
+    @objc func deleteAction(_ sender: UIButton) {
+        delegate?.deleteDetail(at: indexPath.row)
     }
 }
 
 private extension DeliveryCell {
-    func initUI() {
-        selectionStyle = .none
-        backgroundColor = .white
-        let deleteString = NSAttributedString(string: "X", attributes: [.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: UIColor.black])
-        let contentString = NSAttributedString(string: "內容", attributes: [.font: UIFont.systemFont(ofSize: 18), .foregroundColor: darkRed!])
     
-        contentButton.setAttributedTitle(contentString, for: .normal)
-        deleteButton.setAttributedTitle(deleteString, for: .normal)
-        deleteButton.addTarget(self, action: #selector(deleteAction(_:)), for: .touchUpInside)
-        
+    func createViews() {
+        configureLabels()
+        configureButtons()
+    }
+    
+    func configureView(for view: UIView) {
+        createViews()
         addSubViews(views: addressIndexLabel, addressLabel, contentButton, deleteButton)
     }
     
-    func constraintUI() {
+    func configureLabels() {
+        addressIndexLabel = UILabel(alignment: .left, fontSize: 14, textColor: textFieldTitleColor)
+        addressLabel = UILabel(alignment: .left, fontSize: 20)
+    }
+    
+    func configureButtons() {
+        let deleteString = NSAttributedString(string: "X", attributes: [.font: UIFont.systemFont(ofSize: 16, weight: .medium), .foregroundColor: UIColor.black])
+        let contentString = NSAttributedString(string: "內容", attributes: [.font: UIFont.systemFont(ofSize: 18), .foregroundColor: darkRed!])
+        
+        contentButton = {
+            let button = UIButton()
+            button.setAttributedTitle(contentString, for: .normal)
+            return button
+        }()
+        
+        deleteButton = {
+            let button = UIButton()
+            button.setAttributedTitle(deleteString, for: .normal)
+            button.addTarget(self, action: #selector(deleteAction(_:)), for: .touchUpInside)
+            return button
+        }()
+    }
+    
+    func configureCell() {
+        selectionStyle = .none
+        backgroundColor = .white
+    }
 
+    func constraintUI() {
         addressLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview().offset(5)
             $0.left.equalToSuperview().offset(30)
@@ -89,10 +116,6 @@ private extension DeliveryCell {
             $0.centerY.equalToSuperview()
             $0.right.equalTo(deleteButton.snp.left).offset(-15)
         }
-    }
-    
-    @objc func deleteAction(_ sender: UIButton) {
-        delegate?.deleteDetail(at: indexPath.row)
     }
 }
 

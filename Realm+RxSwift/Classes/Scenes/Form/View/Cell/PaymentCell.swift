@@ -18,24 +18,27 @@ let paymentH: CGFloat = 60.0
 class PaymentCell: UITableViewCell, Reusable {
     
     // MARK : - UI
-    let topView = UIView()
-    let bottomView = UIView()
-    let nameField = SkyFloatingLabelTextField(frame: .zero)
-    let phoneField = SkyFloatingLabelTextField(frame: .zero)
-    let emailField = SkyFloatingLabelTextField(frame: .zero)
+    var topView: UIView!
+    var bottomView: UIView!
+    var nameField: SkyFloatingLabelTextField!
+    var phoneField: SkyFloatingLabelTextField!
+    var emailField: SkyFloatingLabelTextField!
     
+    // MARK : - Property
     private(set) var disposeBag = DisposeBag()
     
     // MARK : - Initialization
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        initUI()
+        configureView(for: contentView)
+        configureCell()
         constraintUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        initUI()
+        configureView(for: contentView)
+        configureCell()
         constraintUI()
     }
 
@@ -47,21 +50,49 @@ class PaymentCell: UITableViewCell, Reusable {
 }
 
 private extension PaymentCell {
-    func initUI() {
-        selectionStyle = .none
-        
-        topView.backgroundColor = .white
-        bottomView.backgroundColor = .white
-        nameField.configure(with: "付款人姓名")
-        phoneField.configure(with: "付款人聯絡電話")
-        emailField.configure(with: "付款人信箱")
-        contentView.addSubViews(views: topView, bottomView)
+    
+    func createViews() {
+        configureTopAndBottomView()
+        configureTextFields()
+    }
+    
+    func configureView(for view: UIView) {
+        createViews()
+        view.addSubViews(views: topView, bottomView)
         topView.addSubViews(views: nameField, phoneField)
         bottomView.addSubview(emailField)
     }
     
-    func constraintUI() {
+    func configureCell() {
+        selectionStyle = .none
+    }
+    
+    func configureTopAndBottomView() {
+        topView = UIView(backgroundColor: .white)
+        bottomView = UIView(backgroundColor: .white)
+    }
+    
+    func configureTextFields() {
+        nameField = {
+            let textField = SkyFloatingLabelTextField()
+            textField.configure(with: "付款人姓名")
+            return textField
+        }()
         
+        phoneField = {
+            let textField = SkyFloatingLabelTextField()
+            textField.configure(with: "付款人聯絡電話")
+            return textField
+        }()
+        
+        emailField = {
+            let textField = SkyFloatingLabelTextField()
+            textField.configure(with: "付款人信箱")
+            return textField
+        }()
+    }
+
+    func constraintUI() {
         topView.snp.makeConstraints {
             $0.left.top.right.equalToSuperview()
             $0.height.equalTo(paymentH)
@@ -88,17 +119,5 @@ private extension PaymentCell {
             $0.centerY.equalToSuperview()
             $0.left.right.equalToSuperview().inset(25)
         }
-    }
-}
-
-extension SkyFloatingLabelTextField {
-    func configure(with title: String?,placeholderFont: CGFloat = 18) {
-        self.title = title
-        self.placeholder = title
-        self.titleFont = UIFont.systemFont(ofSize: 15)
-        self.placeholderFont = UIFont.systemFont(ofSize: placeholderFont)
-        self.lineColor = grayColor!
-        self.selectedTitleColor = textFieldTitleColor!
-        self.selectedLineColor = textFieldTitleColor!
     }
 }

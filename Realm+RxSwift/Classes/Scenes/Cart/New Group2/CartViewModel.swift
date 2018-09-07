@@ -29,13 +29,13 @@ class CartViewModel {
         
         self.services = services
         
-        self.cartSections = services.modifyCartItemService.getCartItems().catchErrorJustReturn([])
+        self.cartSections = services.cartService.getCartItems().catchErrorJustReturn([])
 
-        self.subtotal = services.modifyCartItemService.getCartSubtotal()
+        self.subtotal = services.cartService.getCartSubtotal()
                                 .map{String($0)}
                                 .catchErrorJustReturn("0")
         
-        self.totalPrice = services.modifyCartItemService.getCartItems()
+        self.totalPrice = services.cartService.getCartItems()
                                 .map { items -> String in
                                     let total = items.map{$0.subtotal}.reduce(0,{ $0 + $1})
             

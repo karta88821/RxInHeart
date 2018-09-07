@@ -10,27 +10,30 @@ import UIKit
 
 class DeliveryContentCell: InfoCell {
     
-    let bottomView = UIView()
-    let contentTitleLabel = UILabel(alignment: .left, text: "宅配內容")
-    let contentButton = UIButton()
+    // MARK : - UI
+    var bottomView: UIView!
+    var contentTitleLabel: UILabel!
+    var contentButton: UIButton!
     
+    // MARK : - Property
     var deliveryInfo: DeliveryInfo?
+    
+    // MARK : - Delegate
     var delegate: PopViewPresentable?
     
+    // MARK : - Init
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        initUI()
+        configureView(for: contentView)
+        constraintUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        initUI()
-    }
-    
-    override func layoutSubviews() {
+        configureView(for: contentView)
         constraintUI()
     }
-    
+
     func setupUI(with deliveryInfo: DeliveryInfo) {
         
         self.deliveryInfo = deliveryInfo
@@ -60,17 +63,39 @@ class DeliveryContentCell: InfoCell {
 
 private extension DeliveryContentCell {
     
-    func initUI() {
-        bottomView.backgroundColor = .white
-        contentView.addSubview(bottomView)
+    func createViews() {
+        configureBottomView()
+        configureLabel()
+        configureContentButton()
+    }
+    
+    func configureView(for view: UIView) {
+        createViews()
+        view.addSubview(bottomView)
+        bottomView.addSubViews(views: contentTitleLabel, contentButton)
+    }
+    
+    func configureBottomView() {
+        bottomView = UIView(backgroundColor: .white)
+    }
+    
+    func configureLabel() {
+         contentTitleLabel = UILabel(alignment: .left, text: "宅配內容")
+    }
+    
+    func configureContentButton() {
         
         let attributeString = NSAttributedString(string: "內容",
                                                  attributes: [.font: UIFont.systemFont(ofSize: 16),
                                                               .foregroundColor: textFieldTitleColor!])
-        contentButton.setAttributedTitle(attributeString, for: .normal)
-        contentButton.addTarget(self, action: #selector(popAction(_:)), for: .touchUpInside)
-        
-        bottomView.addSubViews(views: contentTitleLabel, contentButton)
+        contentButton = {
+            let button = UIButton()
+            button.setAttributedTitle(attributeString, for: .normal)
+            button.addTarget(self, action: #selector(popAction(_:)), for: .touchUpInside)
+            
+            return button
+        }()
+
     }
     
     func constraintUI() {

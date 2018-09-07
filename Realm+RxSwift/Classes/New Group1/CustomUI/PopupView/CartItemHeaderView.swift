@@ -11,9 +11,11 @@ import SnapKit
 
 class CartItemHeaderView: UIView {
 
-    let giftBoxLabel = UILabel(alignment: .left, fontSize: 18)
-    let countLabel = UILabel(alignment: .right, fontSize: 18)
+    // MARK : - UI
+    var giftBoxLabel: UILabel!
+    var countLabel: UILabel!
     
+    // MARK : - Property
     var deliveryInfoCartItem: DeliveryInfoCartItem? {
         didSet {
             updateUI()
@@ -22,23 +24,35 @@ class CartItemHeaderView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        initUI()
+        createViews()
+        configureView()
+        constraintUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        initUI()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
+        createViews()
+        configureView()
         constraintUI()
     }
 }
 
 private extension CartItemHeaderView {
     
-    func initUI() {
+    func configureGiftBoxLabel() {
+        giftBoxLabel = UILabel(alignment: .left, fontSize: 18)
+    }
+    
+    func configureCountLabel() {
+        countLabel = UILabel(alignment: .right, fontSize: 18)
+    }
+    
+    func createViews() {
+        configureGiftBoxLabel()
+        configureCountLabel()
+    }
+    
+    func configureView() {
         backgroundColor = .white
         addSubViews(views: giftBoxLabel, countLabel)
     }

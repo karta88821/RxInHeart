@@ -11,42 +11,63 @@ import SnapKit
 
 class OrderInfoFooterView: UIView {
     
-    let paymentButton = UIButton()
-    let popButton = UIButton()
+    // MARK : - UI
+    var paymentButton: UIButton!
+    var popButton: UIButton!
     
+    // MARK : - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        initUI()
+        configureView()
+        constraintUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        constraintUI()
-    }
-    
-    func initUI() {
-        paymentButton.makeShadow(cornerRadius: 20, shadowOpacity: 0.2, shadowOffsetH: 0.3)
-        paymentButton.clipsToBounds = true
-        paymentButton.backgroundColor = pinkButtonBg
-        paymentButton.setup(title: "立即付款", textColor: .white)
-        paymentButton.addTarget(self, action: #selector(paymentBtnDimAnimation(_:)), for: .touchUpInside)
-        
-        popButton.makeShadow(cornerRadius: 20, shadowOpacity: 0.2, shadowOffsetH: 0.3)
-        popButton.clipsToBounds = true
-        popButton.makeBorder(width: 2, color: pinkButtonBg!)
-        popButton.backgroundColor = .white
-        popButton.setup(title: "取消訂單", textColor: pinkButtonBg)
-
-        backgroundColor = pinkBackground
-        addSubViews(views: paymentButton, popButton)
-    }
-    
     @objc func paymentBtnDimAnimation(_ sender: UIButton) {
         paymentButton.dim()
+    }
+    
+}
+
+private extension OrderInfoFooterView {
+    func createViews() {
+        configurePaymentButton()
+        confiurePopButton()
+    }
+    
+    func configureView() {
+        createViews()
+        addSubViews(views: paymentButton, popButton)
+        backgroundColor = pinkBackground
+    }
+    
+    func configurePaymentButton() {
+        paymentButton = {
+            let button = UIButton()
+            button.makeShadow(cornerRadius: 20, shadowOpacity: 0.2, shadowOffsetH: 0.3)
+            button.clipsToBounds = true
+            button.backgroundColor = pinkButtonBg
+            button.setup(title: "立即付款", textColor: .white)
+            button.addTarget(self, action: #selector(paymentBtnDimAnimation(_:)), for: .touchUpInside)
+            
+            return button
+        }()
+    }
+    
+    func confiurePopButton() {
+        popButton = {
+            let button = UIButton()
+            button.makeShadow(cornerRadius: 20, shadowOpacity: 0.2, shadowOffsetH: 0.3)
+            button.clipsToBounds = true
+            button.makeBorder(width: 2, color: pinkButtonBg!)
+            button.backgroundColor = .white
+            button.setup(title: "取消訂單", textColor: pinkButtonBg)
+            
+            return button
+        }()
     }
     
     func constraintUI() {

@@ -44,15 +44,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
-struct AppServices: HasProductsService, HasModifyCartItemService {
+struct AppServices: HasProductsService, HasCartService {
     let `$`: Dependencies = Dependencies.sharedDependencies
     private let apiProvider = MoyaProvider<ApiManager>()
     let productsService: ProductsService
-    let modifyCartItemService: ModifyCartItemService
+    let cartService: CartService
     
     init() {
         self.productsService = ProductsService(`$`: `$`, provider: apiProvider)
-        self.modifyCartItemService = ModifyCartItemService(`$`: `$`, provider: apiProvider)
+        self.cartService = CartService(`$`: `$`, provider: apiProvider)
     }
 }
 

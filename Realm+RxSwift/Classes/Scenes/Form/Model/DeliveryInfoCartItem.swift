@@ -6,14 +6,11 @@
 //  Copyright © 2018年 liao yuhao. All rights reserved.
 //
 
-import Foundation
+import AutoEquatable
 
-class DeliveryInfoCartItem {
+struct DeliveryInfoCartItem {
     let cartItem: CartItem
-    var count: Int
-    
-    init(cartItem: CartItem, count: Int = 0) {
-        self.cartItem = cartItem
-        self.count = count
-    }
+    var count: Int = 0
 }
+
+extension DeliveryInfoCartItem: AutoEquatable {}

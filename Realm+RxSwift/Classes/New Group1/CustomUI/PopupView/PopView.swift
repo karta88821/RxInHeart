@@ -24,25 +24,28 @@ class PopupView: UIView {
     
     // MARK : - UI
     var tableView: UITableView!
-    let topView = UIView()
+    var topView: UIView!
     let topLabel = UILabel()
     
-    override init(frame: CGRect) {
-        self.type = .allocate
-        super.init(frame: frame)
-        initUI()
-    }
-    
+//    override init(frame: CGRect) {
+//        self.type = .allocate
+//        super.init(frame: frame)
+//        initUI()
+//    }
+//
     required init?(coder aDecoder: NSCoder) {
         self.type = .allocate
         super.init(coder: aDecoder)
-        initUI()
+        createViews()
+        configureView()
+        constraintUI()
     }
     
     init(type: PopupType) {
         super.init(frame: .zero)
         self.type = type
-        initUI()
+        createViews()
+        configureView()
         constraintUI()
     }
     
@@ -58,24 +61,35 @@ class PopupView: UIView {
 }
 
 private extension PopupView {
-    func initUI() {
+    
+    func createViews() {
+        configureTableView()
+        configureTopView()
+    }
+    
+    func configureView() {
         backgroundColor = .white
         makeShadow(shadowOpacity: 0.3, shadowOffsetW: 0.3, shadowOffsetH: 0.3)
-        
-        topView.backgroundColor = .white
-        
-        let tableView = UITableView(frame: .zero)
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.backgroundColor = .white
-        tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator = false
-        tableView.isScrollEnabled = false
-        tableView.register(cellType: PopupFoodCell.self)
-        tableView.tableHeaderView = makeHeader()
-        
-        self.tableView = tableView
-        addSubview(self.tableView)
+        addSubview(tableView)
+    }
+    
+    func configureTableView() {
+        tableView = {
+            let tableView = UITableView(frame: .zero)
+            tableView.dataSource = self
+            tableView.delegate = self
+            tableView.backgroundColor = .white
+            tableView.separatorStyle = .none
+            tableView.showsVerticalScrollIndicator = false
+            tableView.isScrollEnabled = false
+            tableView.register(cellType: PopupFoodCell.self)
+            tableView.tableHeaderView = makeHeader()
+            return tableView
+        }()
+    }
+    
+    func configureTopView() {
+        topView = UIView(backgroundColor: .white)
     }
 
     func constraintUI() {
@@ -91,8 +105,7 @@ private extension PopupView {
         var headerLabel: UILabel!
         let sepView = UIView()
         sepView.backgroundColor = sepBackground
-        
-        
+
         switch type {
         case .allocate:
             headerLabel = UILabel(alignment: .left, fontSize: 20, text: "商品內容")

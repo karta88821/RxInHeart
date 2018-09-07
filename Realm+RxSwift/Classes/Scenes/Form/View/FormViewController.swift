@@ -16,50 +16,7 @@ import RxDataSources
 class FormViewController: UIViewController {
     
     // MARK : - UI
-    lazy var tableView: UITableView = {
-        let tv = UITableView(frame: .zero, style: .grouped)
-        tv.backgroundColor = pinkBackground
-        tv.tableHeaderView = headerView
-        tv.tableFooterView = footerView
-        // 讓section0的陰影能不被遮住
-        tv.contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
-        tv.showsVerticalScrollIndicator = false
-        tv.separatorStyle = .singleLine
-        tv.register(cellType: DeliveryCell.self)
-        tv.register(cellType: PaymentCell.self)
-        tv.register(headerFooterViewType: DeliveryHeaderView.self)
-        tv.register(headerFooterViewType: PaymentHeaderView.self)
-        tv.register(headerFooterViewType: CheckmarkHeaderView.self)
-        self.view.addSubview(tv)
-        return tv
-    }()
-    
-    lazy var headerView: BaseAxisView = {
-        let view = BaseAxisView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 80))
-        view.position = .middle
-        view.backgroundColor = pinkBackground
-        return view
-    }()
-    
-    lazy var footerView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100))
-        view.backgroundColor = pinkBackground
-        
-        let button = UIButton()
-        button.setup(title: "NEXT", textColor: .white)
-        button.makeShadow(cornerRadius: 20, shadowOpacity: 0.2, shadowOffsetH: 0.3)
-        button.clipsToBounds = true
-        button.backgroundColor = pinkButtonBg!
-        button.addTarget(self, action: #selector(validationAction(_:)), for: .touchUpInside)
-        view.addSubViews(views: button)
-        button.snp.makeConstraints {
-            $0.width.equalTo(180)
-            $0.height.equalTo(40)
-            $0.center.equalToSuperview()
-        }
-        
-        return view
-    }()
+    var tableView: UITableView!
 
     // MARK : - ViewModel
     var viewModel: FormViewModel!
@@ -67,7 +24,7 @@ class FormViewController: UIViewController {
     // MARK : - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        initUI()
+        configureView(for: view)
         bindUI()
         constraintUI()
         hideKeyboard()
@@ -79,9 +36,7 @@ class FormViewController: UIViewController {
         guard let dic = notification.userInfo as? [String:Any],
               let deliveryInfo = dic.deliveryInfo else { return }
 
-        DispatchQueue.global(qos: .background).async {
-            self.viewModel.insertInfo(info: deliveryInfo)
-        }
+        self.viewModel.insertInfo(info: deliveryInfo)
     }
     
     deinit {
@@ -91,10 +46,57 @@ class FormViewController: UIViewController {
 
 private extension FormViewController {
     
-    func initUI() {
-        view.backgroundColor = pinkBackground
+    func configureTableView() {
+        let headerView = BaseAxisView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 80))
+        headerView.position = .middle
+        headerView.backgroundColor = pinkBackground
+        
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100))
+        footerView.backgroundColor = pinkBackground
+        
+        let button = UIButton()
+        button.setup(title: "NEXT", textColor: .white)
+        button.makeShadow(cornerRadius: 20, shadowOpacity: 0.2, shadowOffsetH: 0.3)
+        button.clipsToBounds = true
+        button.backgroundColor = pinkButtonBg
+        button.addTarget(self, action: #selector(validationAction(_:)), for: .touchUpInside)
+        footerView.addSubViews(views: button)
+        
+        button.snp.makeConstraints {
+            $0.width.equalTo(180)
+            $0.height.equalTo(40)
+            $0.center.equalToSuperview()
+        }
+        
+        tableView = {
+            let tv = UITableView(frame: .zero, style: .grouped)
+            tv.backgroundColor = pinkBackground
+            tv.tableHeaderView = headerView
+            tv.tableFooterView = footerView
+            // 讓section0的陰影能不被遮住
+            tv.contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
+            tv.showsVerticalScrollIndicator = false
+            tv.separatorStyle = .singleLine
+            tv.register(cellType: DeliveryCell.self)
+            tv.register(cellType: PaymentCell.self)
+            tv.register(headerFooterViewType: DeliveryHeaderView.self)
+            tv.register(headerFooterViewType: PaymentHeaderView.self)
+            tv.register(headerFooterViewType: CheckmarkHeaderView.self)
+            
+            return tv
+        }()
     }
     
+    func createViews() {
+        configureTableView()
+    }
+    
+    func configureView(for view: UIView) {
+        createViews()
+        view.backgroundColor = pinkBackground
+        view.addSubview(tableView)
+    }
+
     func bindUI() {
         viewModel.dataSource.configureCell = { (ds, tv, ip, item) in
             switch ds[ip] {
@@ -253,8 +255,8 @@ extension FormViewController: UITableViewDelegate {
 }
 
 extension FormViewController: DeliveryCellDelegate {
+
     func deleteDetail(at row: Int) {
-        
         let alertController = UIAlertController(title: "", message: "確定要刪除嗎？", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "取消", style: .cancel)
 

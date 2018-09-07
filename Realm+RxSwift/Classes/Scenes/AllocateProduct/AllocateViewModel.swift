@@ -19,7 +19,7 @@ class AllocateViewModel {
     init(services: AppServices) {
         self.services = services
         
-        self.products = services.modifyCartItemService.getCartItems()
+        self.products = services.cartService.getCartItems()
                                 .catchErrorJustReturn([])
     }
 }

@@ -28,10 +28,3 @@ struct Food: Mappable {
 }
 
 extension Food: AutoEquatable {}
-
-//extension Food {
-//    func getId() -> Int { return id }
-//    func getName() -> String { return name }
-//    func getFoodCategoryId() -> Int { return foodCategoryId }
-//    func getFoodCategoryName() -> String { return foodCategoryName }
-//}

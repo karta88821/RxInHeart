@@ -22,32 +22,17 @@ protocol CasePresentable {
     var totalCount: Int { get }
 }
 
-class ProductModel: ProductPresentable {
+struct ProductModel: ProductPresentable {
     var productTypeName: String // 喜餅禮盒
     var productTypeId: Int
     var caseModels: [CasePresentable] // 鳳凰于飛 雙鳳呈祥
-    
-    init(_ productTypeName: String,_ productTypeId: Int
-        ,_ caseModels: [CasePresentable]) {
-        self.productTypeName = productTypeName
-        self.productTypeId = productTypeId
-        self.caseModels = caseModels
-    }
 }
 
-class CaseModel: CasePresentable {
+struct CaseModel: CasePresentable {
     var giftboxName: String //鳳凰于飛 雙鳳呈祥
     var giftboxId: Int
     var price: Int // 100元
     var totalCount: Int
-    
+
     var products: [ProductEntity]?
-    
-    init(_ giftboxName: String,_ giftboxId: Int,_ price: Int,_ totalCount: Int, products: [ProductEntity]? = nil) {
-        self.giftboxName = giftboxName
-        self.giftboxId = giftboxId
-        self.price = price
-        self.totalCount = totalCount
-        self.products = products
-    }
 }

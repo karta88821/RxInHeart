@@ -13,8 +13,32 @@ class OrderInfoViewController: UIViewController {
     
     // MARK : - UI
     var tableView: UITableView!
-    var popupView: PopupView!
-    let backgroundButton = UIButton()
+    lazy var popupView: PopupView = {
+        let popView = PopupView(type: .orderInfo)
+        view.insertSubview(popView, aboveSubview: backgroundButton)
+        
+        popView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview().offset(1000)
+            $0.left.right.equalToSuperview().inset(30)
+            $0.height.equalTo(50)
+        }
+        
+        return popView
+    }()
+    lazy var backgroundButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .black
+        button.alpha = 0
+        button.addTarget(self, action: #selector(dismissView(_:)), for: .touchUpInside)
+        view.addSubview(button)
+        
+        button.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        return button
+    }()
     
     // MARK : - Property
     var sendModel: SendOrderModel!
@@ -24,8 +48,13 @@ class OrderInfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initUI()
+        configureView(for: view)
         constraintUI()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationItem.setHidesBackButton(true, animated: true)
     }
     
     var itemCount: Int! {
@@ -34,43 +63,44 @@ class OrderInfoViewController: UIViewController {
 }
 
 private extension OrderInfoViewController {
-    func initUI() {
+    
+    func createViews() {
+        configureTableView()
+    }
+    
+    func configureView(for view: UIView) {
+        createViews()
         view.backgroundColor = pinkBackground
-        let tv = UITableView(frame: .zero, style: .grouped)
-        tv.showsVerticalScrollIndicator = false
-        tv.backgroundColor = pinkBackground
-        tv.separatorStyle = .none
-        tv.register(cellType: PopupFoodCell.self)
-        tv.register(cellType: OrderInfoCell.self)
-        tv.register(cellType: PaymentInfoCell.self)
-        tv.register(cellType: DeliveryContentCell.self)
-        tv.register(cellType: TotalPriceCell.self)
-        tv.contentInset = UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0)
-        tv.dataSource = self
-        tv.delegate = self
-        
+        view.addSubview(tableView)
+    }
+    
+    func configureTableView() {
         let header = SectionHeaderView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
         header.type = .number(number: 0000001, date: Date())
-        tv.tableHeaderView = header
         
         let footer = OrderInfoFooterView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 90))
         footer.popButton.addTarget(self, action: #selector(popNav(_:)), for: .touchUpInside)
-        tv.tableFooterView = footer
         
-        self.tableView = tv
-        
-        backgroundButton.backgroundColor = .black
-        backgroundButton.alpha = 0
-        backgroundButton.addTarget(self, action: #selector(dismissView(_:)), for: .touchUpInside)
-        
-        popupView = PopupView(type: .orderInfo)
-        
-        view.addSubViews(views: tableView, backgroundButton)
-        view.insertSubview(popupView, aboveSubview: backgroundButton)
-        
-        navigationItem.setHidesBackButton(true, animated: true)
+        tableView = {
+            let tv = UITableView(frame: .zero, style: .grouped)
+            tv.showsVerticalScrollIndicator = false
+            tv.backgroundColor = pinkBackground
+            tv.separatorStyle = .none
+            tv.register(cellType: PopupFoodCell.self)
+            tv.register(cellType: OrderInfoCell.self)
+            tv.register(cellType: PaymentInfoCell.self)
+            tv.register(cellType: DeliveryContentCell.self)
+            tv.register(cellType: TotalPriceCell.self)
+            tv.tableHeaderView = header
+            tv.tableFooterView = footer
+            tv.contentInset = UIEdgeInsets(top: 15, left: 0, bottom: 0, right: 0)
+            tv.dataSource = self
+            tv.delegate = self
+            
+            return tv
+        }()
     }
-    
+
     @objc func popNav(_ sender: UIButton) {
         
         let alert = UIAlertController(title: "", message: "確定要取消此訂單嗎？", preferredStyle: .alert)
@@ -97,17 +127,6 @@ private extension OrderInfoViewController {
     
     func constraintUI() {
         tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        popupView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview().offset(1000)
-            $0.left.right.equalToSuperview().inset(30)
-            $0.height.equalTo(50)
-        }
-        
-        backgroundButton.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }

@@ -101,8 +101,8 @@ private extension AddressViewController {
         guard let nameText = nameField.text,
               let phoneText = phoneField.text,
               let addressText = addressField.text else { return }
-        
-        let deliveryInfo = DeliveryInfo(name: nameText, phone: phoneText, address: addressText)
+
+        let deliveryInfo = DeliveryInfo(name: nameText, phone: phoneText, address: addressText, deliveryInfoCartItems: [])
         viewModel.goAllocate(deliveryInfo: deliveryInfo)
     }
 }

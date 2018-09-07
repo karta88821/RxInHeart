@@ -35,15 +35,4 @@ struct Product_cart: Mappable {
     }
 }
 
-//extension Product_cart {
-//    func getGiftboxTypeName() -> String { return giftboxTypeName ?? "這不是禮盒" }
-//    func getGiftboxTypeId() -> Int { return giftboxTypeId }
-//    func getId() -> Int { return id }
-//    func getName() -> String { return name }
-//    func getPrice() -> Int { return price }
-//    func getProductTypeName() -> String { return productTypeName }
-//    func getProductTypeId() -> Int { return giftboxTypeId }
-//    func getGiftboxItems() -> [GiftboxItem_cart] { return giftboxItems }
-//}
-
 extension Product_cart: AutoEquatable {}

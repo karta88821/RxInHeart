@@ -11,32 +11,51 @@ import Kingfisher
 
 class FoodsCollectionViewCell: UICollectionViewCell {
     
-    var food: Food!
+    // MARK : - UI
     var foodLabel: UILabel!
+    var foodImageView: UIImageView!
     
-    let foodImageView = UIImageView()
-    
+    // MARK : - Property
+    var food: Food!
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        initUI()
+        createViews()
+        configureView()
         constraintUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        initUI()
+        createViews()
+        configureView()
         constraintUI()
     }
     
-    func initUI() {
-        foodImageView.contentMode = .scaleAspectFit
-        
-        let label = UILabel(fontSize: 15, textColor: .black)
-        label.numberOfLines = 0
-        self.foodLabel = label
-        
+    func createViews() {
+        configureFoodImageView()
+        configureFoodLabel()
+    }
+    
+    func configureView() {
         addSubViews(views: foodLabel, foodImageView)
         backgroundColor = pinkBackground!
+    }
+    
+    func configureFoodImageView() {
+        foodImageView = {
+            let imageView = UIImageView()
+            imageView.contentMode = .scaleAspectFit
+            return imageView
+        }()
+    }
+    
+    func configureFoodLabel() {
+        foodLabel = {
+            let label = UILabel(fontSize: 15, textColor: .black)
+            label.numberOfLines = 0
+            return label
+        }()
     }
     
     func constraintUI() {

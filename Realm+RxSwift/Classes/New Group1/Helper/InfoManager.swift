@@ -51,6 +51,11 @@ class InfoManager {
         createSelectionCounts()
     }
     
+    func descrption() -> String {
+        let dec = "infoList count: \(infoList.value.count)"
+        return dec
+    }
+    
 }
 
 private extension InfoManager {

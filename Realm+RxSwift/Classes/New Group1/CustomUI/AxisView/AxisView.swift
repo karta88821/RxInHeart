@@ -136,7 +136,6 @@ class BaseAxisView: UIView {
     }
     
     private func addIndexCircle() {
-        
         indexCircleView.snp.makeConstraints {
             $0.centerY.equalToSuperview().offset(centerYoffset)
             $0.height.width.equalTo(indexCircleSize)

@@ -28,10 +28,3 @@ struct GiftboxItem_cart: Mappable {
 }
 
 extension GiftboxItem_cart: AutoEquatable {}
-
-//extension GiftboxItem_cart {
-//    func getId() -> Int { return id }
-//    func getFoodCategoryName() -> String { return foodCategoryName }
-//    func getFoodCategoryId() -> Int { return foodCategoryId }
-//    func getCount() -> Int { return count }
-//}

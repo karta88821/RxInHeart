@@ -37,17 +37,6 @@ struct PickedItem_cart: Mappable {
     }
 }
 
-//extension PickedItem_cart {
-//    func getId() -> Int { return id }
-//    func getCount() -> Int { return count }
-//    func getFoodId() -> Int { return foodId }
-//    func getCartItemId() -> Int { return cartItemId }
-//    func getFood() -> Food { return food }
-//    mutating func changeFoodId(to id: Int){
-//        self.foodId = id
-//    }
-//}
-
 extension PickedItem_cart
     : IdentifiableType
 , AutoEquatable{

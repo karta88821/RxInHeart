@@ -49,13 +49,15 @@ class ExchangeViewController: UIViewController {
         collectionView.rx.modelSelected(Food.self)
             .subscribe(onNext:{ [unowned self] food in
                 
-                var pickItems = self.cartItem.pickedItem.map { PickedItem_cart(id: $0.id, count: $0.count, foodId: $0.foodId, cartItemId: $0.cartItemId)}
+                var pickItems = self.cartItem.pickedItem
+                    .map { PickedItem_cart(id: $0.id, count: $0.count, foodId: $0.foodId, cartItemId: $0.cartItemId)}
                 
                 pickItems[self.currentIndexPath.row].foodId = food.id
                 
                 let item = CartItem(id: self.cartItem.id, count: self.cartItem.count, subtotal: self.cartItem.subtotal, pickedItem: pickItems, productId: self.cartItem.productId, cartId: self.cartItem.cartId)
                 
-                self.viewModel.services.modifyCartItemService.updateItem(cartItemId: self.cartItem.id, item: item)
+                self.viewModel.services.cartService
+                    .updateItem(cartItemId: self.cartItem.id, item: item)
                     .subscribe(onNext:{ bool in
                         if bool == true {
                             self.dismiss(animated: true, completion: nil)

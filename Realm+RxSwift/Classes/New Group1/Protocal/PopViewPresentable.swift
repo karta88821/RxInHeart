@@ -11,8 +11,3 @@ import UIKit
 protocol PopViewPresentable {
     func showPopup(item: CartItem?, deliveryInfo: DeliveryInfo?)
 }
-
-//extension PopViewPresentable {
-//    func showCartItem(item: CartItem) { }
-//    func showDeliveryItems(deliveryInfo: DeliveryInfo) { }
-//}

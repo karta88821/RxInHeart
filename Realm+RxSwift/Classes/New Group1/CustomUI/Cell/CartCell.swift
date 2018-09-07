@@ -77,7 +77,6 @@ private extension CartCell {
     }
     
     func constraintUI() {
-        
         containerView.snp.makeConstraints{ make in
             make.top.bottom.equalToSuperview().priority(900)
             make.left.right.equalToSuperview().inset(10).priority(900)

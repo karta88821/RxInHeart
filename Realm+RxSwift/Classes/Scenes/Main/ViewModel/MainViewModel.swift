@@ -88,10 +88,10 @@ class MainViewModel {
             
             let newProducts = products.map { product -> CaseModel in
                 if product.giftboxTypeId == 0 {
-                    return CaseModel(product.name, product.giftboxTypeId, product.price, 1)
+                    return CaseModel(giftboxName: product.name, giftboxId: product.giftboxTypeId, price: product.price, totalCount: 1, products: nil)
                 } else {
                     let productEntities = products.filter {$0.giftboxTypeId == product.giftboxTypeId}
-                    return CaseModel(product.giftboxTypeName!, product.giftboxTypeId, product.price, product.totalCount, products: productEntities)
+                    return CaseModel(giftboxName: product.name, giftboxId: product.giftboxTypeId, price: product.price, totalCount: product.totalCount, products: productEntities)
                 }
             }
             
@@ -107,9 +107,9 @@ class MainViewModel {
             .map { (zip) -> ProductModel in
 
                 let (product, caseModels) = zip
-                return ProductModel(product.productTypeName,
-                                    product.productTypeId,
-                                    caseModels)
+                return ProductModel(productTypeName: product.productTypeName,
+                                    productTypeId: product.productTypeId,
+                                    caseModels: caseModels)
             }
 
         return productModels

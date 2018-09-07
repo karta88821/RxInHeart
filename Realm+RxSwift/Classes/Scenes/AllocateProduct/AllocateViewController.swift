@@ -62,6 +62,7 @@ class AllocateViewController: UIViewController {
     // MARK : - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+
         initUI()
         bindUI()
         constraintUI()
@@ -111,10 +112,12 @@ private extension AllocateViewController {
     }
     
     @objc func dismissView(_ sender: Any) {
-        popupView.snp.updateConstraints {
-            $0.centerY.equalToSuperview().offset(1000)
-        }
         self.backgroundButton.alpha = 0
+        UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseInOut], animations: {
+            self.popupView.snp.updateConstraints {
+                $0.centerY.equalToSuperview().offset(1000)
+            }
+        }, completion: nil)
     }
 
     func constraintUI() {
@@ -134,6 +137,7 @@ private extension AllocateViewController {
         backgroundButton.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
         let popWidth = screenWidth - 40
         popupView.snp.makeConstraints {
             $0.centerY.equalToSuperview().offset(1000)
@@ -149,10 +153,11 @@ private extension AllocateViewController {
         
         if (deliveryInfo.deliveryInfoCartItems.count != 0) {
             
-            if let cells = tableView.visibleCells as? [AllocateCell] {
-                let enables = cells.map{($0.totalCount - $0.selectedCount == 0)}
-                addButtonIsHide = enables.contains(false) ? false : true
-            }
+            guard let cells = tableView.visibleCells as? [AllocateCell],
+                  let deliveryInfo = deliveryInfo else { return }
+
+            let enables = cells.map{($0.totalCount - $0.selectedCount == 0)}
+            addButtonIsHide = enables.contains(false) ? false : true
 
             NotificationCenter.default.post(name: .passDelivery,
                                             object: self,
@@ -219,13 +224,14 @@ extension AllocateViewController: PopViewPresentable {
         if contentH > 800 {
             contentH = 800
         }
-        
-        popupView.snp.updateConstraints {
-            $0.centerY.equalToSuperview()
-            $0.height.equalTo(contentH)
-        }
-        
         self.backgroundButton.alpha = 0.6
+
+        UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseInOut], animations: {
+            self.popupView.snp.updateConstraints {
+                $0.centerY.equalToSuperview()
+                $0.height.equalTo(contentH)
+            }
+        }, completion: nil)    
     }
 }
 

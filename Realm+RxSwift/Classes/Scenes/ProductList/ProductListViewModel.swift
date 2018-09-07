@@ -20,10 +20,10 @@ class ProductListViewModel {
     init(services: AppServices) {
         self.services = services
         
-        self.cartSections = services.modifyCartItemService.getCartItems()
+        self.cartSections = services.cartService.getCartItems()
             .catchErrorJustReturn([])
         
-        self.totalPrice = services.modifyCartItemService.getCartItems()
+        self.totalPrice = services.cartService.getCartItems()
             .map { items -> String in
                 let total = items.map{$0.subtotal}.reduce(0,{ $0 + $1})
                 

@@ -11,26 +11,34 @@ import SnapKit
 
 class InfoDetailViewController: UIViewController {
     
+    // MARK : - UI
+    var tableView: UITableView!
+    
+    // MARK : - ViewModel
+    var viewModel: InfoDetailViewModel!
+    
+    // MARK : - Properties
     var info: DeliveryInfo! {
         didSet {
             updateDeliveryTexts()
         }
     }
     
-    var viewModel: InfoDetailViewModel!
-    var tableView: UITableView!
     var deliveryIndex: Int!
-    
-    private let deliveryTitles = ["收貨人姓名","收貨人聯絡電話","收貨人地址"]
     var deliveryTexts:[String] = []
-    
-    // MARK : - Property
     var sections: [SectionTypes]!
+    private let deliveryTitles = ["收貨人姓名","收貨人聯絡電話","收貨人地址"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initUI()
+        configureView(for: view)
+        configureSections()
         constraintUI()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        configureNavigationBarItem()
     }
     
     @objc func dismiss(_ sender: UIBarButtonItem) {
@@ -47,38 +55,52 @@ class InfoDetailViewController: UIViewController {
 
 private extension InfoDetailViewController {
     
-    func initUI() {
-        
-        let vcType: VcTypes = .infoDetail
-        sections = vcType.getSectionTypes()
-        
-        if let navigationBarItem = navigationController?.navigationBar.items?[0] {
-            let button = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismiss(_:)))
-            navigationBarItem.setLeftBarButton(button, animated: true)
-        }
-        
+    func createViews() {
+        configureTableView()
+    }
+    
+    func configureView(for view: UIView) {
+        createViews()
+        view.addSubview(tableView)
+    }
+    
+    func configureTableView() {
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 80))
         headerView.backgroundColor = pinkBackground
         let headerLabel = UILabel(alignment: .left, fontSize: 20, text: "內容")
         headerView.addSubview(headerLabel)
+        
         headerLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalTo(20)
         }
         
-        let tableView = UITableView(frame: .zero)
-        tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = pinkBackground
-        tableView.tableHeaderView = headerView
-        tableView.contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
-        tableView.separatorStyle = .none
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(cellType: InfoDeliveryCell.self)
-        tableView.register(cellType: InfoProductCell.self)
-        self.tableView = tableView
-        
-        view.addSubview(self.tableView)
+        tableView = {
+            let tv = UITableView(frame: .zero)
+            tv.showsVerticalScrollIndicator = false
+            tv.backgroundColor = pinkBackground
+            tv.tableHeaderView = headerView
+            tv.contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
+            tv.separatorStyle = .none
+            tv.dataSource = self
+            tv.delegate = self
+            tv.register(cellType: InfoDeliveryCell.self)
+            tv.register(cellType: InfoProductCell.self)
+            
+            return tv
+        }()
+    }
+    
+    func configureNavigationBarItem() {
+        if let navigationBarItem = navigationController?.navigationBar.items?[0] {
+            let button = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismiss(_:)))
+            navigationBarItem.setLeftBarButton(button, animated: true)
+        }
+    }
+    
+    func configureSections() {
+        let vcType: VcTypes = .infoDetail
+        sections = vcType.getSectionTypes()
     }
     
     func constraintUI() {
@@ -92,7 +114,6 @@ extension InfoDetailViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch sections[section] {
         case .deliveryInfo:
@@ -101,7 +122,6 @@ extension InfoDetailViewController: UITableViewDataSource {
             return info.deliveryInfoCartItems.count
         }
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch sections[indexPath.section] {
         case .deliveryInfo:
@@ -126,7 +146,6 @@ extension InfoDetailViewController: UITableViewDelegate {
             return 150
         }
     }
-    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let baseHeader = InfoHeaderView()
         
@@ -142,7 +161,6 @@ extension InfoDetailViewController: UITableViewDelegate {
         }
         return nil
     }
-    
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView()
     }

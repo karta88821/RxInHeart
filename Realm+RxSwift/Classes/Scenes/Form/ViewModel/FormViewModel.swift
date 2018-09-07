@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-protocol InfoEditable: class {
+protocol InfoEditable {
     func insertInfo(info: DeliveryInfo)
     func deleteInfo(at row: Int)
 }
@@ -52,11 +52,11 @@ class FormViewModel {
             .bind(to: sections)
             .disposed(by: disposeBag)
         
-        services.modifyCartItemService.getCartItems()
+        services.cartService.getCartItems()
             .bind(to: cartItems)
             .disposed(by: disposeBag)
 
-        services.modifyCartItemService.getCartItems()
+        services.cartService.getCartItems()
             .map { items -> Int in
                 return items.map{$0.subtotal}.reduce(0,{ $0 + $1})
             }

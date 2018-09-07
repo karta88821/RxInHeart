@@ -7,17 +7,13 @@
 //
 
 import Foundation
+import AutoEquatable
 
-class DeliveryInfo: NSObject {
+struct DeliveryInfo {
     var name: String
     var phone: String
     var address: String
     var deliveryInfoCartItems: [DeliveryInfoCartItem]
-    
-    init(name: String, phone: String, address: String) {
-        self.name = name
-        self.phone = phone
-        self.address = address
-        self.deliveryInfoCartItems = [DeliveryInfoCartItem]()
-    }
 }
+
+extension DeliveryInfo: AutoEquatable {}

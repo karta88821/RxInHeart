@@ -12,11 +12,11 @@ import RxCocoa
 import Foundation
 import ObjectMapper
 
-protocol HasModifyCartItemService {
-    var modifyCartItemService: ModifyCartItemService { get }
+protocol HasCartService {
+    var cartService: CartService { get }
 }
 
-class ModifyCartItemService {
+class CartService {
     private let `$`: Dependencies
     private let provider: MoyaProvider<ApiManager>
     

@@ -63,6 +63,7 @@ final class MainTableViewCell: UITableViewCell, Reusable {
         cv.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: "MainCollectionViewCell")
         return cv
     }()
+    let path = UIBezierPath()
 
     private(set) var disposeBag = DisposeBag()
     
@@ -84,6 +85,13 @@ final class MainTableViewCell: UITableViewCell, Reusable {
         createViews()
         configureCell()
         constraintUI()
+    }
+    
+    func makeTriangle() {
+        let width = collectionView.width / 4
+        path.move(to: CGPoint(x: width - 20, y: collectionView.height))
+        path.addLine(to: CGPoint(x: width, y: collectionView.height - 20))
+        path.addLine(to: CGPoint(x: width + 20, y: collectionView.height))
     }
     
     override func prepareForReuse() {

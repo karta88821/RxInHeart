@@ -23,10 +23,7 @@ class FoodsFlowLayout: UICollectionViewFlowLayout {
         super.init(coder: aDecoder)
         setupLayout()
     }
-    
-    /**
-     Sets up the layout for the collectionView. 1pt distance between each cell and 1pt distance between each row plus use a vertical layout
-     */
+
     func setupLayout() {
         minimumInteritemSpacing = 1
         minimumLineSpacing = 1
