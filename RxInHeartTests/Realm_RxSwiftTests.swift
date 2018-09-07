@@ -20,7 +20,7 @@ class Realm_RxSwiftTests: XCTestCase {
     }
 
     func testLanunchMainScreen() {
-        
+
     }
 
 }

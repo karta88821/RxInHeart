@@ -543,7 +543,7 @@
 		6B35A8B62032C82C00D4259E = {
 			isa = PBXGroup;
 			children = (
-				6B35A8C12032C82C00D4259E /* RxInheart */,
+				6B35A8C12032C82C00D4259E /* RxInHeart */,
 				6B9F193F2142555B0072730F /* RxInHeartUITests */,
 				6B4C63502142AB990060432B /* RxInHeartTests */,
 				6B35A8C02032C82C00D4259E /* Products */,
@@ -562,7 +562,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6B35A8C12032C82C00D4259E /* RxInheart */ = {
+		6B35A8C12032C82C00D4259E /* RxInHeart */ = {
 			isa = PBXGroup;
 			children = (
 				6B35A8D42032CE0A00D4259E /* Classes */,
@@ -572,7 +572,7 @@
 				6B35A8CB2032C82C00D4259E /* LaunchScreen.storyboard */,
 				6B35A8CE2032C82C00D4259E /* Info.plist */,
 			);
-			path = RxInheart;
+			path = RxInHeart;
 			sourceTree = "<group>";
 		};
 		6B35A8D42032CE0A00D4259E /* Classes */ = {
