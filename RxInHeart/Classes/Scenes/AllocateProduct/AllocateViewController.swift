@@ -93,7 +93,7 @@ private extension AllocateViewController {
         
         viewModel.products
             .subscribe(onNext:{ [unowned self] products in
-                let idArray = products.map{$0.id!}
+                let idArray = products.map{$0.id}
                 infoManager.setCurrentIdArray(with: idArray)
                 infoManager.configureCountList()
                 

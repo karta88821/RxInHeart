@@ -26,8 +26,9 @@ class CartService {
     }
     
     private func getCart() -> Observable<Cart> {
-        return provider.rx.request(.cart)
+        return provider.rx.request(.cart).asObservable()
             .observeOn(`$`.backgroundWorkScheduler)
+            
             .mapObject(Cart.self)
             .observeOn(`$`.mainScheduler)
             .asObservable()
@@ -65,7 +66,9 @@ class CartService {
         
     }
     
-    func updateItem(cartItemId: Int, item: CartItem) -> Observable<Bool> {
+    func updateItem(cartItemId: Int, item: CartItem?) -> Observable<Bool> {
+        guard let item = item else { return Observable.just(false) }
+        
         return provider.rx.request(.updateCart(cartId: 1, cartItemId: cartItemId, cartItem: item))
             .asObservable()
             .observeOn(`$`.backgroundWorkScheduler)

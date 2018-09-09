@@ -98,6 +98,7 @@ private extension ContentViewController {
             button.setup(title: "Next", textColor: .white)
             button.makeShadow(cornerRadius: 15, shadowOpacity: 0.2, shadowOffsetW: 0.1, shadowOffsetH: 0.1)
             button.addTarget(self, action: #selector(toDetail), for: .touchUpInside)
+            button.isAccessibilityElement = true
             return button
         }()
     }

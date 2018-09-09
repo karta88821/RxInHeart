@@ -12,14 +12,15 @@ class ExchangeViewModel {
     
     let services: AppServices
     
-    let foods: Observable<[Food]>
+    let foods: Observable<[FoodEntity]>
     
     init(categoryId: Int, services: AppServices) {
         
         self.services = services
         
-        self.foods = services.productsService.getUniqueFoods(categoryId: categoryId)
-                            .catchErrorJustReturn([])
+        self.foods = services.productsService
+                        .getUniqueFoods(categoryId: categoryId).asObservable()
+                        .catchErrorJustReturn([])
         
     }
 }

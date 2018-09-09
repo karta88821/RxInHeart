@@ -29,8 +29,8 @@ class Realm_RxSwiftUITests: XCTestCase {
     }
     
     func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        XCUIApplication().tables.cells["喜餅禮盒"].children(matching: .other).element(boundBy: 1).tap()
+        
     }
     
 }

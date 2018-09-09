@@ -50,9 +50,10 @@ class CartCell: UITableViewCell, Reusable {
     
     func updateUI() {
         guard let item = item,
-              let foodId = item.foodId,
-              let foodName = item.food.name,
-              let count = item.count  else { return }
+            let foodName = item.food?.name else { return }
+        
+        let foodId = item.foodId
+        let count = item.count
         
         let string = String(foodId).foodUrl()
         let url = URL(string: string)

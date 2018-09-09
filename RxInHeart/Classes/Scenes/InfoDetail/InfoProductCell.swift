@@ -72,12 +72,12 @@ private extension InfoProductCell {
     
     func updateUI() {
 
-        guard let item = cartItem?.cartItem,
-              let giftboxId = item.product.giftboxTypeId,
-              let productName = item.product.name,
-              let productTypeName = item.product.productTypeName,
+        guard let product = cartItem?.cartItem.product,
               let count = cartItem?.count else { return }
 
+        let giftboxId = product.giftboxTypeId
+        let productName = product.name
+        let productTypeName = product.productTypeName
         let url = URL(string: String(giftboxId).giftBoxUrl())
         
         productImageView.kf.setImage(with: url)

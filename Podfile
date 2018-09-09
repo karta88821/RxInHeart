@@ -22,13 +22,9 @@ target 'RxInHeart' do
    pod 'Moya/RxSwift'
    pod 'Kingfisher'
    
-   pod 'ObjectMapper', '~> 3.3'
-   pod "ObjectMapper+Realm"
-   
    pod "ESTabBarController-swift"
    pod 'SnapKit', '~> 4.0.0'
    pod 'TYCyclePagerView'
-#   pod 'MJRefresh'
    pod 'M13Checkbox'
    pod 'DNSPageView'
    pod 'Parchment'

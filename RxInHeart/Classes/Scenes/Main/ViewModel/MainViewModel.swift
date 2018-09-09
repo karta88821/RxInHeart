@@ -91,7 +91,9 @@ class MainViewModel {
                     return CaseModel(giftboxName: product.name, giftboxId: product.giftboxTypeId, price: product.price, totalCount: 1, products: nil)
                 } else {
                     let productEntities = products.filter {$0.giftboxTypeId == product.giftboxTypeId}
-                    return CaseModel(giftboxName: product.name, giftboxId: product.giftboxTypeId, price: product.price, totalCount: product.totalCount, products: productEntities)
+
+                    return CaseModel(giftboxName: product.giftboxTypeName!, giftboxId: product.giftboxTypeId, price: product.price, totalCount: product.totalCount, products: productEntities)
+
                 }
             }
             

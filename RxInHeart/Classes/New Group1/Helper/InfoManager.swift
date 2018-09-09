@@ -61,7 +61,7 @@ class InfoManager {
 private extension InfoManager {
     
     func createTumpArray() {
-        let coachArray = infoList.value.map{ $0.deliveryInfoCartItems.map{($0.cartItem.id!,$0.count)}}
+        let coachArray = infoList.value.map{ $0.deliveryInfoCartItems.map{($0.cartItem.id,$0.count)}}
         var tumpArray = [(Int,Int)]()
         coachArray.forEach { coach in
             coach.forEach { tumpArray.append($0) }

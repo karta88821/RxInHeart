@@ -197,6 +197,7 @@ private extension MainTableViewCell {
     
     func configureCell() {
         selectionStyle = .none
+        isAccessibilityElement = true
         clipsToBounds = true
     }
 

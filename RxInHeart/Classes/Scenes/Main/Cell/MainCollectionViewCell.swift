@@ -29,12 +29,14 @@ class MainCollectionViewCell: UICollectionViewCell {
     // MARK : - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
+        isAccessibilityElement = true
         initUI()
         constraintUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        isAccessibilityElement = true
         initUI()
         constraintUI()
     }

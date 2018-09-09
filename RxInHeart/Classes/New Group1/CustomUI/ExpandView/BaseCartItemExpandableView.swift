@@ -31,11 +31,12 @@ class BaseCartItemExpandableView: BaseExpandableView {
     }
     
     func setupUI(cartItem: CartItem, section: Int, delegate: BaseExpandable) {
+        guard let product = cartItem.product else { return }
         self.item = cartItem
-        self.congifureImageView(giftboxTypeId: cartItem.product.giftboxTypeId)
-        self.productNameLabel.text = cartItem.product.productTypeName
-        self.nameLabel.text = cartItem.product.name
-        self.configurePriceLabel(price: item.product.price)
+        self.congifureImageView(giftboxTypeId: product.giftboxTypeId)
+        self.productNameLabel.text = product.productTypeName
+        self.nameLabel.text = product.name
+        self.configurePriceLabel(price: product.price)
         self.section = section
         self.delegate = delegate
     }

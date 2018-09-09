@@ -6,25 +6,30 @@
 //  Copyright © 2018年 liao yuhao. All rights reserved.
 //
 
-import ObjectMapper
 import RxDataSources
 import AutoEquatable
-import RxDataSources
 import Foundation
-import AutoEquatable
 
-struct CartItem: Mappable {
-    var id: Int!
-    var count: Int!
-    var subtotal: Int!
-    var pickedItem: [PickedItem_cart]!
-    var productId: Int!
-    var product: Product_cart!
-    var cartId: Int!
-    var expanded: Bool = false
+struct CartItem {
+    var id: Int
+    var count: Int
+    var subtotal: Int
+    var productId: Int
+    var product: ProductEntity?
+    var cartId: Int
     
-    init?(map: Map) {
-        
+    var pickedItem: [PickedItem_cart]
+    
+    var expanded: Bool = false
+
+    private enum CartItemCodingKeys: String, CodingKey {
+        case id = "Id"
+        case count = "Count"
+        case subtotal = "SubTotal"
+        case pickedItem = "PickedItem"
+        case productId = "ProductId"
+        case product = "Product"
+        case cartId = "CartId"
     }
     
     init(id: Int, count: Int, subtotal: Int, pickedItem: [PickedItem_cart], productId: Int, cartId: Int) {
@@ -35,15 +40,29 @@ struct CartItem: Mappable {
         self.productId = productId
         self.cartId = cartId
     }
+}
+
+extension CartItem: Codable {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CartItemCodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
+        count = try container.decode(Int.self, forKey: .count)
+        subtotal = try container.decode(Int.self, forKey: .subtotal)
+        productId = try container.decode(Int.self, forKey: .productId)
+        product = try container.decode(ProductEntity.self, forKey: .product)
+        cartId = try container.decode(Int.self, forKey: .cartId)
+        pickedItem = try container.decode([PickedItem_cart].self, forKey: .pickedItem)
+    }
     
-    mutating func mapping(map: Map) {
-        id           <- map["Id"]
-        count        <- map["Count"]
-        subtotal     <- map["SubTotal"]
-        pickedItem   <- map["PickedItem"]
-        productId    <- map["ProductId"]
-        product      <- map["Product"]
-        cartId       <- map["CartId"]
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CartItemCodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(count, forKey: .count)
+        try container.encode(subtotal, forKey: .subtotal)
+        try container.encode(productId, forKey: .productId)
+        //try container.encode(product, forKey: .product)
+        try container.encode(cartId, forKey: .cartId)
+        try container.encode(pickedItem, forKey: .pickedItem)
     }
 }
 
@@ -55,7 +74,7 @@ extension CartItem: AnimatableSectionModelType {
     typealias Identity = String
     
     var identity: String {
-        return product.productTypeName
+        return product?.productTypeName ?? "productTypeName"
     }
     
     var items: [PickedItem_cart] {

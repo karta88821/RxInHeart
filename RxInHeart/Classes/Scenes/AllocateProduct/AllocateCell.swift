@@ -44,18 +44,17 @@ class AllocateCell: UITableViewCell {
     }
     
     func setupUI(cartItem: CartItem, selectedCount: Int) {
+        guard let product = cartItem.product else { return }
         self.item = cartItem
-        let url = URL(string: String(cartItem.product.giftboxTypeId).giftBoxUrl())
+        let url = URL(string: String(product.giftboxTypeId).giftBoxUrl())
         self.giftBoxImageView.kf.setImage(with: url)
-        self.productLabel.text = cartItem.product.name
-        self.giftBoxLabel.text = cartItem.product.giftboxTypeName ?? "沒有禮盒"
+        self.productLabel.text = product.name
+        self.giftBoxLabel.text = product.giftboxTypeName ?? "沒有禮盒"
         self.totalCount = cartItem.count
         self.selectedCount = selectedCount
         self.countLabel.text = "0/\(totalCount - selectedCount)"
-        if let count = cartItem.count {
-            self.frameSizes = (0...count - selectedCount).filter{$0 % 12 == 0}.map{CGFloat($0)}
-        }
-
+        self.frameSizes = (0...cartItem.count - selectedCount).filter{$0 % 12 == 0}.map{CGFloat($0)}
+        
         self.newTotal = totalCount - selectedCount
         
         isUserInteractionEnabled = (totalCount - selectedCount == 0) ? false : true

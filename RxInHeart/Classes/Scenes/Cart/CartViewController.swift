@@ -174,7 +174,7 @@ extension CartViewController: UITableViewDelegate {
         
         guard let cell = tableView.cellForRow(at: indexPath) as? CartCell,
               let item = cell.item,
-              let foodCategoryId = item.food.foodCategoryId  else { return }
+              let foodCategoryId = item.food?.foodCategoryId  else { return }
         
         let vc = ExchangeViewController()
         vc.viewModel = ExchangeViewModel(categoryId: foodCategoryId, services: self.viewModel.services)

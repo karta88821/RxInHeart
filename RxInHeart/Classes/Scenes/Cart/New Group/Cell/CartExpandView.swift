@@ -197,15 +197,19 @@ private extension CartExpandView {
         }
     }
     
-    func addItem() -> CartItem {
+    func addItem() -> CartItem? {
+        guard let price = item.product?.price else { return nil }
         let addCount = item.count + 1
-        let addSubtotal = addCount * item.product.price
+        let addSubtotal = addCount * price
+        
         return CartItem(id: item.id, count: addCount, subtotal: addSubtotal, pickedItem: item.pickedItem, productId: item.productId, cartId: item.cartId)
     }
     
-    func minusItem() -> CartItem {
+    func minusItem() -> CartItem? {
+        guard let price = item.product?.price else { return nil }
         let minusCount = item.count - 1
-        let minusSubtotal = minusCount * item.product.price
+        let minusSubtotal = minusCount * price
+        
         return CartItem(id: item.id, count: minusCount, subtotal: minusSubtotal, pickedItem: item.pickedItem, productId: item.productId, cartId: item.cartId)
     }
 }

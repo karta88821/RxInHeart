@@ -46,9 +46,9 @@ class ExchangeViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        collectionView.rx.modelSelected(Food.self)
+        collectionView.rx.modelSelected(FoodEntity.self)
             .subscribe(onNext:{ [unowned self] food in
-                
+
                 var pickItems = self.cartItem.pickedItem
                     .map { PickedItem_cart(id: $0.id, count: $0.count, foodId: $0.foodId, cartItemId: $0.cartItemId)}
                 

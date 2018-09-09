@@ -70,11 +70,13 @@ private extension CartItemHeaderView {
     }
     
     func updateUI() {
-        guard let deliveryInfoCartItem = deliveryInfoCartItem,
-              let giftboxTypeName = deliveryInfoCartItem.cartItem.product.giftboxTypeName,
-              let productTypeName = deliveryInfoCartItem.cartItem.product.productTypeName else { return }
+        guard let product = deliveryInfoCartItem?.cartItem.product,
+              let giftboxTypeName = product.giftboxTypeName,
+              let count = deliveryInfoCartItem?.count else { return }
 
-        giftBoxLabel.text = "\(giftboxTypeName) / \(productTypeName)"
-        countLabel.text = "\(deliveryInfoCartItem.count)盒"
+        let productTypeName = product.productTypeName
+        
+        giftBoxLabel.text = giftboxTypeName + " " + productTypeName
+        countLabel.text = "\(count)盒"
     }
 }

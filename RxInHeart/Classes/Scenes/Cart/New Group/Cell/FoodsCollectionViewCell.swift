@@ -16,7 +16,7 @@ class FoodsCollectionViewCell: UICollectionViewCell {
     var foodImageView: UIImageView!
     
     // MARK : - Property
-    var food: Food!
+    var food: FoodEntity!
 
     override init(frame: CGRect) {
         super.init(frame: frame)

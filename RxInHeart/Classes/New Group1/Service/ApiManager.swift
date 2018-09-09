@@ -80,9 +80,11 @@ extension ApiManager: TargetType {
     var task: Task {
         switch self {
         case let .addCartItem(_, item):
-            return .requestParameters(parameters: item.toJSON(), encoding: JSONEncoding.default)
+            guard let parameters = item.toDictionary() else { return .requestPlain }
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case let .updateCart(_, _, cartItem):
-            return .requestParameters(parameters: cartItem.toJSON(), encoding: JSONEncoding.default)
+            guard let parameters = cartItem.toDictionary() else { return .requestPlain }
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         default:
             return .requestPlain
         }
